@@ -23,10 +23,10 @@ const Main = () => {
               Località &middot;
               <a href="#" className="fw-bold text-decoration-none ms-1">Informazioni di contatto</a>
             </Card.Text>
-            <Button variant="primary" className="rounded-pill me-2 ">Disponibile per</Button>
-            <Button variant="white" className="rounded-pill me-2 border-primary text-primary">Aggiungi sezione del profilo</Button>
-            <Button variant="white" className="rounded-pill me-2 border-primary text-primary">Migliora profilo</Button>
-            <Button variant="white" className="border-black rounded-pill me-2">Altro</Button>
+            <Button variant="primary" className="rounded-pill me-2 button-main">Disponibile per</Button>
+            <Button variant="white" className="rounded-pill me-2 button-main">Aggiungi sezione del profilo</Button>
+            <Button variant="white" className="rounded-pill me-2 button-main">Migliora profilo</Button>
+            <Button variant="white" className="border-black rounded-pill me-2 button-main">Altro</Button>
           </Card.Body>
         </Card>
 
