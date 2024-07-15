@@ -9,12 +9,14 @@ import Main from "./components/Main";
 
 function App() {
   return (
-    <BrowserRouter>
-      <MyNavbar />
-      <Routes>
-        <Route path="/" element={<Main />} />
-      </Routes>
-    </BrowserRouter>
+    <div>
+      <BrowserRouter>
+        <MyNavbar className="d-flex " />
+        <Routes>
+          <Route path="/" element={<Main />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 }
 

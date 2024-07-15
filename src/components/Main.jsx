@@ -38,6 +38,7 @@ const Main = () => {
               <Card.Title>Competenze</Card.Title>
               <div>
                 <Plus width={35} height={35} className="me-2" />
+
                 <Pencil width={20} height={20} />
               </div>
             </div>
