@@ -1,8 +1,10 @@
 import { Button, Card, Container, Row, Col, Image } from "react-bootstrap";
-
 import { CameraFill, Pencil, Plus } from "react-bootstrap-icons";
+import { useSelector } from "react-redux";
 
 const Main = () => {
+  const profile = useSelector((state) => state.profile.profile);
+
   return (
     <Container>
       <Row>
