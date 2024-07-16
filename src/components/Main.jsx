@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import { Button, Card, Container, Row, Col, Image, Modal } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  Container,
+  Row,
+  Col,
+  Image,
+  Modal,
+} from "react-bootstrap";
 
 import { CameraFill, Pencil, Plus } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
@@ -30,30 +38,55 @@ const Main = () => {
                   src="https://media.istockphoto.com/id/1960952508/photo/dark-blue-gradient-soft-background.jpg?b=1&s=612x612&w=0&k=20&c=EBIpDSGaimw9Ci3v8nsNMC_A6kTZeiqF9EWWcf8TMkQ="
                   height={250}
                 />
-                <div className="position-absolute bg-white p-1 container-camera" style={{ right: 50, top: 70 }}>
+                <div
+                  className="position-absolute bg-white p-1 container-camera"
+                  style={{ right: 50, top: 70 }}
+                >
                   <CameraFill width={25} height={25} fill="#0A66C2" />
                 </div>
-                <Image src={user.image} alt="avatar user" height={150} width={150} className="position-absolute rounded-circle ms-4" style={{ top: 160, border: "5px solid white" }} />
+                <Image
+                  src={user.image}
+                  alt="avatar user"
+                  height={150}
+                  width={150}
+                  className="position-absolute rounded-circle ms-4"
+                  style={{ top: 160, border: "5px solid white" }}
+                />
                 <Card.Body className="mt-5">
-                  <Pencil width={20} height={20} className="position-absolute" style={{ top: 265, right: 50 }} />
+                  <Pencil
+                    width={20}
+                    height={20}
+                    className="position-absolute"
+                    style={{ top: 265, right: 50 }}
+                  />
                   <Card.Title>
                     {user.name} {user.surname}
                   </Card.Title>
                   <Card.Text>{user.title}</Card.Text>
                   <Card.Text>
                     {user.area} &middot;
-                    <a onClick={handleShow} href="#" className="fw-bold text-decoration-none ms-1">
+                    <a
+                      onClick={handleShow}
+                      href="#"
+                      className="fw-bold text-decoration-none ms-1"
+                    >
                       Informazioni di contatto
                     </a>
                   </Card.Text>
                   <Button variant="primary" className="rounded-pill my-1 me-2 ">
                     Disponibile per
                   </Button>
-                  <Button variant="white" className="rounded-pill my-1 me-2 border-primary text-primary">
+                  <Button
+                    variant="white"
+                    className="rounded-pill my-1 me-2 border-primary text-primary"
+                  >
                     Aggiungi sezione del profilo
                   </Button>
 
-                  <Button variant="white" className="border-black rounded-pill my-1 me-2">
+                  <Button
+                    variant="white"
+                    className="border-black rounded-pill my-1 me-2"
+                  >
                     Altro
                   </Button>
                 </Card.Body>
@@ -71,6 +104,47 @@ const Main = () => {
                   </div>
                   <Card.Text className="fw-bold mt-2">Competenza</Card.Text>
                   <Card.Text>Descrizione competenza</Card.Text>
+                </Card.Body>
+              </Card>
+              <Card className="mt-3">
+                <Card.Body>
+                  <div className="d-flex justify-content-between me-4">
+                    <Card.Title>Esperienza</Card.Title>
+                    <div>
+                      <Plus width={35} height={35} className="me-2" />
+                      <Pencil width={20} height={20} />
+                    </div>
+                  </div>
+                  <Row>
+                    <Col xs="2">
+                      {" "}
+                      <img src="" alt="" height={30} />
+                    </Col>
+                    <Col>
+                      <p className="fw-bold mb-0">Posizione lavorativa</p>
+                      <small>Azienda</small>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col xs="2">
+                      {" "}
+                      <img src="" alt="" height={30} />
+                    </Col>
+                    <Col>
+                      <p className="fw-bold mb-0">Posizione lavorativa</p>
+                      <small>Azienda</small>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col xs="2">
+                      {" "}
+                      <img src="" alt="" height={30} />
+                    </Col>
+                    <Col>
+                      <p className="fw-bold mb-0">Posizione lavorativa</p>
+                      <small>Azienda</small>
+                    </Col>
+                  </Row>
                 </Card.Body>
               </Card>
               <Card className="mt-3">
