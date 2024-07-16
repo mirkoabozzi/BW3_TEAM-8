@@ -5,6 +5,14 @@
     color: black !important;
 }
 
+.input-search {
+    background-color: #EDF3F8;
+    border: none;
+}
+
+.icon-logo {
+    margin-left: 35px;
+}
 
 /* CSS main */
 
