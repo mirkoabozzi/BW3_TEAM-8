@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   Button,
   Card,
@@ -7,26 +7,60 @@ import {
   Col,
   Image,
   Modal,
+  Form,
+  Dropdown,
 } from "react-bootstrap";
-import { CameraFill, Pencil, Plus } from "react-bootstrap-icons";
+import { CameraFill, Pencil, Plus, Trash } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { getUser } from "../redux/actions";
+import {
+  getUser,
+  uploadProfilePicture,
+  fetchExperiences,
+  addExperience,
+  deleteExperience,
+} from "../redux/actions";
+import AddExperienceForm from "./AddExperienceForm";
 
 const Main = () => {
   const user = useSelector((state) => state.mainReducer.user);
   const selectedUser = useSelector((state) => state.mainReducer.selectedUser);
-  const experiences = useSelector((state) => state.mainReducer.experiences); // Recupera le esperienze dallo stato
+  const experiences = useSelector((state) => state.mainReducer.experiences);
   const dispatch = useDispatch();
 
   const [show, setShow] = useState(false);
+  const [showAddExperience, setShowAddExperience] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const fileInputRef = useRef(null);
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   useEffect(() => {
     dispatch(getUser());
-  }, [dispatch]);
+    if (selectedUser) {
+      dispatch(fetchExperiences(selectedUser._id));
+    }
+  }, [dispatch, selectedUser]);
 
-  const displayedUser = selectedUser || user;
+  const handleFileChange = (e) => {
+    setSelectedFile(e.target.files[0]);
+    if (e.target.files[0]) {
+      dispatch(uploadProfilePicture(user._id, e.target.files[0]));
+    }
+  };
+
+  const handlePencilClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleDeleteLastExperience = () => {
+    if (experiences.length > 0) {
+      const lastExperienceId = experiences[experiences.length - 1]._id;
+      dispatch(deleteExperience(displayUser._id, lastExperienceId));
+    }
+  };
+
+  const displayUser = selectedUser || user;
 
   return (
     <>
@@ -39,6 +73,7 @@ const Main = () => {
                   variant="top"
                   src="https://media.istockphoto.com/id/1960952508/photo/dark-blue-gradient-soft-background.jpg?b=1&s=612x612&w=0&k=20&c=EBIpDSGaimw9Ci3v8nsNMC_A6kTZeiqF9EWWcf8TMkQ="
                   height={250}
+                  style={{ objectFit: "cover" }}
                 />
                 <div
                   className="position-absolute bg-white p-1 container-camera"
@@ -47,26 +82,42 @@ const Main = () => {
                   <CameraFill width={25} height={25} fill="#0A66C2" />
                 </div>
                 <Image
-                  src={displayedUser.image}
+                  src={displayUser.image}
                   alt="avatar user"
                   height={150}
                   width={150}
                   className="position-absolute rounded-circle ms-4"
-                  style={{ top: 160, border: "5px solid white" }}
+                  style={{
+                    top: 160,
+                    border: "5px solid white",
+                    objectFit: "cover",
+                    objectPosition: "center",
+                  }}
                 />
                 <Card.Body className="mt-5">
-                  <Pencil
-                    width={20}
-                    height={20}
+                  <Dropdown
                     className="position-absolute"
                     style={{ top: 265, right: 50 }}
-                  />
+                  >
+                    <Dropdown.Toggle as={Pencil} width={20} height={20} />
+                    <Dropdown.Menu>
+                      <Dropdown.Item onClick={handlePencilClick}>
+                        Carica Immagine
+                      </Dropdown.Item>
+                      <Form.Control
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={handleFileChange}
+                        style={{ display: "none" }}
+                      />
+                    </Dropdown.Menu>
+                  </Dropdown>
                   <Card.Title>
-                    {displayedUser.name} {displayedUser.surname}
+                    {displayUser.name} {displayUser.surname}
                   </Card.Title>
-                  <Card.Text>{displayedUser.title}</Card.Text>
+                  <Card.Text>{displayUser.title}</Card.Text>
                   <Card.Text>
-                    {displayedUser.area} &middot;
+                    {displayUser.area} &middot;
                     <a
                       onClick={handleShow}
                       href="#"
@@ -84,7 +135,6 @@ const Main = () => {
                   >
                     Aggiungi sezione del profilo
                   </Button>
-
                   <Button
                     variant="white"
                     className="border-black rounded-pill my-1 me-2"
@@ -109,26 +159,40 @@ const Main = () => {
                 </Card.Body>
               </Card>
 
-              {/* Esperienze */}
+              {/* esperienze */}
               <Card className="mt-3">
                 <Card.Body>
                   <div className="d-flex justify-content-between me-4">
                     <Card.Title>Esperienza</Card.Title>
                     <div>
-                      <Plus width={35} height={35} className="me-2" />
+                      <Plus
+                        width={35}
+                        height={35}
+                        className="me-2"
+                        onClick={() => setShowAddExperience(true)}
+                      />
                       <Pencil width={20} height={20} />
+                      <Trash
+                        width={20}
+                        height={20}
+                        className="ms-2 text-danger"
+                        onClick={handleDeleteLastExperience}
+                      />
                     </div>
                   </div>
                   {experiences.map((exp) => (
-                    <Row key={exp._id} className="mb-3">
+                    <Row key={exp._id} className="mt-2">
                       <Col xs="2">
-                        <Image src={exp.image} alt="" height={30} />
+                        <img
+                          src={exp.image}
+                          alt=""
+                          height={30}
+                          style={{ objectFit: "cover" }}
+                        />
                       </Col>
                       <Col>
                         <p className="fw-bold mb-0">{exp.role}</p>
                         <small>{exp.company}</small>
-                        <small>{exp.area}</small>
-                        <small>{exp.description}</small>
                       </Col>
                     </Row>
                   ))}
@@ -262,7 +326,7 @@ const Main = () => {
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>
-            {displayedUser.name} {displayedUser.surname}
+            {displayUser.name} {displayUser.surname}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -274,11 +338,18 @@ const Main = () => {
             />
             <div>
               <p className="mb-0">Email</p>
-              <p> {displayedUser.email}</p>
+              <p> {displayUser.email}</p>
             </div>
           </div>
         </Modal.Body>
       </Modal>
+
+      {/* Modale aggiungi esperienza */}
+      <AddExperienceForm
+        show={showAddExperience}
+        handleClose={() => setShowAddExperience(false)}
+        userId={displayUser._id}
+      />
     </>
   );
 };

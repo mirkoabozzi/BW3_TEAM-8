@@ -16,7 +16,8 @@ const initialState = {
   },
   profiles: [],
   selectedUser: null,
-  experiences: [], // Aggiunto per gestire le esperienze
+  experiences: [],
+  token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njk0ZDEwNjE5NmQ3YjAwMTVkNmI1MjQiLCJpYXQiOjE3MjEwMjg4NzAsImV4cCI6MTcyMjIzODQ3MH0.lxTMuD2HxVncxLT71LT_2gTwR02C2dbSQrtfInlKotk",
 };
 
 const MainReducer = (state = initialState, action) => {
@@ -26,26 +27,21 @@ const MainReducer = (state = initialState, action) => {
         ...state,
         user: action.payload,
       };
-
     case SET_PROFILES:
       return {
         ...state,
         profiles: action.payload,
       };
-
     case SET_SELECTED_USER:
       return {
         ...state,
         selectedUser: action.payload,
-        profiles: [],
       };
-
     case SET_EXPERIENCES:
       return {
         ...state,
         experiences: action.payload,
       };
-
     default:
       return state;
   }
