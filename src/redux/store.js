@@ -1,11 +1,12 @@
-import { createStore, applyMiddleware, combineReducers } from 'redux';
-import thunk from 'redux-thunk';
+import { configureStore } from '@reduxjs/toolkit';
 import profileReducer from './reducers/profileReducer';
 
-const rootReducer = combineReducers({
-  profile: profileReducer,
+const store = configureStore({
+  reducer: {
+    profile: profileReducer,
+  },
 });
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
-
 export default store;
+
+
