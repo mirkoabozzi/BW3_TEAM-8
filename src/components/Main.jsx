@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, Card, Container, Row, Col, Image, Modal, Form } from "react-bootstrap";
 import { CameraFill, Pencil, Plus } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { getUser, UpdateProfilePicture } from "../redux/actions";
+import { getUser, updateProfilePicture } from "../redux/actions";
 
 const Main = () => {
   const user = useSelector((state) => state.mainReducer.user);
@@ -24,9 +24,16 @@ const Main = () => {
   const displayedUser = selectedUser || user;
 
   const [file, setFile] = useState(null);
+
   console.log("file", file);
-  const handleFileChange = (e) => {
+  const hendleFileChange = (e) => {
     setFile(e.target.files[0]);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(updateProfilePicture(user._id, file));
+    handleCloseImgProfileModal();
   };
 
   return (
@@ -278,8 +285,8 @@ const Main = () => {
         </Modal.Header>
         <Modal.Body>
           <p className="mb-0">Cambia immagine del profilo</p>
-          <Form onSubmit={UpdateProfilePicture(user._id, file)}>
-            <Form.Control type="file" accept="image/png, image/gif, image/jpeg" className="my-2" onChange={handleFileChange} />
+          <Form onSubmit={handleSubmit}>
+            <Form.Control type="file" accept="image/png, image/gif, image/jpeg" className="my-2" onChange={hendleFileChange} />
             <Button type="submit">Invia</Button>
           </Form>
         </Modal.Body>

@@ -11,7 +11,7 @@ export const getUser = () => {
     try {
       const resp = await fetch("https://striveschool-api.herokuapp.com/api/profile/me", {
         headers: {
-          Authorization: "Bearer " + token,
+          Authorization: "Bearer " + tokenMirko,
         },
       });
 
@@ -83,9 +83,8 @@ export const fetchExperiences = (userId) => {
   };
 };
 
-export const UpdateProfilePicture = (userId, file) => {
-  return async (e) => {
-    e.preventDefault();
+export const updateProfilePicture = (userId, file) => {
+  return async (dispatch) => {
     const formData = new FormData();
     formData.append("profile", file);
     try {
@@ -98,6 +97,7 @@ export const UpdateProfilePicture = (userId, file) => {
       });
       if (resp.ok) {
         console.log(resp);
+        dispatch(getUser());
       } else {
         throw new Error("Errore nel caricamendo dei dati");
       }
