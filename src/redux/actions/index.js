@@ -182,3 +182,4 @@ export const uploadExperiencePicture = (userId, experienceId, file) => {
     }
   };
 };
+
