@@ -99,6 +99,7 @@ export const addExperience = (userId, experience) => {
       if (resp.ok) {
         const newExperience = await resp.json();
         dispatch(fetchExperiences(userId));
+        return newExperience; 
       } else {
         const errorText = await resp.text();
         throw new Error(`Errore nella creazione dell'esperienza: ${errorText}`);
