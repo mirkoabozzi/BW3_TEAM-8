@@ -8,7 +8,6 @@ import {
   Image,
   Modal,
 } from "react-bootstrap";
-
 import { CameraFill, Pencil, Plus } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../redux/actions";
@@ -16,6 +15,7 @@ import { getUser } from "../redux/actions";
 const Main = () => {
   const user = useSelector((state) => state.mainReducer.user);
   const selectedUser = useSelector((state) => state.mainReducer.selectedUser);
+  const experiences = useSelector((state) => state.mainReducer.experiences); // Recupera le esperienze dallo stato
   const dispatch = useDispatch();
 
   const [show, setShow] = useState(false);
@@ -108,6 +108,8 @@ const Main = () => {
                   <Card.Text>Descrizione competenza</Card.Text>
                 </Card.Body>
               </Card>
+
+              {/* Esperienze */}
               <Card className="mt-3">
                 <Card.Body>
                   <div className="d-flex justify-content-between me-4">
@@ -117,38 +119,22 @@ const Main = () => {
                       <Pencil width={20} height={20} />
                     </div>
                   </div>
-                  <Row>
-                    <Col xs="2">
-                      {" "}
-                      <img src="" alt="" height={30} />
-                    </Col>
-                    <Col>
-                      <p className="fw-bold mb-0">Posizione lavorativa</p>
-                      <small>Azienda</small>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col xs="2">
-                      {" "}
-                      <img src="" alt="" height={30} />
-                    </Col>
-                    <Col>
-                      <p className="fw-bold mb-0">Posizione lavorativa</p>
-                      <small>Azienda</small>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col xs="2">
-                      {" "}
-                      <img src="" alt="" height={30} />
-                    </Col>
-                    <Col>
-                      <p className="fw-bold mb-0">Posizione lavorativa</p>
-                      <small>Azienda</small>
-                    </Col>
-                  </Row>
+                  {experiences.map((exp) => (
+                    <Row key={exp._id} className="mb-3">
+                      <Col xs="2">
+                        <Image src={exp.image} alt="" height={30} />
+                      </Col>
+                      <Col>
+                        <p className="fw-bold mb-0">{exp.role}</p>
+                        <small>{exp.company}</small>
+                        <small>{exp.area}</small>
+                        <small>{exp.description}</small>
+                      </Col>
+                    </Row>
+                  ))}
                 </Card.Body>
               </Card>
+
               <Card className="mt-3">
                 <Card.Body>
                   <div className="d-flex justify-content-between me-4">

@@ -1,4 +1,4 @@
-import { SET_USER, SET_PROFILES, SET_SELECTED_USER } from "../actions";
+import { SET_USER, SET_PROFILES, SET_SELECTED_USER, SET_EXPERIENCES } from "../actions";
 
 const initialState = {
   user: {
@@ -14,8 +14,9 @@ const initialState = {
     createdAt: "2024-07-15T07:55:36.771Z",
     updatedAt: "2024-07-15T07:55:36.771Z",
   },
-  profiles: [], // Lista dei profili trovati
-  selectedUser: null, // Utente selezionato
+  profiles: [],
+  selectedUser: null,
+  experiences: [], // Aggiunto per gestire le esperienze
 };
 
 const MainReducer = (state = initialState, action) => {
@@ -35,8 +36,14 @@ const MainReducer = (state = initialState, action) => {
     case SET_SELECTED_USER:
       return {
         ...state,
-        user: action.payload,
-        profiles: [], // Svuota la lista dei risultati dopo aver selezionato un utente
+        selectedUser: action.payload,
+        profiles: [],
+      };
+
+    case SET_EXPERIENCES:
+      return {
+        ...state,
+        experiences: action.payload,
       };
 
     default:
