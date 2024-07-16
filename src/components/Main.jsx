@@ -1,16 +1,8 @@
 import { useEffect, useState } from "react";
-import {
-  Button,
-  Card,
-  Container,
-  Row,
-  Col,
-  Image,
-  Modal,
-} from "react-bootstrap";
+import { Button, Card, Container, Row, Col, Image, Modal, Form } from "react-bootstrap";
 import { CameraFill, Pencil, Plus } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { getUser } from "../redux/actions";
+import { getUser, UpdateProfilePicture } from "../redux/actions";
 
 const Main = () => {
   const user = useSelector((state) => state.mainReducer.user);
@@ -21,12 +13,21 @@ const Main = () => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [showImgProfileModal, setShowImgProfileModal] = useState(false);
+  const handleCloseImgProfileModal = () => setShowImgProfileModal(false);
+  const handleShowImgProfileModal = () => setShowImgProfileModal(true);
 
   useEffect(() => {
     dispatch(getUser());
   }, [dispatch]);
 
   const displayedUser = selectedUser || user;
+
+  const [file, setFile] = useState(null);
+  console.log("file", file);
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
 
   return (
     <>
@@ -40,10 +41,7 @@ const Main = () => {
                   src="https://media.istockphoto.com/id/1960952508/photo/dark-blue-gradient-soft-background.jpg?b=1&s=612x612&w=0&k=20&c=EBIpDSGaimw9Ci3v8nsNMC_A6kTZeiqF9EWWcf8TMkQ="
                   height={250}
                 />
-                <div
-                  className="position-absolute bg-white p-1 container-camera"
-                  style={{ right: 50, top: 70 }}
-                >
+                <div className="position-absolute bg-white p-1 container-camera" style={{ right: 50, top: 70 }}>
                   <CameraFill width={25} height={25} fill="#0A66C2" />
                 </div>
                 <Image
@@ -53,42 +51,28 @@ const Main = () => {
                   width={150}
                   className="position-absolute rounded-circle ms-4"
                   style={{ top: 160, border: "5px solid white" }}
+                  onClick={handleShowImgProfileModal}
                 />
                 <Card.Body className="mt-5">
-                  <Pencil
-                    width={20}
-                    height={20}
-                    className="position-absolute"
-                    style={{ top: 265, right: 50 }}
-                  />
+                  <Pencil width={20} height={20} className="position-absolute" style={{ top: 265, right: 50 }} />
                   <Card.Title>
                     {displayedUser.name} {displayedUser.surname}
                   </Card.Title>
                   <Card.Text>{displayedUser.title}</Card.Text>
                   <Card.Text>
                     {displayedUser.area} &middot;
-                    <a
-                      onClick={handleShow}
-                      href="#"
-                      className="fw-bold text-decoration-none ms-1"
-                    >
+                    <a onClick={handleShow} href="#" className="fw-bold text-decoration-none ms-1">
                       Informazioni di contatto
                     </a>
                   </Card.Text>
                   <Button variant="primary" className="rounded-pill my-1 me-2 ">
                     Disponibile per
                   </Button>
-                  <Button
-                    variant="white"
-                    className="rounded-pill my-1 me-2 border-primary text-primary"
-                  >
+                  <Button variant="white" className="rounded-pill my-1 me-2 border-primary text-primary">
                     Aggiungi sezione del profilo
                   </Button>
 
-                  <Button
-                    variant="white"
-                    className="border-black rounded-pill my-1 me-2"
-                  >
+                  <Button variant="white" className="border-black rounded-pill my-1 me-2">
                     Altro
                   </Button>
                 </Card.Body>
@@ -259,7 +243,7 @@ const Main = () => {
       </Container>
 
       {/* Modale info contatto */}
-      <Modal show={show} onHide={handleClose}>
+      <Modal centered show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>
             {displayedUser.name} {displayedUser.surname}
@@ -269,6 +253,7 @@ const Main = () => {
           <h4>Informazioni di contatto</h4>
           <div className="d-flex">
             <Image
+              className="me-2"
               src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgaWQ9ImVudmVsb3BlLW1lZGl1bSIgYXJpYS1oaWRkZW49InRydWUiIHJvbGU9Im5vbmUiIGRhdGEtc3VwcG9ydGVkLWRwcz0iMjR4MjQiIGZpbGw9ImN1cnJlbnRDb2xvciI+CiAgPHBhdGggZD0iTTIgNHYxM2EzIDMgMCAwMDMgM2gxNGEzIDMgMCAwMDMtM1Y0em0xOCAydjEuNDdsLTggNS4zMy04LTUuMzNWNnptLTEgMTJINWExIDEgMCAwMS0xLTFWOC42N0wxMiAxNGw4LTUuMzNWMTdhMSAxIDAgMDEtMSAxeiIvPgo8L3N2Zz4="
               width={20}
             />
@@ -277,6 +262,22 @@ const Main = () => {
               <p> {displayedUser.email}</p>
             </div>
           </div>
+        </Modal.Body>
+      </Modal>
+
+      {/* Modale modifica immagine profilo */}
+      <Modal centered show={showImgProfileModal} onHide={handleCloseImgProfileModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>
+            {displayedUser.name} {displayedUser.surname}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p className="mb-0">Cambia immagine del profilo</p>
+          <Form onSubmit={UpdateProfilePicture(user._id, file)}>
+            <Form.Control type="file" accept="image/png, image/gif, image/jpeg" className="my-2" onChange={handleFileChange} />
+            <Button type="submit">Invia</Button>
+          </Form>
         </Modal.Body>
       </Modal>
     </>
