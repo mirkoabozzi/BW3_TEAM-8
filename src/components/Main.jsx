@@ -87,6 +87,47 @@ const Main = () => {
             <Card className="mt-3">
               <Card.Body>
                 <div className="d-flex justify-content-between me-4">
+                  <Card.Title>Esperienza</Card.Title>
+                  <div>
+                    <Plus width={35} height={35} className="me-2" />
+                    <Pencil width={20} height={20} />
+                  </div>
+                </div>
+                <Row>
+                  <Col xs="2">
+                    {" "}
+                    <img src="" alt="" height={30} />
+                  </Col>
+                  <Col>
+                    <p className="fw-bold mb-0">Posizione lavorativa</p>
+                    <small>Azienda</small>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col xs="2">
+                    {" "}
+                    <img src="" alt="" height={30} />
+                  </Col>
+                  <Col>
+                    <p className="fw-bold mb-0">Posizione lavorativa</p>
+                    <small>Azienda</small>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col xs="2">
+                    {" "}
+                    <img src="" alt="" height={30} />
+                  </Col>
+                  <Col>
+                    <p className="fw-bold mb-0">Posizione lavorativa</p>
+                    <small>Azienda</small>
+                  </Col>
+                </Row>
+              </Card.Body>
+            </Card>
+            <Card className="mt-3">
+              <Card.Body>
+                <div className="d-flex justify-content-between me-4">
                   <Card.Title>Licenze e Certificazioni</Card.Title>
                   <div>
                     <Plus width={35} height={35} className="me-2" />
