@@ -9,12 +9,14 @@ const Main = () => {
       <Container className="position-relative">
         <Card className="mt-3">
           <Card.Img variant="top" src="https://media.istockphoto.com/id/1960952508/photo/dark-blue-gradient-soft-background.jpg?b=1&s=612x612&w=0&k=20&c=EBIpDSGaimw9Ci3v8nsNMC_A6kTZeiqF9EWWcf8TMkQ=" height={250} />
-          <div className="position-absolute bg-white p-1 container-camera" style={{ right: 50, top: 70 }}>
-            <CameraFill width={25} height={25} fill="#0A66C2" />
+          <div className="position-absolute bg-white p-1 container-camera" style={{ right: 50, top: 30 }}>
+            <CameraFill width={25} height={25} fill="#0A66C2" className="camera-icon" />
           </div>
           <Image src="https://www.tenforums.com/attachments/user-accounts-family-safety/322690d1615743307-user-account-image-log-user.png" alt="avatar user" height={150} width={150} className="position-absolute rounded-circle ms-4" style={{ top: 160, border: "5px solid white" }} />
           <Card.Body className="mt-5">
-            <Pencil width={20} height={20} className="position-absolute" style={{ top: 265, right: 50 }} />
+            <div className="pen-icon">
+              <Pencil width={20} height={20} className="position-absolute" style={{ top: 265, right: 50 }} />
+            </div>
             <Card.Title>Nome</Card.Title>
             <Card.Text>
               Professione

@@ -2,8 +2,8 @@
 .icon-nav:hover {
     cursor: pointer;
     fill: black;
+    color: black !important;
 }
-
 
 
 /* CSS main */
@@ -38,4 +38,14 @@
     background-color: #EBF4FD;
     border: 1px solid #004182;
     color: #004182;
+}
+
+.camera-icon:hover {
+    fill: #004182;
+}
+
+
+.pen-icon:hover {
+    background-color: #F3F3F3;
+    cursor: pointer;
 }
