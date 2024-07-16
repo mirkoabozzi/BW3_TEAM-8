@@ -14,7 +14,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../redux/actions";
 
 const Main = () => {
-  const user = useSelector((state) => state.mainReducer);
+  const user = useSelector((state) => state.mainReducer.user);
+  const selectedUser = useSelector((state) => state.mainReducer.selectedUser);
   const dispatch = useDispatch();
 
   const [show, setShow] = useState(false);
@@ -23,8 +24,9 @@ const Main = () => {
 
   useEffect(() => {
     dispatch(getUser());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch]);
+
+  const displayedUser = selectedUser || user;
 
   return (
     <>
@@ -45,7 +47,7 @@ const Main = () => {
                   <CameraFill width={25} height={25} fill="#0A66C2" />
                 </div>
                 <Image
-                  src={user.image}
+                  src={displayedUser.image}
                   alt="avatar user"
                   height={150}
                   width={150}
@@ -60,11 +62,11 @@ const Main = () => {
                     style={{ top: 265, right: 50 }}
                   />
                   <Card.Title>
-                    {user.name} {user.surname}
+                    {displayedUser.name} {displayedUser.surname}
                   </Card.Title>
-                  <Card.Text>{user.title}</Card.Text>
+                  <Card.Text>{displayedUser.title}</Card.Text>
                   <Card.Text>
-                    {user.area} &middot;
+                    {displayedUser.area} &middot;
                     <a
                       onClick={handleShow}
                       href="#"
@@ -274,7 +276,7 @@ const Main = () => {
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>
-            {user.name} {user.surname}
+            {displayedUser.name} {displayedUser.surname}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -286,7 +288,7 @@ const Main = () => {
             />
             <div>
               <p className="mb-0">Email</p>
-              <p> {user.email}</p>
+              <p> {displayedUser.email}</p>
             </div>
           </div>
         </Modal.Body>
