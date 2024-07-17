@@ -265,12 +265,9 @@ export const deletePost = (postId) => {
         },
       });
       if (resp.ok) {
-        const text = await resp.json();
         dispatch(getPosts());
-        return text;
       } else {
-        const text = await resp.text();
-        throw new Error("Errore nella rimozione del post" + " " + text);
+        throw new Error("Errore nella rimozione del post");
       }
     } catch (error) {
       console.log(error);

@@ -59,7 +59,7 @@ const Home = () => {
                   <Card.Title>{post.user.username}</Card.Title>
                   <Card.Text>{post.text}</Card.Text>
                   <Card.Text>{dataConverter(post.createdAt)}</Card.Text>
-                  <Trash onClick={deletePost(post._id)} />
+                  <Trash onClick={() => dispatch(deletePost(post._id))} />
                 </Card.Body>
               </Card>
             );
