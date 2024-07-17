@@ -7,6 +7,7 @@ export const ADD_EXPERIENCE_REQUEST = "ADD_EXPERIENCE_REQUEST";
 export const ADD_EXPERIENCE_FAILURE = "ADD_EXPERIENCE_FAILURE";
 export const UPDATE_EXPERIENCES_LIST = "UPDATE_EXPERIENCES_LIST";
 export const GET_POSTS = "GET_POSTS";
+export const ADD_NEW_POST = "ADD_NEW_POST";
 
 const token = import.meta.env.VITE_API_KEY;
 
@@ -223,6 +224,31 @@ export const getPosts = () => {
         dispatch({ type: GET_POSTS, payload: posts });
       } else {
         throw new Error("Errore nel recupero dei post");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const newPost = (post) => {
+  return async (dispatch) => {
+    try {
+      const resp = await fetch("https://striveschool-api.herokuapp.com/api/posts/", {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(post),
+      });
+      if (resp.ok) {
+        const text = await resp.json();
+        dispatch({ type: ADD_NEW_POST, payload: post });
+        return text;
+      } else {
+        const text = await resp.text();
+        throw new Error("Errore nell creazione del post" + text);
       }
     } catch (error) {
       console.log(error);
