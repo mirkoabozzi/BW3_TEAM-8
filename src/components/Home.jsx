@@ -8,7 +8,7 @@ const Home = () => {
   const posts = useSelector((state) => state.homeReducer.posts);
   const dispatch = useDispatch();
 
-  const [comment, setComment] = useState("");
+  const [post, setpost] = useState("");
 
   useEffect(() => {
     dispatch(getPosts());
@@ -31,8 +31,8 @@ const Home = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await dispatch(newPost(comment)).then(() => {
-      setComment("");
+    await dispatch(newPost(post)).then(() => {
+      setpost("");
     });
   };
 
@@ -45,7 +45,7 @@ const Home = () => {
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="text">
               <Form.Label>Aggiungi nuovo post</Form.Label>
-              <Form.Control type="text" placeholder="Scrivi qualcosa" value={comment} onChange={(e) => setComment(e.target.value)} />
+              <Form.Control type="text" placeholder="Scrivi qualcosa" value={post} onChange={(e) => setpost(e.target.value)} />
             </Form.Group>
           </Form>
           {[...posts].reverse().map((post) => {

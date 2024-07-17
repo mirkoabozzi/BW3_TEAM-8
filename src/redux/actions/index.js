@@ -231,7 +231,7 @@ export const getPosts = () => {
   };
 };
 
-export const newPost = (comment) => {
+export const newPost = (post) => {
   return async (dispatch) => {
     try {
       const resp = await fetch("https://striveschool-api.herokuapp.com/api/posts/", {
@@ -240,7 +240,7 @@ export const newPost = (comment) => {
           Authorization: "Bearer " + token,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ text: comment }),
+        body: JSON.stringify({ text: post }),
       });
       if (resp.ok) {
         const text = await resp.json();
