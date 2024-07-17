@@ -8,15 +8,14 @@ export const ADD_EXPERIENCE_FAILURE = "ADD_EXPERIENCE_FAILURE";
 export const UPDATE_EXPERIENCES_LIST = "UPDATE_EXPERIENCES_LIST";
 export const GET_POSTS = "GET_POSTS";
 
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njk0ZDEwNjE5NmQ3YjAwMTVkNmI1MjQiLCJpYXQiOjE3MjEwMjg4NzAsImV4cCI6MTcyMjIzODQ3MH0.lxTMuD2HxVncxLT71LT_2gTwR02C2dbSQrtfInlKotk";
-const tokenMirko = import.meta.env.VITE_API_KEY_MIRKO;
+const token = import.meta.env.VITE_API_KEY;
 
 export const getUser = () => {
   return async (dispatch) => {
     try {
       const resp = await fetch("https://striveschool-api.herokuapp.com/api/profile/me", {
         headers: {
-          Authorization: "Bearer " + tokenMirko,
+          Authorization: "Bearer " + token,
         },
       });
 
@@ -215,7 +214,7 @@ export const getPosts = () => {
     try {
       const resp = await fetch("https://striveschool-api.herokuapp.com/api/posts/", {
         headers: {
-          Authorization: "Bearer " + tokenMirko,
+          Authorization: "Bearer " + token,
         },
       });
       if (resp.ok) {
