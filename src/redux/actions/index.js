@@ -7,6 +7,8 @@ export const ADD_EXPERIENCE_REQUEST = "ADD_EXPERIENCE_REQUEST";
 export const ADD_EXPERIENCE_FAILURE = "ADD_EXPERIENCE_FAILURE";
 export const UPDATE_EXPERIENCES_LIST = "UPDATE_EXPERIENCES_LIST";
 export const GET_POSTS = "GET_POSTS";
+export const GET_POSTS_LOADING_ON = "GET_POSTS_LOADING_ON";
+export const GET_POSTS_LOADING_OFF = "GET_POSTS_LOADING_OFF";
 
 const token = import.meta.env.VITE_API_KEY;
 
@@ -211,6 +213,7 @@ export const uploadExperiencePicture = (userId, experienceId, file) => {
 
 export const getPosts = () => {
   return async (dispatch) => {
+    dispatch({ type: GET_POSTS_LOADING_ON });
     try {
       const resp = await fetch("https://striveschool-api.herokuapp.com/api/posts/", {
         headers: {
@@ -221,6 +224,7 @@ export const getPosts = () => {
         const posts = await resp.json();
         // console.log("posts", posts);
         dispatch({ type: GET_POSTS, payload: posts });
+        dispatch({ type: GET_POSTS_LOADING_OFF });
       } else {
         throw new Error("Errore nel recupero dei post");
       }

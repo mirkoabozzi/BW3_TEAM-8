@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { deletePost, getPosts, newPost } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
-import { Card, Container, Row, Col, Form } from "react-bootstrap";
+import { Card, Container, Row, Col, Form, Spinner } from "react-bootstrap";
 import HomeLeftBar from "./HomeLeftBar";
 import Notizie from "./Notizie";
 import { Trash } from "react-bootstrap-icons";
 
 const Home = () => {
   const posts = useSelector((state) => state.homeReducer.posts);
+  const isLoading = useSelector((state) => state.homeReducer.isLoading);
   const dispatch = useDispatch();
 
   const [post, setpost] = useState("");
@@ -52,18 +53,22 @@ const Home = () => {
               <Form.Control type="text" placeholder="Scrivi qualcosa" value={post} onChange={(e) => setpost(e.target.value)} />
             </Form.Group>
           </Form>
-          {[...posts].reverse().map((post) => {
-            return (
-              <Card key={post._id} className="my-2">
-                <Card.Body>
-                  <Card.Title>{post.user.username}</Card.Title>
-                  <Card.Text>{post.text}</Card.Text>
-                  <Card.Text>{dataConverter(post.createdAt)}</Card.Text>
-                  <Trash onClick={() => dispatch(deletePost(post._id))} />
-                </Card.Body>
-              </Card>
-            );
-          })}
+          {isLoading ? (
+            <Spinner animation="grow" />
+          ) : (
+            [...posts].reverse().map((post) => {
+              return (
+                <Card key={post._id} className="my-2">
+                  <Card.Body>
+                    <Card.Title>{post.user.username}</Card.Title>
+                    <Card.Text>{post.text}</Card.Text>
+                    <Card.Text>{dataConverter(post.createdAt)}</Card.Text>
+                    <Trash onClick={() => dispatch(deletePost(post._id))} />
+                  </Card.Body>
+                </Card>
+              );
+            })
+          )}
         </Col>
         <Col md={3}>
           <Notizie />

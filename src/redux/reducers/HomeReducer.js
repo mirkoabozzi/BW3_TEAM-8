@@ -1,7 +1,8 @@
-import { GET_POSTS } from "../actions";
+import { GET_POSTS, GET_POSTS_LOADING_OFF, GET_POSTS_LOADING_ON } from "../actions";
 
 const initialState = {
   posts: [],
+  isLoading: false,
 };
 
 const HomeReducer = (state = initialState, action) => {
@@ -10,6 +11,16 @@ const HomeReducer = (state = initialState, action) => {
       return {
         ...state,
         posts: action.payload,
+      };
+    case GET_POSTS_LOADING_ON:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case GET_POSTS_LOADING_OFF:
+      return {
+        ...state,
+        isLoading: false,
       };
 
     default:
