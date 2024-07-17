@@ -1,8 +1,15 @@
+import { useEffect } from "react";
 import { Card, Image, Button, Container } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser } from "../redux/actions";
 
 const HomeLeftBar = () => {
   const user = useSelector((state) => state.mainReducer.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUser());
+  }, [dispatch]);
 
   return (
     <Container>

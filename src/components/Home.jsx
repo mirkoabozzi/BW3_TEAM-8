@@ -33,7 +33,7 @@ const Home = () => {
     return data.toLocaleString("it-it", {
       //weekday: "long",
       year: "numeric",
-      month: "long",
+      month: "numeric",
       day: "numeric",
       hour: "numeric",
       minute: "numeric",
