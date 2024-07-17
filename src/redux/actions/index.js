@@ -94,7 +94,7 @@ export const updateProfilePicture = (userId, file) => {
     try {
       const resp = await fetch(`https://striveschool-api.herokuapp.com/api/profile/${userId}/picture`, {
         headers: {
-          Authorization: "Bearer " + tokenMirko,
+          Authorization: "Bearer " + token,
         },
         method: "POST",
         body: formData,
