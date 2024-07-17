@@ -61,9 +61,10 @@ const Home = () => {
 
   return (
     <>
-      <Container>
-        <Row>
-          <Col md={3}>
+      <Container className="mt-4">
+        {/* Dispositivi Desktop */}
+        <Row className="d-none d-lg-flex">
+          <Col lg={3}>
             <HomeLeftBar />
           </Col>
           <Col md={6}>
@@ -94,50 +95,6 @@ const Home = () => {
               })
             )}
           </Col>
-          <Col md={3}>
-            <Notizie />
-          </Col>
-        </Row>
-      </Container>
-
-      <Modal centered show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Modifica Post</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={handleSubmitEditPost}>
-            <Form.Control type="text" className="my-2" value={editPost} onChange={(e) => setEditPost(e.target.value)} />
-            <Button type="submit">Invia</Button>
-          </Form>
-        </Modal.Body>
-      </Modal>
-
-      <Container className="mt-4">
-        {/* Dispositivi Desktop */}
-        <Row className="d-none d-lg-flex">
-          <Col lg={3}>
-            <HomeLeftBar />
-          </Col>
-          <Col lg={6}>
-            <h1>Posts</h1>
-            <Form onSubmit={handleSubmit}>
-              <Form.Group className="mb-3" controlId="text">
-                <Form.Label>Aggiungi nuovo post</Form.Label>
-                <Form.Control type="text" placeholder="Scrivi qualcosa" value={post} onChange={(e) => setpost(e.target.value)} />
-              </Form.Group>
-            </Form>
-            {[...posts].reverse().map((post) => {
-              return (
-                <Card key={post._id} className="my-2">
-                  <Card.Body>
-                    <Card.Title>{post.user.username}</Card.Title>
-                    <Card.Text>{post.text}</Card.Text>
-                    <Card.Text>{dataConverter(post.createdAt)}</Card.Text>
-                  </Card.Body>
-                </Card>
-              );
-            })}
-          </Col>
           <Col lg={3} className="d-none d-md-block">
             <Notizie />
             <HomeFooter />
@@ -159,17 +116,25 @@ const Home = () => {
                 <Form.Control type="text" placeholder="Scrivi qualcosa" value={post} onChange={(e) => setpost(e.target.value)} />
               </Form.Group>
             </Form>
-            {[...posts].reverse().map((post) => {
-              return (
-                <Card key={post._id} className="my-2">
-                  <Card.Body>
-                    <Card.Title>{post.user.username}</Card.Title>
-                    <Card.Text>{post.text}</Card.Text>
-                    <Card.Text>{dataConverter(post.createdAt)}</Card.Text>
-                  </Card.Body>
-                </Card>
-              );
-            })}
+            {isLoading ? (
+              <Spinner animation="grow" />
+            ) : (
+              [...posts].reverse().map((post) => {
+                return (
+                  <Card key={post._id} className="my-2">
+                    <Card.Body>
+                      <Card.Title>{post.user.username}</Card.Title>
+                      <Card.Text>{post.text}</Card.Text>
+                      <Card.Text>{dataConverter(post.createdAt)}</Card.Text>
+                      <Trash onClick={() => dispatch(deletePost(post._id))} />
+                      <Button className="ms-2" onClick={() => handleShow(post)}>
+                        Modifica
+                      </Button>
+                    </Card.Body>
+                  </Card>
+                );
+              })
+            )}
           </Col>
         </Row>
 
@@ -178,7 +143,7 @@ const Home = () => {
           <Col xs={12}>
             <HomeLeftBar />
           </Col>
-          <Col xs={12}>
+          <Col md={12}>
             <h1>Posts</h1>
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3" controlId="text">
@@ -186,17 +151,25 @@ const Home = () => {
                 <Form.Control type="text" placeholder="Scrivi qualcosa" value={post} onChange={(e) => setpost(e.target.value)} />
               </Form.Group>
             </Form>
-            {[...posts].reverse().map((post) => {
-              return (
-                <Card key={post._id} className="my-2">
-                  <Card.Body>
-                    <Card.Title>{post.user.username}</Card.Title>
-                    <Card.Text>{post.text}</Card.Text>
-                    <Card.Text>{dataConverter(post.createdAt)}</Card.Text>
-                  </Card.Body>
-                </Card>
-              );
-            })}
+            {isLoading ? (
+              <Spinner animation="grow" />
+            ) : (
+              [...posts].reverse().map((post) => {
+                return (
+                  <Card key={post._id} className="my-2">
+                    <Card.Body>
+                      <Card.Title>{post.user.username}</Card.Title>
+                      <Card.Text>{post.text}</Card.Text>
+                      <Card.Text>{dataConverter(post.createdAt)}</Card.Text>
+                      <Trash onClick={() => dispatch(deletePost(post._id))} />
+                      <Button className="ms-2" onClick={() => handleShow(post)}>
+                        Modifica
+                      </Button>
+                    </Card.Body>
+                  </Card>
+                );
+              })
+            )}
           </Col>
           <Col xs={12}>
             <Notizie />
@@ -204,6 +177,18 @@ const Home = () => {
           </Col>
         </Row>
       </Container>
+
+      <Modal centered show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Modifica Post</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleSubmitEditPost}>
+            <Form.Control type="text" className="my-2" value={editPost} onChange={(e) => setEditPost(e.target.value)} />
+            <Button type="submit">Invia</Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
     </>
   );
 };
