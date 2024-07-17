@@ -4,22 +4,6 @@ import { CameraFill, Pencil, Plus, Trash } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser, uploadProfilePicture, fetchExperiences, deleteExperience, updateProfilePicture } from "../redux/actions";
 import AddExperienceForm from "./AddExperienceForm";
-// import { useEffect, useState } from "react";
-// import {
-//   Button,
-//   Card,
-//   Container,
-//   Row,
-//   Col,
-//   Image,
-//   Modal,
-//   Form,
-//   ListGroup,
-// } from "react-bootstrap";
-// import { CameraFill, Pencil, Plus } from "react-bootstrap-icons";
-// import { useDispatch, useSelector } from "react-redux";
-// import { addExperience, getUser } from "../redux/actions";
-
 
 const Main = () => {
   const user = useSelector((state) => state.mainReducer.user);
@@ -36,9 +20,7 @@ const Main = () => {
   const handleShow = () => setShow(true);
   const [showImgProfileModal, setShowImgProfileModal] = useState(false);
   const handleCloseImgProfileModal = () => setShowImgProfileModal(false);
-  // const handleShowImgProfileModal = () => setShowImgProfileModal(true);
-
-
+  const handleShowImgProfileModal = () => setShowImgProfileModal(true);
 
   useEffect(() => {
     dispatch(getUser());
@@ -94,10 +76,7 @@ const Main = () => {
                   height={250}
                   style={{ objectFit: "cover" }}
                 />
-                <div
-                  className="position-absolute bg-white p-1 container-camera"
-                  style={{ right: 50, top: 40 }}
-                >
+                <div className="position-absolute bg-white p-1 container-camera" style={{ right: 50, top: 40 }}>
                   <CameraFill width={25} height={25} fill="#0A66C2" className="camera-icon" />
                 </div>
                 <Image
@@ -110,13 +89,9 @@ const Main = () => {
                     top: 160,
                     border: "5px solid white",
                     objectFit: "cover",
-                    //   }}
-                    //   onClick={handleShowImgProfileModal}
-                    // />
-                    // <Card.Body className="mt-5">
-                    //   <Pencil width={20} height={20} className="position-absolute" style={{ top: 265, right: 50 }} />
                     objectPosition: "center",
                   }}
+                  onClick={handleShowImgProfileModal}
                 />
                 <Card.Body className="mt-5">
                   <Dropdown className="position-absolute" style={{ top: 265, right: 50 }}>
@@ -132,28 +107,18 @@ const Main = () => {
                   <Card.Text>{displayedUser.title}</Card.Text>
                   <Card.Text className="main-area">
                     {displayedUser.area} &middot;
-                    <a
-                      onClick={handleShow}
-                      href="#"
-                      className="fw-bold text-decoration-none ms-1"
-                    >
+                    <a onClick={handleShow} href="#" className="fw-bold text-decoration-none ms-1">
                       Informazioni di contatto
                     </a>
                   </Card.Text>
                   <Button variant="primary" className="rounded-pill my-1 me-2 button-main">
                     Disponibile per
                   </Button>
-                  <Button
-                    variant="white"
-                    className="rounded-pill my-1 me-2 border-primary text-primary button-main"
-                  >
+                  <Button variant="white" className="rounded-pill my-1 me-2 border-primary text-primary button-main">
                     Aggiungi sezione del profilo
                   </Button>
 
-                  <Button
-                    variant="white"
-                    className="border-black rounded-pill my-1 me-2 button-main"
-                  >
+                  <Button variant="white" className="border-black rounded-pill my-1 me-2 button-main">
                     Altro
                   </Button>
                 </Card.Body>
@@ -321,6 +286,7 @@ const Main = () => {
           </Col>
         </Row>
       </Container>
+
       {/* Modale info contatto */}
       <Modal centered show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -338,7 +304,6 @@ const Main = () => {
               width={20}
             />
             <p className="ms-2 pt-3"> {displayedUser.email}</p>
-
           </div>
           <p className="mb-0 fw-bold">Ruolo:</p>
           <div className="ms-2 pt-3"> {displayedUser.title}</div>
@@ -348,31 +313,23 @@ const Main = () => {
           <div className="ms-2 pt-3"> {displayedUser.area}</div>
         </Modal.Body>
       </Modal>
+
       {/* Modale modifica immagine profilo */}
-
       <Modal centered show={showImgProfileModal} onHide={handleCloseImgProfileModal}>
-
         <Modal.Header closeButton>
-
           <Modal.Title>
             {displayedUser.name} {displayedUser.surname}
-
           </Modal.Title>
-
         </Modal.Header>
-
         <Modal.Body>
           <p className="mb-0">Cambia immagine del profilo</p>
-
           <Form onSubmit={handleSubmit}>
             <Form.Control type="file" accept="image/png, image/gif, image/jpeg" className="my-2" onChange={hendleFileChange} />
             <Button type="submit">Invia</Button>
-
           </Form>
-
         </Modal.Body>
-
       </Modal>
+
       {/* Modale aggiungi esperienza */}
       <AddExperienceForm show={showAddExperience} handleClose={() => setShowAddExperience(false)} userId={displayedUser._id} />
     </>
