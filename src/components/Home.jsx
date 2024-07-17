@@ -15,30 +15,26 @@ const Home = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // console.log(posts);
+  console.log("posts", posts);
 
   const dataConverter = (timeStamp) => {
     const data = new Date(timeStamp);
     return data.toLocaleString("it-it", {
-      // weekday: "long",
-      // year: "numeric",
-      // month: "long",
-      // day: "numeric",
-      // hour: "numeric",
-      // minute: "numeric",
-      timeZone: "UTC",
+      //weekday: "long",
       year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      // second: "2-digit",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      //second: "numeric",
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // dispatch(newPost(comment));
+    await dispatch(newPost(comment)).then(() => {
+      setComment("");
+    });
   };
 
   return (
@@ -53,7 +49,7 @@ const Home = () => {
               <Form.Control type="text" placeholder="Scrivi qualcosa" value={comment} onChange={(e) => setComment(e.target.value)} />
             </Form.Group>
           </Form>
-          {posts.map((post) => {
+          {posts.reverse().map((post) => {
             return (
               <Card key={post._id} className="my-2">
                 <Card.Body>
