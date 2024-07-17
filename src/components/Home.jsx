@@ -8,6 +8,7 @@ import { Trash } from "react-bootstrap-icons";
 import HomeFooter from "./HomeFooter";
 
 const Home = () => {
+  const user = useSelector((state) => state.mainReducer.user);
   const posts = useSelector((state) => state.homeReducer.posts);
   const isLoading = useSelector((state) => state.homeReducer.isLoading);
   const dispatch = useDispatch();
@@ -56,8 +57,8 @@ const Home = () => {
       setEditPostId(null);
     });
   };
-
-  console.log("posts", posts);
+  console.log(user._id);
+  // console.log("posts", posts);
 
   return (
     <>
@@ -86,14 +87,16 @@ const Home = () => {
                       <Card.Body>
                         <div className="d-flex justify-content-between">
                           <Card.Title>{post.user.username}</Card.Title>
-                          <Trash onClick={() => dispatch(deletePost(post._id))} />
+                          {user._id === post.user._id && <Trash onClick={() => dispatch(deletePost(post._id))} />}
                         </div>
                         <Card.Text>{post.text}</Card.Text>
                         <Card.Text className="mb-0">Data creazione {dataConverter(post.createdAt)}</Card.Text>
                         <Card.Text>Ultima modifica {dataConverter(post.updatedAt)}</Card.Text>
-                        <Button className="d-block mx-auto" onClick={() => handleShow(post)}>
-                          Modifica
-                        </Button>
+                        {user._id === post.user._id && (
+                          <Button className="d-block mx-auto" onClick={() => handleShow(post)}>
+                            Modifica
+                          </Button>
+                        )}
                       </Card.Body>
                     </Card>
                   );
