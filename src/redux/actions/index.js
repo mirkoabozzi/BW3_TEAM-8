@@ -7,18 +7,13 @@ export const ADD_EXPERIENCE_REQUEST = "ADD_EXPERIENCE_REQUEST";
 export const ADD_EXPERIENCE_FAILURE = "ADD_EXPERIENCE_FAILURE";
 export const UPDATE_EXPERIENCES_LIST = "UPDATE_EXPERIENCES_LIST";
 export const GET_POSTS = "GET_POSTS";
-export const ADD_NEW_POST = "ADD_NEW_POST";
+export const GET_POSTS_LOADING_ON = "GET_POSTS_LOADING_ON";
+export const GET_POSTS_LOADING_OFF = "GET_POSTS_LOADING_OFF";
 
-
-export const SET_PROFILES_ASIDE = "SET_PROFILES_ASIDE"
-export const SET_PROFILES_ASIDE_ERROR = "SET_PROFILES_ASIDE_ERROR"
-
-
-
-
+export const SET_PROFILES_ASIDE = "SET_PROFILES_ASIDE";
+export const SET_PROFILES_ASIDE_ERROR = "SET_PROFILES_ASIDE_ERROR";
 
 const token = import.meta.env.VITE_API_KEY;
-
 
 export const getUser = () => {
   return async (dispatch) => {
@@ -221,6 +216,7 @@ export const uploadExperiencePicture = (userId, experienceId, file) => {
 
 export const getPosts = () => {
   return async (dispatch) => {
+    dispatch({ type: GET_POSTS_LOADING_ON });
     try {
       const resp = await fetch("https://striveschool-api.herokuapp.com/api/posts/", {
         headers: {
@@ -231,6 +227,7 @@ export const getPosts = () => {
         const posts = await resp.json();
         // console.log("posts", posts);
         dispatch({ type: GET_POSTS, payload: posts });
+        dispatch({ type: GET_POSTS_LOADING_OFF });
       } else {
         throw new Error("Errore nel recupero dei post");
       }
@@ -261,13 +258,9 @@ export const newPost = (post) => {
       }
     } catch (error) {
       console.log(error);
-
-
-
-
     }
-  }
-}
+  };
+};
 
 // azione per profili aside
 export const fetchProfilesAside = () => {
@@ -292,5 +285,47 @@ export const fetchProfilesAside = () => {
       dispatch({ type: SET_PROFILES_ASIDE_ERROR, payload: error.message });
     }
   };
-}
+};
 
+export const deletePost = (postId) => {
+  return async (dispatch) => {
+    try {
+      const resp = await fetch("https://striveschool-api.herokuapp.com/api/posts/" + postId, {
+        method: "DELETE",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+      if (resp.ok) {
+        dispatch(getPosts());
+      } else {
+        alert("Puoi eliminare solo i tuoi post");
+        throw new Error("Errore nella rimozione del post");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const updatePost = (postId, newText) => {
+  return async (dispatch) => {
+    try {
+      const resp = await fetch("https://striveschool-api.herokuapp.com/api/posts/" + postId, {
+        method: "PUT",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+        body: JSON.stringify(newText),
+      });
+      if (resp.ok) {
+        dispatch(getPosts());
+      } else {
+        alert("Puoi eliminare solo i tuoi post");
+        throw new Error("Errore nella rimozione del post");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
