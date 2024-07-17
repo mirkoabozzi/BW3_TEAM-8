@@ -1,3 +1,5 @@
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Button,
   Container,
@@ -7,8 +9,6 @@ import {
   NavDropdown,
   ListGroup,
 } from "react-bootstrap";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { searchProfiles, setSelectedUser } from "../redux/actions";
 
 const MyNavbar = () => {
@@ -18,7 +18,9 @@ const MyNavbar = () => {
 
   const handleSearch = (e) => {
     setQuery(e.target.value);
-    dispatch(searchProfiles(e.target.value));
+    if (e.target.value.trim() !== "") {
+      dispatch(searchProfiles(e.target.value));
+    }
   };
 
   const handleProfileSelect = (profile) => {
@@ -51,7 +53,7 @@ const MyNavbar = () => {
             value={query}
             onChange={handleSearch}
           />
-          {profiles.length > 0 && (
+          {profiles.length > 0 && query.trim() !== "" && (
             <ListGroup
               className="position-absolute"
               style={{ zIndex: 1000, width: "100%" }}
@@ -62,12 +64,20 @@ const MyNavbar = () => {
                   action
                   onClick={() => handleProfileSelect(profile)}
                 >
+                  <Image
+                    src={profile.image}
+                    roundedCircle
+                    width="30"
+                    height="30"
+                    className="me-2"
+                  />
                   {profile.name} {profile.surname}
                 </ListGroup.Item>
               ))}
             </ListGroup>
           )}
         </Form>
+
         <div className="d-flex flex-column align-items-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -253,4 +263,5 @@ const MyNavbar = () => {
     </Navbar>
   );
 };
+
 export default MyNavbar;
