@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getPosts, newPost } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
-import { Card, Container, Row, Col } from "react-bootstrap";
+import { Card, Container, Row, Col, Form } from "react-bootstrap";
 import HomeLeftBar from "./HomeLeftBar";
 import Notizie from "./Notizie";
 
