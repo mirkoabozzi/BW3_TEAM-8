@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { Button, Card, Container, Row, Col, Image, Modal, Form, Dropdown } from "react-bootstrap";
 import { CameraFill, Pencil, Plus, Trash } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { getUser, uploadProfilePicture, fetchExperiences, addExperience, deleteExperience, uploadExperiencePicture, updateProfilePicture } from "../redux/actions";
+import { getUser, uploadProfilePicture, fetchExperiences, deleteExperience, updateProfilePicture } from "../redux/actions";
 import AddExperienceForm from "./AddExperienceForm";
 // import { useEffect, useState } from "react";
 // import {
@@ -29,18 +29,14 @@ const Main = () => {
 
   const [show, setShow] = useState(false);
   const [showAddExperience, setShowAddExperience] = useState(false);
-  const [selectedFile, setSelectedFile] = useState(null);
+  // const [selectedFile, setSelectedFile] = useState(null);
   const fileInputRef = useRef(null);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [showImgProfileModal, setShowImgProfileModal] = useState(false);
   const handleCloseImgProfileModal = () => setShowImgProfileModal(false);
-  const handleShowImgProfileModal = () => setShowImgProfileModal(true);
-
-
-  // const handleCloseContactInfo = () => setShowModalContactInfo(false);
-  // const handleShowContactInfo = () => setShowModalContactInfo(true);
+  // const handleShowImgProfileModal = () => setShowImgProfileModal(true);
 
 
 
@@ -54,7 +50,6 @@ const Main = () => {
   }, [dispatch, selectedUser, user._id]);
 
   const handleFileChange = (e) => {
-    setSelectedFile(e.target.files[0]);
     if (e.target.files[0]) {
       dispatch(uploadProfilePicture(user._id, e.target.files[0]));
     }
@@ -138,7 +133,7 @@ const Main = () => {
                   <Card.Text className="main-area">
                     {displayedUser.area} &middot;
                     <a
-                      // onClick={handleShowContactInfo}
+                      onClick={handleShow}
                       href="#"
                       className="fw-bold text-decoration-none ms-1"
                     >
