@@ -9,7 +9,16 @@ export const UPDATE_EXPERIENCES_LIST = "UPDATE_EXPERIENCES_LIST";
 export const GET_POSTS = "GET_POSTS";
 export const ADD_NEW_POST = "ADD_NEW_POST";
 
+
+export const SET_PROFILES_ASIDE = "SET_PROFILES_ASIDE"
+export const SET_PROFILES_ASIDE_ERROR = "SET_PROFILES_ASIDE_ERROR"
+
+
+
+
+
 const token = import.meta.env.VITE_API_KEY;
+
 
 export const getUser = () => {
   return async (dispatch) => {
@@ -252,6 +261,29 @@ export const newPost = (post) => {
       }
     } catch (error) {
       console.log(error);
-    }
-  };
-};
+
+      // azione per profili aside
+
+      export const fetchProfilesAside = () => {
+        return async (dispatch) => {
+          try {
+            const response = await fetch("https://striveschool-api.herokuapp.com/api/profile/", {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+            });
+
+            if (response.ok) {
+              const profiles = await response.json();
+              console.log("profiles aside", profiles);
+              dispatch({ type: SET_PROFILES_ASIDE, payload: profiles });
+            } else {
+              throw new Error("Error fetching profiles. Status: " + response.status);
+            }
+          } catch (error) {
+            console.error("Fetch profiles aside error:", error);
+            dispatch({ type: SET_PROFILES_ASIDE_ERROR, payload: error.message });
+          }
+        };
+      };
