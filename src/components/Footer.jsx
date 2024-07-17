@@ -4,14 +4,6 @@ const Footer = () => {
   return (
     <footer>
       <Container className="mt-5">
-        <Row className="justify-content-center">
-          <Col xs={12} md={6} className="text-center mb-2">
-            <i className="bi bi-facebook footer-icon me-2"></i>
-            <i className="bi bi-instagram footer-icon me-2"></i>
-            <i className="bi bi-twitter-x footer-icon me-2"></i>
-            <i className="bi bi-youtube footer-icon"></i>
-          </Col>
-        </Row>
         <Row className="row-cols-1 row-cols-sm-2 row-cols-md-5 mb-2">
           <Col>
             <p>
@@ -91,11 +83,7 @@ const Footer = () => {
               </Col>
               <Col>
                 <p className="fw-bold mb-0">
-                  <a
-                    className="text-decoration-none"
-                    href="#"
-                    alt="footer link"
-                  >
+                  <a className="text-decoration-none" href="#" alt="footer link">
                     Domande?
                   </a>
                 </p>
@@ -113,11 +101,7 @@ const Footer = () => {
               </Col>
               <Col>
                 <p className="fw-bold mb-0">
-                  <a
-                    className="text-decoration-none"
-                    href="#"
-                    alt="footer link"
-                  >
+                  <a className="text-decoration-none" href="#" alt="footer link">
                     Gestisci il tuo account e la tua privacy
                   </a>
                 </p>
@@ -135,11 +119,7 @@ const Footer = () => {
               </Col>
               <Col>
                 <p className="fw-bold mb-0">
-                  <a
-                    className="text-decoration-none"
-                    href="#"
-                    alt="footer link"
-                  >
+                  <a className="text-decoration-none" href="#" alt="footer link">
                     Trasparenza sui contenuti consigliati
                   </a>
                 </p>

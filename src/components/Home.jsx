@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Card, Container, Row, Col, Form } from "react-bootstrap";
 import HomeLeftBar from "./HomeLeftBar";
 import Notizie from "./Notizie";
-import Footer from "./Footer";
+import HomeFooter from "./HomeFooter";
 
 const Home = () => {
   const posts = useSelector((state) => state.homeReducer.posts);
@@ -39,7 +39,7 @@ const Home = () => {
   };
 
   return (
-    <Container>
+    <Container className="mt-4">
       <Row>
         <Col md={3}>
           <HomeLeftBar />
@@ -66,7 +66,7 @@ const Home = () => {
         </Col>
         <Col md={3}>
           <Notizie />
-          <Footer></Footer>
+          <HomeFooter />
         </Col>
       </Row>
     </Container>
