@@ -2,6 +2,7 @@ export const SET_USER = "SET_USER";
 export const SET_PROFILES = "SET_PROFILES";
 export const SET_SELECTED_USER = "SET_SELECTED_USER";
 export const SET_EXPERIENCES = "SET_EXPERIENCES"; // Assicuriamoci che questa costante sia esportata
+export const GET_POSTS = "GET_POSTS";
 
 const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njk0ZDEwNjE5NmQ3YjAwMTVkNmI1MjQiLCJpYXQiOjE3MjEwMjg4NzAsImV4cCI6MTcyMjIzODQ3MH0.lxTMuD2HxVncxLT71LT_2gTwR02C2dbSQrtfInlKotk";
 const tokenMirko = import.meta.env.VITE_API_KEY_MIRKO;
@@ -100,6 +101,27 @@ export const updateProfilePicture = (userId, file) => {
         dispatch(getUser());
       } else {
         throw new Error("Errore nel caricamendo dei dati");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const getPosts = () => {
+  return async (dispatch) => {
+    try {
+      const resp = await fetch("https://striveschool-api.herokuapp.com/api/posts/", {
+        headers: {
+          Authorization: "Bearer " + tokenMirko,
+        },
+      });
+      if (resp.ok) {
+        const posts = await resp.json();
+        console.log("posts", posts);
+        dispatch({ type: GET_POSTS, payload: posts });
+      } else {
+        throw new Error("Errore nel recupero dei post");
       }
     } catch (error) {
       console.log(error);
