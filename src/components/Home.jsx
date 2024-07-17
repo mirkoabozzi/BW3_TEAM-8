@@ -40,11 +40,12 @@ const Home = () => {
 
   return (
     <Container className="mt-4">
-      <Row>
-        <Col md={3}>
+      {/* Dispositivi Desktop */}
+      <Row className="d-none d-lg-flex">
+        <Col lg={3}>
           <HomeLeftBar />
         </Col>
-        <Col md={6}>
+        <Col lg={6}>
           <h1>Posts</h1>
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="text">
@@ -64,7 +65,67 @@ const Home = () => {
             );
           })}
         </Col>
-        <Col md={3}>
+        <Col lg={3} className="d-none d-md-block">
+          <Notizie />
+          <HomeFooter />
+        </Col>
+      </Row>
+
+      {/* Dispositivi Medie dimensioni */}
+      <Row className="d-none d-md-flex d-lg-none">
+        <Col md={4}>
+          <HomeLeftBar />
+          <Notizie />
+          <HomeFooter />
+        </Col>
+        <Col md={8}>
+          <h1>Posts</h1>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className="mb-3" controlId="text">
+              <Form.Label>Aggiungi nuovo post</Form.Label>
+              <Form.Control type="text" placeholder="Scrivi qualcosa" value={post} onChange={(e) => setpost(e.target.value)} />
+            </Form.Group>
+          </Form>
+          {[...posts].reverse().map((post) => {
+            return (
+              <Card key={post._id} className="my-2">
+                <Card.Body>
+                  <Card.Title>{post.user.username}</Card.Title>
+                  <Card.Text>{post.text}</Card.Text>
+                  <Card.Text>{dataConverter(post.createdAt)}</Card.Text>
+                </Card.Body>
+              </Card>
+            );
+          })}
+        </Col>
+      </Row>
+
+      {/* Dispositivi Mobile */}
+      <Row className="d-flex d-md-none">
+        <Col xs={12}>
+          <HomeLeftBar />
+        </Col>
+        <Col xs={12}>
+          <h1>Posts</h1>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className="mb-3" controlId="text">
+              <Form.Label>Aggiungi nuovo post</Form.Label>
+              <Form.Control type="text" placeholder="Scrivi qualcosa" value={post} onChange={(e) => setpost(e.target.value)} />
+            </Form.Group>
+          </Form>
+          {[...posts].reverse().map((post) => {
+            return (
+              <Card key={post._id} className="my-2">
+                <Card.Body>
+                  <Card.Title>{post.user.username}</Card.Title>
+                  <Card.Text>{post.text}</Card.Text>
+                  <Card.Text>{dataConverter(post.createdAt)}</Card.Text>
+                </Card.Body>
+              </Card>
+            );
+          })}
+        </Col>
+        <Col xs={12}>
           <Notizie />
           <HomeFooter />
         </Col>
