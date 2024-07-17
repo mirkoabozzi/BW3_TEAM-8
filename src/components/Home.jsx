@@ -12,10 +12,9 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(getPosts());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch]);
 
-  console.log("posts", posts);
+  // console.log("posts", posts);
 
   const dataConverter = (timeStamp) => {
     const data = new Date(timeStamp);
@@ -49,7 +48,7 @@ const Home = () => {
               <Form.Control type="text" placeholder="Scrivi qualcosa" value={comment} onChange={(e) => setComment(e.target.value)} />
             </Form.Group>
           </Form>
-          {posts.reverse().map((post) => {
+          {[...posts].reverse().map((post) => {
             return (
               <Card key={post._id} className="my-2">
                 <Card.Body>

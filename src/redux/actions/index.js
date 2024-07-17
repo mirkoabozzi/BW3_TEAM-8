@@ -240,7 +240,7 @@ export const newPost = (comment) => {
           Authorization: "Bearer " + token,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(comment),
+        body: JSON.stringify({ text: comment }),
       });
       if (resp.ok) {
         const text = await resp.json();
