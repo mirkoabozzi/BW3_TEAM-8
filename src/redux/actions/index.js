@@ -7,7 +7,6 @@ export const ADD_EXPERIENCE_REQUEST = "ADD_EXPERIENCE_REQUEST";
 export const ADD_EXPERIENCE_FAILURE = "ADD_EXPERIENCE_FAILURE";
 export const UPDATE_EXPERIENCES_LIST = "UPDATE_EXPERIENCES_LIST";
 export const GET_POSTS = "GET_POSTS";
-export const ADD_NEW_POST = "ADD_NEW_POST";
 
 const token = import.meta.env.VITE_API_KEY;
 
@@ -249,6 +248,29 @@ export const newPost = (post) => {
       } else {
         const text = await resp.text();
         throw new Error("Errore nell creazione del post" + text);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const deletePost = (postId) => {
+  return async (dispatch) => {
+    try {
+      const resp = await fetch("https://striveschool-api.herokuapp.com/api/posts/" + postId, {
+        method: "DELETE",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+      if (resp.ok) {
+        const text = await resp.json();
+        dispatch(getPosts());
+        return text;
+      } else {
+        const text = await resp.text();
+        throw new Error("Errore nella rimozione del post" + " " + text);
       }
     } catch (error) {
       console.log(error);

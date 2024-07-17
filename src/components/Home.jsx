@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { getPosts, newPost } from "../redux/actions";
+import { deletePost, getPosts, newPost } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, Container, Row, Col, Form } from "react-bootstrap";
 import HomeLeftBar from "./HomeLeftBar";
 import Notizie from "./Notizie";
+import { Trash } from "react-bootstrap-icons";
 
 const Home = () => {
   const posts = useSelector((state) => state.homeReducer.posts);
@@ -58,6 +59,7 @@ const Home = () => {
                   <Card.Title>{post.user.username}</Card.Title>
                   <Card.Text>{post.text}</Card.Text>
                   <Card.Text>{dataConverter(post.createdAt)}</Card.Text>
+                  <Trash onClick={deletePost(post._id)} />
                 </Card.Body>
               </Card>
             );
