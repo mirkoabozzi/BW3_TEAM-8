@@ -19,6 +19,8 @@
 .container-camera {
     border-radius: 50%;
     cursor: pointer;
+    width: 34px;
+    height: 34px;
 }
 
 .main-area {
@@ -27,7 +29,8 @@
 
 }
 
-.button-main {
+.button-main,
+.button-follow {
     padding-block: 2px;
     padding-inline: 15px;
     font-weight: 500;
@@ -63,4 +66,213 @@
 
 .pen-icon:hover {
     cursor: pointer;
+}
+
+.text-contact-info {
+    color: #0A66C2;
+}
+
+/* aside */
+.button-follow {
+    padding-inline: 25px;
+    border: 1px solid black;
+    margin-bottom: 10px;
+}
+
+.button-follow:hover {
+    border: 2px solid black;
+}
+
+.hiring-image {
+    object-fit: cover;
+    width: 100%;
+    height: auto;
+}
+
+/* navbar */
+
+.nav-dropdown .dropdown-menu {
+    width: 250px;
+}
+
+.button-nav {
+    color: #0A66C2;
+    border: 1px solid #0A66C2;
+    padding-block: 2px;
+    padding-inline: 45px;
+    font-size: 14px;
+}
+
+.button-nav:hover {
+    background-color: #EBF4FD;
+    color: #0A66C2;
+    border: 2px solid #004182;
+    padding-block: 2px;
+    padding-inline: 35px;
+    font-size: 14px;
+}
+
+.small-text {
+    font-size: 13px;
+    color: grey;
+}
+
+.subtitle-text {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.analytics-title {
+    font-weight: 600;
+}
+
+.analytics-text {
+    font-size: 14px;
+}
+
+.analytics-days {
+    font-size: 12px;
+    color: grey;
+}
+
+.hover-card:hover {
+    cursor: pointer;
+    background-color: #FFFFFF;
+}
+
+/* media query */
+
+
+@media (max-width: 1400px) {
+
+    .icon-nav svg {
+        width: 25px;
+        height: 25px;
+        flex-wrap: nowrap;
+    }
+
+    .icon-logo {
+        width: 30px !important;
+        height: 30px !important;
+    }
+
+    .user-avatar {
+        width: 25px;
+        height: 25px;
+    }
+
+    .icon-nav p {
+        font-size: 12px;
+        margin-top: 5px;
+    }
+
+    .input-search {
+        width: 8rem;
+    }
+
+}
+
+@media (max-width: 945px) {
+
+    .icon-nav svg {
+        width: 25px;
+        height: 25px;
+        flex-wrap: nowrap;
+    }
+
+    .icon-logo {
+        width: 35px !important;
+        height: 35px !important;
+    }
+
+    .user-avatar {
+        width: 35px;
+        height: 35px;
+    }
+
+
+    .text-navbar,
+    .input-search {
+        display: none;
+    }
+
+    .text-dropdown .dropdown-toggle::after {
+        content: "";
+    }
+
+
+
+
+}
+
+@media (max-width: 992px) {
+    .button-follow {
+        margin-left: 0;
+        height: 30px;
+        font-size: 14px;
+    }
+
+    .icon-plus {
+        height: 15px;
+        width: 15px;
+    }
+
+    .name-aside {
+        font-size: 13px;
+    }
+
+    .job-aside {
+        font-size: 11px;
+    }
+
+    .img-aside {
+        width: 30px;
+        height: 30px;
+    }
+
+    .button-follow {
+        display: none;
+    }
+}
+
+@media (max-width: 945px) {
+
+    .icon-nav svg {
+        width: 25px;
+        height: 25px;
+        flex-wrap: nowrap;
+        margin-inline: -30px;
+    }
+
+    .icon-logo {
+        margin-right: 10px
+    }
+
+    .flex-analytics {
+        flex-direction: column;
+
+    }
+
+    .analisi-dati {
+        margin-block: 10px;
+    }
+}
+
+@media (max-width: 699px) {
+
+    .icon-nav svg {
+        width: 20px;
+        height: 20px;
+        flex-wrap: nowrap;
+    }
+
+    .user-avatar {
+        width: 30px;
+        height: 30px;
+    }
+
+    .button-follow {
+        display: none;
+    }
+
 }

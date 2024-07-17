@@ -5,20 +5,23 @@ export const SET_EXPERIENCES = "SET_EXPERIENCES";
 export const ADD_EXPERIENCE_SUCCESS = "ADD_EXPERIENCE_SUCCESS";
 export const ADD_EXPERIENCE_REQUEST = "ADD_EXPERIENCE_REQUEST";
 export const ADD_EXPERIENCE_FAILURE = "ADD_EXPERIENCE_FAILURE";
-export const UPDATE_EXPERIENCES_LIST = "UPDATE_EXPERIENCES_LIST"
+export const UPDATE_EXPERIENCES_LIST = "UPDATE_EXPERIENCES_LIST";
+export const SET_PROFILES_ASIDE = "SET_PROFILES_ASIDE"
+export const SET_PROFILES_ASIDE_ERROR = "SET_PROFILES_ASIDE_ERROR"
 
 
 
 
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njk0ZDEwNjE5NmQ3YjAwMTVkNmI1MjQiLCJpYXQiOjE3MjEwMjg4NzAsImV4cCI6MTcyMjIzODQ3MH0.lxTMuD2HxVncxLT71LT_2gTwR02C2dbSQrtfInlKotk";
-const tokenMirko = import.meta.env.VITE_API_KEY_MIRKO;
+
+const token = import.meta.env.VITE_API_KEY;
+
 
 export const getUser = () => {
   return async (dispatch) => {
     try {
       const resp = await fetch("https://striveschool-api.herokuapp.com/api/profile/me", {
         headers: {
-          Authorization: "Bearer " + tokenMirko,
+          Authorization: "Bearer " + token,
         },
       });
 
@@ -97,7 +100,7 @@ export const updateProfilePicture = (userId, file) => {
     try {
       const resp = await fetch(`https://striveschool-api.herokuapp.com/api/profile/${userId}/picture`, {
         headers: {
-          Authorization: "Bearer " + tokenMirko,
+          Authorization: "Bearer " + token,
         },
         method: "POST",
         body: formData,
@@ -214,3 +217,29 @@ export const uploadExperiencePicture = (userId, experienceId, file) => {
   };
 };
 
+
+// azione per profili aside
+
+export const fetchProfilesAside = () => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch("https://striveschool-api.herokuapp.com/api/profile/", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        const profiles = await response.json();
+        console.log("profiles aside", profiles);
+        dispatch({ type: SET_PROFILES_ASIDE, payload: profiles });
+      } else {
+        throw new Error("Error fetching profiles. Status: " + response.status);
+      }
+    } catch (error) {
+      console.error("Fetch profiles aside error:", error);
+      dispatch({ type: SET_PROFILES_ASIDE_ERROR, payload: error.message });
+    }
+  };
+};
