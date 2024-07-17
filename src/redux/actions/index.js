@@ -2,6 +2,13 @@ export const SET_USER = "SET_USER";
 export const SET_PROFILES = "SET_PROFILES";
 export const SET_SELECTED_USER = "SET_SELECTED_USER";
 export const SET_EXPERIENCES = "SET_EXPERIENCES";
+export const ADD_EXPERIENCE_SUCCESS = "ADD_EXPERIENCE_SUCCESS";
+export const ADD_EXPERIENCE_REQUEST = "ADD_EXPERIENCE_REQUEST";
+export const ADD_EXPERIENCE_FAILURE = "ADD_EXPERIENCE_FAILURE";
+export const UPDATE_EXPERIENCES_LIST = "UPDATE_EXPERIENCES_LIST"
+
+
+
 
 const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njk0ZDEwNjE5NmQ3YjAwMTVkNmI1MjQiLCJpYXQiOjE3MjEwMjg4NzAsImV4cCI6MTcyMjIzODQ3MH0.lxTMuD2HxVncxLT71LT_2gTwR02C2dbSQrtfInlKotk";
 const tokenMirko = import.meta.env.VITE_API_KEY_MIRKO;
@@ -83,23 +90,30 @@ export const fetchExperiences = (userId) => {
   };
 };
 
-// export const updateProfilePicture = (userId, file) => {
-//   return async (dispatch) => {
-//     const formData = new FormData();
-//     formData.append("profile", file);
-//     try {
-//       const resp = await fetch(`https://striveschool-api.herokuapp.com/api/profile/${userId}/picture`, {
-//         headers: {
-//           Authorization: "Bearer " + tokenMirko,
-//         },
-//         method: "POST",
-//         body: formData,
-//       });
-//       if (resp.ok) {
-//         console.log(resp);
-//         dispatch(getUser());
-//       } else {
-//         throw new Error("Errore nel caricamendo dei dati");
+export const updateProfilePicture = (userId, file) => {
+  return async (dispatch) => {
+    const formData = new FormData();
+    formData.append("profile", file);
+    try {
+      const resp = await fetch(`https://striveschool-api.herokuapp.com/api/profile/${userId}/picture`, {
+        headers: {
+          Authorization: "Bearer " + tokenMirko,
+        },
+        method: "POST",
+        body: formData,
+      });
+      if (resp.ok) {
+        console.log(resp);
+        dispatch(getUser());
+      } else {
+        throw new Error("Errore nel caricamendo dei dati");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
 export const addExperience = (userId, experience) => {
   return async (dispatch) => {
     try {
@@ -115,7 +129,7 @@ export const addExperience = (userId, experience) => {
       if (resp.ok) {
         const newExperience = await resp.json();
         dispatch(fetchExperiences(userId));
-        return newExperience; 
+        return newExperience;
       } else {
         const errorText = await resp.text();
         throw new Error(`Errore nella creazione dell'esperienza: ${errorText}`);

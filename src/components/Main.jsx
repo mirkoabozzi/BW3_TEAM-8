@@ -2,8 +2,24 @@ import { useEffect, useState, useRef } from "react";
 import { Button, Card, Container, Row, Col, Image, Modal, Form, Dropdown } from "react-bootstrap";
 import { CameraFill, Pencil, Plus, Trash } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { getUser, uploadProfilePicture, fetchExperiences, addExperience, deleteExperience, uploadExperiencePicture } from "../redux/actions";
+import { getUser, uploadProfilePicture, fetchExperiences, addExperience, deleteExperience, uploadExperiencePicture, updateProfilePicture } from "../redux/actions";
 import AddExperienceForm from "./AddExperienceForm";
+// import { useEffect, useState } from "react";
+// import {
+//   Button,
+//   Card,
+//   Container,
+//   Row,
+//   Col,
+//   Image,
+//   Modal,
+//   Form,
+//   ListGroup,
+// } from "react-bootstrap";
+// import { CameraFill, Pencil, Plus } from "react-bootstrap-icons";
+// import { useDispatch, useSelector } from "react-redux";
+// import { addExperience, getUser } from "../redux/actions";
+
 
 const Main = () => {
   const user = useSelector((state) => state.mainReducer.user);
@@ -21,6 +37,12 @@ const Main = () => {
   const [showImgProfileModal, setShowImgProfileModal] = useState(false);
   const handleCloseImgProfileModal = () => setShowImgProfileModal(false);
   const handleShowImgProfileModal = () => setShowImgProfileModal(true);
+
+
+  // const handleCloseContactInfo = () => setShowModalContactInfo(false);
+  // const handleShowContactInfo = () => setShowModalContactInfo(true);
+
+
 
   useEffect(() => {
     dispatch(getUser());
@@ -77,8 +99,11 @@ const Main = () => {
                   height={250}
                   style={{ objectFit: "cover" }}
                 />
-                <div className="position-absolute bg-white p-1 container-camera" style={{ right: 50, top: 70 }}>
-                  <CameraFill width={25} height={25} fill="#0A66C2" />
+                <div
+                  className="position-absolute bg-white p-1 container-camera"
+                  style={{ right: 50, top: 40 }}
+                >
+                  <CameraFill width={25} height={25} fill="#0A66C2" className="camera-icon" />
                 </div>
                 <Image
                   src={displayedUser.image}
@@ -110,19 +135,30 @@ const Main = () => {
                     {displayedUser.name} {displayedUser.surname}
                   </Card.Title>
                   <Card.Text>{displayedUser.title}</Card.Text>
-                  <Card.Text>
+                  <Card.Text className="main-area">
                     {displayedUser.area} &middot;
-                    <a onClick={handleShow} href="#" className="fw-bold text-decoration-none ms-1">
+                    <a
+                      // onClick={handleShowContactInfo}
+                      href="#"
+                      className="fw-bold text-decoration-none ms-1"
+                    >
                       Informazioni di contatto
                     </a>
                   </Card.Text>
-                  <Button variant="primary" className="rounded-pill my-1 me-2 ">
+                  <Button variant="primary" className="rounded-pill my-1 me-2 button-main">
                     Disponibile per
                   </Button>
-                  <Button variant="white" className="rounded-pill my-1 me-2 border-primary text-primary">
+                  <Button
+                    variant="white"
+                    className="rounded-pill my-1 me-2 border-primary text-primary button-main"
+                  >
                     Aggiungi sezione del profilo
                   </Button>
-                  <Button variant="white" className="border-black rounded-pill my-1 me-2">
+
+                  <Button
+                    variant="white"
+                    className="border-black rounded-pill my-1 me-2 button-main"
+                  >
                     Altro
                   </Button>
                 </Card.Body>
@@ -135,7 +171,7 @@ const Main = () => {
                     <Card.Title>Competenze</Card.Title>
                     <div>
                       <Plus width={35} height={35} className="me-2" />
-                      <Pencil width={20} height={20} />
+                      <Pencil width={20} height={20} className="pen-icon" />
                     </div>
                   </div>
                   <Card.Text className="fw-bold mt-2">Competenza</Card.Text>
@@ -174,7 +210,7 @@ const Main = () => {
                     <Card.Title>Licenze e Certificazioni</Card.Title>
                     <div>
                       <Plus width={35} height={35} className="me-2" />
-                      <Pencil width={20} height={20} />
+                      <Pencil width={20} height={20} className="pen-icon" />
                     </div>
                   </div>
                   <Card.Text className="fw-bold mt-2">Competenza</Card.Text>
@@ -187,7 +223,7 @@ const Main = () => {
                     <Card.Title>Formazione</Card.Title>
                     <div>
                       <Plus width={35} height={35} className="me-2" />
-                      <Pencil width={20} height={20} />
+                      <Pencil width={20} height={20} className="pen-icon" />
                     </div>
                   </div>
                   <Card.Text className="fw-bold mt-2">Competenza</Card.Text>
@@ -299,43 +335,48 @@ const Main = () => {
         </Modal.Header>
         <Modal.Body>
           <h4>Informazioni di contatto</h4>
+          <p className="mb-0 fw-bold">Email:</p>
           <div className="d-flex">
             <Image
               className="me-2"
               src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgaWQ9ImVudmVsb3BlLW1lZGl1bSIgYXJpYS1oaWRkZW49InRydWUiIHJvbGU9Im5vbmUiIGRhdGEtc3VwcG9ydGVkLWRwcz0iMjR4MjQiIGZpbGw9ImN1cnJlbnRDb2xvciI+CiAgPHBhdGggZD0iTTIgNHYxM2EzIDMgMCAwMDMgM2gxNGEzIDMgMCAwMDMtM1Y0em0xOCAydjEuNDdsLTggNS4zMy04LTUuMzNWNnptLTEgMTJINWExIDEgMCAwMS0xLTFWOC42N0wxMiAxNGw4LTUuMzNWMTdhMSAxIDAgMDEtMSAxeiIvPgo8L3N2Zz4="
               width={20}
             />
-            <div>
-              <p className="mb-0">Email</p>
-              <p> {displayedUser.email}</p>
-            </div>
+            <p className="ms-2 pt-3"> {displayedUser.email}</p>
+
           </div>
+          <p className="mb-0 fw-bold">Ruolo:</p>
+          <div className="ms-2 pt-3"> {displayedUser.title}</div>
+          <p className="mb-0 fw-bold mt-2">Description:</p>
+          <div className="ms-2 pt-3"> {displayedUser.bio}</div>
+          <p className="mb-0 fw-bold mt-2">Luogo:</p>
+          <div className="ms-2 pt-3"> {displayedUser.area}</div>
         </Modal.Body>
       </Modal>
-      // {/* Modale modifica immagine profilo */}
-      //{" "}
+      {/* Modale modifica immagine profilo */}
+
       <Modal centered show={showImgProfileModal} onHide={handleCloseImgProfileModal}>
-        //{" "}
+
         <Modal.Header closeButton>
-          //{" "}
+
           <Modal.Title>
-            // {displayedUser.name} {displayedUser.surname}
-            //{" "}
+            {displayedUser.name} {displayedUser.surname}
+
           </Modal.Title>
-          //{" "}
+
         </Modal.Header>
-        //{" "}
+
         <Modal.Body>
-          // <p className="mb-0">Cambia immagine del profilo</p>
-          //{" "}
+          <p className="mb-0">Cambia immagine del profilo</p>
+
           <Form onSubmit={handleSubmit}>
-            // <Form.Control type="file" accept="image/png, image/gif, image/jpeg" className="my-2" onChange={hendleFileChange} />
-            // <Button type="submit">Invia</Button>
-            //{" "}
+            <Form.Control type="file" accept="image/png, image/gif, image/jpeg" className="my-2" onChange={hendleFileChange} />
+            <Button type="submit">Invia</Button>
+
           </Form>
-          //{" "}
+
         </Modal.Body>
-        //{" "}
+
       </Modal>
       {/* Modale aggiungi esperienza */}
       <AddExperienceForm show={showAddExperience} handleClose={() => setShowAddExperience(false)} userId={displayedUser._id} />

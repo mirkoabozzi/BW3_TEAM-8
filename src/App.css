@@ -5,12 +5,26 @@
     color: black !important;
 }
 
+.input-search {
+    background-color: #EDF3F8;
+    border: none;
+}
+
+.icon-logo {
+    margin-left: 35px;
+}
 
 /* CSS main */
 
 .container-camera {
     border-radius: 50%;
     cursor: pointer;
+}
+
+.main-area {
+    color: grey;
+    font-size: 0.9rem;
+
 }
 
 .button-main {
@@ -27,14 +41,16 @@
     background-color: #004182;
 }
 
-.button-main:nth-of-type(2),
-.button-main:nth-of-type(3) {
+.button-main:nth-of-type(2) {
     color: #0A66C2;
     border: 1px solid #0A66C2;
 }
 
-.button-main:nth-of-type(2):hover,
-.button-main:nth-of-type(3):hover {
+.button-main:nth-of-type(3) {
+    color: black;
+}
+
+.button-main:nth-of-type(2):hover {
     background-color: #EBF4FD;
     border: 1px solid #004182;
     color: #004182;
@@ -46,6 +62,5 @@
 
 
 .pen-icon:hover {
-    background-color: #F3F3F3;
     cursor: pointer;
 }

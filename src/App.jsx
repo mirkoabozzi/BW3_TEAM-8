@@ -11,6 +11,7 @@ function App() {
       <MyNavbar />
       <Routes>
         <Route path="/" element={<Main />} />
+
       </Routes>
       <Footer />
     </BrowserRouter>
