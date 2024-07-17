@@ -271,6 +271,29 @@ export const deletePost = (postId) => {
       if (resp.ok) {
         dispatch(getPosts());
       } else {
+        alert("Puoi eliminare solo i tuoi post");
+        throw new Error("Errore nella rimozione del post");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const updatePost = (postId, newText) => {
+  return async (dispatch) => {
+    try {
+      const resp = await fetch("https://striveschool-api.herokuapp.com/api/posts/" + postId, {
+        method: "PUT",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+        body: JSON.stringify(newText),
+      });
+      if (resp.ok) {
+        dispatch(getPosts());
+      } else {
+        alert("Puoi eliminare solo i tuoi post");
         throw new Error("Errore nella rimozione del post");
       }
     } catch (error) {
