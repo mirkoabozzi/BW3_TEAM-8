@@ -9,7 +9,6 @@ export const UPDATE_EXPERIENCES_LIST = "UPDATE_EXPERIENCES_LIST";
 export const GET_POSTS = "GET_POSTS";
 export const GET_POSTS_LOADING_ON = "GET_POSTS_LOADING_ON";
 export const GET_POSTS_LOADING_OFF = "GET_POSTS_LOADING_OFF";
-
 export const SET_PROFILES_ASIDE = "SET_PROFILES_ASIDE";
 export const SET_PROFILES_ASIDE_ERROR = "SET_PROFILES_ASIDE_ERROR";
 
@@ -315,13 +314,14 @@ export const updatePost = (postId, newText) => {
         method: "PUT",
         headers: {
           Authorization: "Bearer " + token,
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(newText),
+        body: JSON.stringify({ text: newText }),
       });
       if (resp.ok) {
         dispatch(getPosts());
       } else {
-        alert("Puoi eliminare solo i tuoi post");
+        alert("Puoi modificare solo i tuoi post");
         throw new Error("Errore nella rimozione del post");
       }
     } catch (error) {
