@@ -262,28 +262,35 @@ export const newPost = (post) => {
     } catch (error) {
       console.log(error);
 
-      // azione per profili aside
 
-      export const fetchProfilesAside = () => {
-        return async (dispatch) => {
-          try {
-            const response = await fetch("https://striveschool-api.herokuapp.com/api/profile/", {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json",
-              },
-            });
 
-            if (response.ok) {
-              const profiles = await response.json();
-              console.log("profiles aside", profiles);
-              dispatch({ type: SET_PROFILES_ASIDE, payload: profiles });
-            } else {
-              throw new Error("Error fetching profiles. Status: " + response.status);
-            }
-          } catch (error) {
-            console.error("Fetch profiles aside error:", error);
-            dispatch({ type: SET_PROFILES_ASIDE_ERROR, payload: error.message });
-          }
-        };
-      };
+
+    }
+  }
+}
+
+// azione per profili aside
+export const fetchProfilesAside = () => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch("https://striveschool-api.herokuapp.com/api/profile/", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        const profiles = await response.json();
+        console.log("profiles aside", profiles);
+        dispatch({ type: SET_PROFILES_ASIDE, payload: profiles });
+      } else {
+        throw new Error("Error fetching profiles. Status: " + response.status);
+      }
+    } catch (error) {
+      console.error("Fetch profiles aside error:", error);
+      dispatch({ type: SET_PROFILES_ASIDE_ERROR, payload: error.message });
+    }
+  };
+}
+
