@@ -118,7 +118,7 @@ export const getPosts = () => {
       });
       if (resp.ok) {
         const posts = await resp.json();
-        console.log("posts", posts);
+        // console.log("posts", posts);
         dispatch({ type: GET_POSTS, payload: posts });
       } else {
         throw new Error("Errore nel recupero dei post");
