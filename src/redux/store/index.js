@@ -1,16 +1,13 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import MainReducer from "../reducers/MainReducer";
-import ExperienceFormReducer from "../reducers/ExperienceFormReducer";
-
+import HomeReducer from "../reducers/HomeReducer";
 
 const rootReducer = combineReducers({
   mainReducer: MainReducer,
-  experienceForm: ExperienceFormReducer,
+  homeReducer: HomeReducer,
 });
 
 const store = configureStore({
   reducer: rootReducer,
 });
 export default store;
-
-
