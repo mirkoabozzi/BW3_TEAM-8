@@ -1,4 +1,4 @@
-import { Container, Row, Col, Button, NavDropdown } from "react-bootstrap";
+import { Container, Row, Col, NavDropdown } from "react-bootstrap";
 
 const Footer = () => {
   return (
@@ -156,7 +156,7 @@ const Footer = () => {
           </Col>
         </Row>
         <Row className="text-center mb-2 mt-2">
-          <Col className="copyright">Linkedin Corporation © 2024</Col>
+          <Col className="copyright">LinkedIn Corporation © 2024</Col>
         </Row>
       </Container>
     </footer>

@@ -7,20 +7,65 @@ import {
   Col,
   Image,
   Modal,
+  Form,
+  ListGroup,
 } from "react-bootstrap";
 import { CameraFill, Pencil, Plus } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { getUser } from "../redux/actions";
+import { addExperience, getUser } from "../redux/actions";
+
 
 const Main = () => {
   const user = useSelector((state) => state.mainReducer.user);
   const selectedUser = useSelector((state) => state.mainReducer.selectedUser);
-  const experiences = useSelector((state) => state.mainReducer.experiences); // Recupera le esperienze dallo stato
+  const experiences = useSelector((state) => state.experienceForm.experiences); // recupera le esperienze dallo stato
+
   const dispatch = useDispatch();
 
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  // stati per gestire i due modali
+
+  const [showModalExperiencesForm, setShowModalExperiencesForm] = useState(false);
+  const [showModalContactInfo, setShowModalContactInfo] = useState(false);
+
+  const handleCloseExperiencesForm = () => setShowModalExperiencesForm(false);
+  const handleShowExperiencesForm = () => setShowModalExperiencesForm(true);
+
+  const handleCloseContactInfo = () => setShowModalContactInfo(false);
+  const handleShowContactInfo = () => setShowModalContactInfo(true);
+
+  // per convertire la data nel form esperienze
+  const convertDate = (dateString) => {
+    const options = { day: 'numeric', month: 'long', year: 'numeric' };
+    const date = new Date(dateString);
+    return date.toLocaleDateString('it-IT', options);
+  };
+
+  // per i dati del form di aggiunta esperienza
+  const [formData, setFormData] = useState({
+    role: '',
+    company: '',
+    startDate: '',
+    endDate: '',
+    description: '',
+    area: '',
+  });
+
+
+  const handleSubmit = () => {
+    dispatch(addExperience(formData))
+      .then(() => {
+        handleCloseExperiencesForm(); // chiude il modale dopo il salvataggio
+      })
+      .catch((error) => {
+        console.error("Errore nell'aggiunta dell'esperienza", error);
+      });
+  };
+
+  //  per gestire il cambio dei valori nel form
+  const handleChange = (e) => {
+    const { id, value } = e.target; // estrae id e il valore del form dall'input
+    setFormData({ ...formData, [id]: value }); //aggiorna lo stato formData
+  };
 
   useEffect(() => {
     dispatch(getUser());
@@ -42,9 +87,9 @@ const Main = () => {
                 />
                 <div
                   className="position-absolute bg-white p-1 container-camera"
-                  style={{ right: 50, top: 70 }}
+                  style={{ right: 50, top: 40 }}
                 >
-                  <CameraFill width={25} height={25} fill="#0A66C2" />
+                  <CameraFill width={25} height={25} fill="#0A66C2" className="camera-icon" />
                 </div>
                 <Image
                   src={displayedUser.image}
@@ -58,36 +103,36 @@ const Main = () => {
                   <Pencil
                     width={20}
                     height={20}
-                    className="position-absolute"
+                    className="position-absolute pen-icon"
                     style={{ top: 265, right: 50 }}
                   />
                   <Card.Title>
                     {displayedUser.name} {displayedUser.surname}
                   </Card.Title>
                   <Card.Text>{displayedUser.title}</Card.Text>
-                  <Card.Text>
+                  <Card.Text className="main-area">
                     {displayedUser.area} &middot;
                     <a
-                      onClick={handleShow}
+                      onClick={handleShowContactInfo}
                       href="#"
                       className="fw-bold text-decoration-none ms-1"
                     >
                       Informazioni di contatto
                     </a>
                   </Card.Text>
-                  <Button variant="primary" className="rounded-pill my-1 me-2 ">
+                  <Button variant="primary" className="rounded-pill my-1 me-2 button-main">
                     Disponibile per
                   </Button>
                   <Button
                     variant="white"
-                    className="rounded-pill my-1 me-2 border-primary text-primary"
+                    className="rounded-pill my-1 me-2 border-primary text-primary button-main"
                   >
                     Aggiungi sezione del profilo
                   </Button>
 
                   <Button
                     variant="white"
-                    className="border-black rounded-pill my-1 me-2"
+                    className="border-black rounded-pill my-1 me-2 button-main"
                   >
                     Altro
                   </Button>
@@ -101,7 +146,7 @@ const Main = () => {
                     <Card.Title>Competenze</Card.Title>
                     <div>
                       <Plus width={35} height={35} className="me-2" />
-                      <Pencil width={20} height={20} />
+                      <Pencil width={20} height={20} className="pen-icon" />
                     </div>
                   </div>
                   <Card.Text className="fw-bold mt-2">Competenza</Card.Text>
@@ -115,23 +160,104 @@ const Main = () => {
                   <div className="d-flex justify-content-between me-4">
                     <Card.Title>Esperienza</Card.Title>
                     <div>
-                      <Plus width={35} height={35} className="me-2" />
-                      <Pencil width={20} height={20} />
+                      <Plus
+                        width={35}
+                        height={35}
+                        className="me-2"
+                        onClick={handleShowExperiencesForm}
+                        style={{ cursor: 'pointer' }}
+                      />
+
+
+                      {/* Modale per aggiungere un'esperienza */}
+                      <Modal show={showModalExperiencesForm} onHide={handleCloseExperiencesForm} size="xl">
+                        <Modal.Header closeButton>
+                          <Modal.Title>Aggiungi un&apos;esperienza</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                          <Form>
+                            <Form.Group controlId="role" className="mt-2">
+                              <Form.Label>Ruolo</Form.Label>
+                              <Form.Control
+                                type="text"
+                                placeholder="Inserisci il ruolo svolto"
+                                value={formData.role}
+                                onChange={handleChange}
+                              />
+                            </Form.Group>
+                            <Form.Group controlId="company" className="mt-2">
+                              <Form.Label>Azienda</Form.Label>
+                              <Form.Control
+                                type="text"
+                                placeholder="Inserisci il nome dell'azienda"
+                                value={formData.company}
+                                onChange={handleChange}
+                              />
+                            </Form.Group>
+                            <Form.Group controlId="startDate" className="mt-2">
+                              <Form.Label>Data d&apos;inizio</Form.Label>
+                              <Form.Control
+                                type="date"
+                                value={formData.startDate}
+                                onChange={handleChange}
+                              />
+                            </Form.Group>
+                            <Form.Group controlId="endDate" className="mt-2">
+                              <Form.Label>Data di fine</Form.Label>
+                              <Form.Control
+                                type="date"
+                                value={formData.endDate}
+                                onChange={handleChange}
+                              />
+                            </Form.Group>
+                            <Form.Group controlId="description" className="mt-2">
+                              <Form.Label>Descrizione</Form.Label>
+                              <Form.Control
+                                as="textarea"
+                                rows={3}
+                                placeholder="Fornisci una breve descrizione delle mansioni svolte"
+                                value={formData.description}
+                                onChange={handleChange}
+                              />
+                            </Form.Group>
+                            <Form.Group controlId="area" className="mt-2">
+                              <Form.Label>Luogo</Form.Label>
+                              <Form.Control
+                                type="text"
+                                placeholder="Inserisci il luogo"
+                                value={formData.area}
+                                onChange={handleChange}
+                              />
+                            </Form.Group>
+                          </Form>
+                        </Modal.Body>
+                        <Modal.Footer>
+                          <Button variant="secondary" onClick={handleCloseExperiencesForm}>
+                            Chiudi
+                          </Button>
+                          <Button variant="primary" onClick={handleSubmit}>
+                            Salva
+                          </Button>
+                        </Modal.Footer>
+                      </Modal>
+
+
+                      <Pencil width={20} height={20} className="pen-icon" />
                     </div>
                   </div>
-                  {experiences.map((exp) => (
-                    <Row key={exp._id} className="mb-3">
-                      <Col xs="2">
-                        <Image src={exp.image} alt="" height={30} />
-                      </Col>
-                      <Col>
-                        <p className="fw-bold mb-0">{exp.role}</p>
-                        <small>{exp.company}</small>
-                        <small>{exp.area}</small>
-                        <small>{exp.description}</small>
-                      </Col>
-                    </Row>
-                  ))}
+                  <ListGroup className="mt-3">
+                    {experiences.map((experience) => (
+                      <ListGroup.Item key={experience._id}>
+                        <div>
+                          <span className="fw-bold">{experience.role}</span>
+                          <span> presso <span className="fw-bold">{experience.company}</span></span>
+                        </div>
+                        <p className="mt-3">Dal {convertDate(experience.startDate)}  al {convertDate(experience.endDate)}</p>
+                        <p>Descrizione: {experience.description}</p>
+                        <p>Dove: {experience.area}</p>
+                      </ListGroup.Item>
+                    ))}
+                  </ListGroup>
                 </Card.Body>
               </Card>
 
@@ -141,7 +267,7 @@ const Main = () => {
                     <Card.Title>Licenze e Certificazioni</Card.Title>
                     <div>
                       <Plus width={35} height={35} className="me-2" />
-                      <Pencil width={20} height={20} />
+                      <Pencil width={20} height={20} className="pen-icon" />
                     </div>
                   </div>
                   <Card.Text className="fw-bold mt-2">Competenza</Card.Text>
@@ -154,7 +280,7 @@ const Main = () => {
                     <Card.Title>Formazione</Card.Title>
                     <div>
                       <Plus width={35} height={35} className="me-2" />
-                      <Pencil width={20} height={20} />
+                      <Pencil width={20} height={20} className="pen-icon" />
                     </div>
                   </div>
                   <Card.Text className="fw-bold mt-2">Competenza</Card.Text>
@@ -259,7 +385,7 @@ const Main = () => {
       </Container>
 
       {/* Modale info contatto */}
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={showModalContactInfo} onHide={handleCloseContactInfo}>
         <Modal.Header closeButton>
           <Modal.Title>
             {displayedUser.name} {displayedUser.surname}
@@ -267,16 +393,21 @@ const Main = () => {
         </Modal.Header>
         <Modal.Body>
           <h4>Informazioni di contatto</h4>
+          <p className="mb-0 fw-bold">Email:</p>
           <div className="d-flex">
             <Image
               src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgaWQ9ImVudmVsb3BlLW1lZGl1bSIgYXJpYS1oaWRkZW49InRydWUiIHJvbGU9Im5vbmUiIGRhdGEtc3VwcG9ydGVkLWRwcz0iMjR4MjQiIGZpbGw9ImN1cnJlbnRDb2xvciI+CiAgPHBhdGggZD0iTTIgNHYxM2EzIDMgMCAwMDMgM2gxNGEzIDMgMCAwMDMtM1Y0em0xOCAydjEuNDdsLTggNS4zMy04LTUuMzNWNnptLTEgMTJINWExIDEgMCAwMS0xLTFWOC42N0wxMiAxNGw4LTUuMzNWMTdhMSAxIDAgMDEtMSAxeiIvPgo8L3N2Zz4="
               width={20}
             />
-            <div>
-              <p className="mb-0">Email</p>
-              <p> {displayedUser.email}</p>
-            </div>
+            <p className="ms-2 pt-3"> {displayedUser.email}</p>
+
           </div>
+          <p className="mb-0 fw-bold">Ruolo:</p>
+          <div className="ms-2 pt-3"> {displayedUser.title}</div>
+          <p className="mb-0 fw-bold mt-2">Description:</p>
+          <div className="ms-2 pt-3"> {displayedUser.bio}</div>
+          <p className="mb-0 fw-bold mt-2">Luogo:</p>
+          <div className="ms-2 pt-3"> {displayedUser.area}</div>
         </Modal.Body>
       </Modal>
     </>

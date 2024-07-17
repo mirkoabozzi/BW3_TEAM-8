@@ -1,7 +1,14 @@
 export const SET_USER = "SET_USER";
 export const SET_PROFILES = "SET_PROFILES";
 export const SET_SELECTED_USER = "SET_SELECTED_USER";
-export const SET_EXPERIENCES = "SET_EXPERIENCES"; // Assicuriamoci che questa costante sia esportata
+export const SET_EXPERIENCES = "SET_EXPERIENCES";
+export const ADD_EXPERIENCE_SUCCESS = "ADD_EXPERIENCE_SUCCESS";
+export const ADD_EXPERIENCE_REQUEST = "ADD_EXPERIENCE_REQUEST";
+export const ADD_EXPERIENCE_FAILURE = "ADD_EXPERIENCE_FAILURE";
+export const UPDATE_EXPERIENCES_LIST = "UPDATE_EXPERIENCES_LIST"
+
+
+
 
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njk0ZDEwNjE5NmQ3YjAwMTVkNmI1MjQiLCJpYXQiOjE3MjEwMjg4NzAsImV4cCI6MTcyMjIzODQ3MH0.lxTMuD2HxVncxLT71LT_2gTwR02C2dbSQrtfInlKotk';
 
@@ -83,3 +90,52 @@ export const fetchExperiences = (userId) => {
     }
   };
 };
+
+
+
+// azione per modale form esperienze
+
+
+export const addExperience = (formData) => {
+  return async (dispatch) => {
+    try {
+      dispatch({ type: ADD_EXPERIENCE_REQUEST });
+
+      const response = await fetch(`https://striveschool-api.herokuapp.com/api/profile/${formData.userId}/experiences`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjgyYjg4MjJiNjYwYzAwMTUzZDhkZTgiLCJpYXQiOjE3MjAwMjA4MTUsImV4cCI6MTcyMTIzMDQxNX0.Py7ix89wgSZo8ayJyCfQAZ4M7dKPG4_MdMMaIAwOLFY',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Errore durante l\'aggiunta dell\'esperienza');
+      }
+
+      const data = await response.json();
+      console.log("esperienza:", data)
+
+      // dispatch dell'azione con i dati ricevuti
+      dispatch({
+        type: ADD_EXPERIENCE_SUCCESS,
+        payload: data,
+      });
+
+      // aggiorna anche le esperienze in mainReducer dopo la'ggiunta
+      dispatch({
+        type: UPDATE_EXPERIENCES_LIST,
+        payload: data,
+      });
+
+
+    } catch (error) {
+      dispatch({
+        type: 'ADD_EXPERIENCE_FAILURE',
+        payload: error.message,
+      });
+    }
+  };
+};
+
