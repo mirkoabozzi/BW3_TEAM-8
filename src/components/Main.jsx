@@ -19,7 +19,7 @@ const Main = () => {
   const [showEditExperience, setShowEditExperience] = useState(false);
   const [currentExperience, setCurrentExperience] = useState(null);
 
-  const fileInputRef = useRef(null);
+  // const fileInputRef = useRef(null);
   const fileInputCover = useRef(null);
 
   const handleClose = () => setShow(false);
@@ -47,9 +47,9 @@ const Main = () => {
     }
   };
 
-  const handlePencilClick = () => {
-    fileInputRef.current.click();
-  };
+  // const handlePencilClick = () => {
+  //   fileInputRef.current.click();
+  // };
 
   const handleCameraClick = () => {
     fileInputCover.current.click();

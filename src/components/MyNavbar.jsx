@@ -1,30 +1,50 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Container, Form, Image, Navbar, NavDropdown, ListGroup } from "react-bootstrap";
-import { searchProfiles, setSelectedUser } from "../redux/actions";
+import {
+  Button,
+  Container,
+  Form,
+  Image,
+  Navbar,
+  NavDropdown,
+  ListGroup,
+} from "react-bootstrap";
+import { searchJobs, searchProfiles, setSelectedJob, setSelectedUser } from "../redux/actions";
 import { Link } from "react-router-dom";
 
 const MyNavbar = () => {
   const [query, setQuery] = useState("");
+
   const profiles = useSelector((state) => state.mainReducer.profiles);
+  const jobs = useSelector((state) => state.mainReducer.jobs);
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.mainReducer.user);
   const selectedUser = useSelector((state) => state.mainReducer.selectedUser);
   const displayedUser = selectedUser || user;
 
+
+
+
   const handleSearch = (e) => {
     setQuery(e.target.value);
     if (e.target.value.trim() !== "") {
-      dispatch(searchProfiles(e.target.value)); // azione Redux per la ricerca
+      dispatch(searchProfiles(e.target.value)); // Dispatch per la ricerca di profili
+      dispatch(searchJobs(e.target.value)); // Dispatch per la ricerca di lavori
     }
   };
 
-  // gestisce la selezione di un profilo
-  const handleProfileSelect = (profile) => {
-    dispatch(setSelectedUser(profile)); // azione Redux per impostare il profilo selezionato
-    setQuery("");
+  // gestisce la selezione di un profilo o di un lavoro
+  const handleProfileSelect = (result) => {
+    if (result.type === 'profile') {
+      dispatch(setSelectedUser(result));
+      setQuery('');
+    } else if (result.type === 'job') {
+      dispatch(setSelectedJob(result));
+      setQuery('');
+    }
   };
+
 
   return (
     <Navbar expand="lg" className="bg-body-white border-bottom p-0" style={{ backgroundColor: "white" }}>
@@ -41,13 +61,39 @@ const MyNavbar = () => {
 
           {/* Form di ricerca */}
           <Form className=" ms-auto position-relative">
-            <Form.Control type="search" placeholder="Cerca" className="input-search" aria-label="Search" value={query} onChange={handleSearch} />
-            {profiles.length > 0 && query.trim() !== "" && (
-              <ListGroup className="position-absolute" style={{ zIndex: 1000, width: "100%" }}>
-                {profiles.map((profile) => (
-                  <ListGroup.Item key={profile._id} action onClick={() => handleProfileSelect(profile)}>
-                    {profile.name} {profile.surname}
+            <Form.Control
+              type="search"
+              placeholder="Cerca"
+              className="input-search"
+              aria-label="Search"
+              value={query}
+              onChange={handleSearch}
+            />
+            {profiles.length > 0 && query.trim() !== '' && (
+              <ListGroup className="position-absolute" style={{ zIndex: 1000, width: '100%' }}>
+                {profiles.map((result) => (
+                  <ListGroup.Item
+                    key={result._id}
+                    action
+                    onClick={() => handleProfileSelect({ ...result, type: 'profile' })}
+                    className="list-group-item list-group-item-action"
+                  >
+                    {`${result.name} ${result.surname}`}
                   </ListGroup.Item>
+                ))}
+              </ListGroup>
+            )}
+            {jobs.length > 0 && query.trim() !== '' && (
+              <ListGroup className="position-absolute" style={{ zIndex: 1000, width: '100%' }}>
+                {jobs.map((result) => (
+                  <Link
+                    to={`/jobs/${result._id}`} // Naviga alla pagina jobs con l'ID del job
+                    key={result._id}
+                    className="list-group-item list-group-item-action"
+                    onClick={() => handleProfileSelect({ ...result, type: 'job' })}
+                  >
+                    {result.company_name}
+                  </Link>
                 ))}
               </ListGroup>
             )}
@@ -70,12 +116,14 @@ const MyNavbar = () => {
             <p className="text-navbar">Rete</p>
           </div>
 
-          <div className="d-flex flex-column align-items-center mx-5 mt-2 icon-nav">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="#666666" className="mercado-match icon-nav" width="24" height="24" focusable="false">
-              <path d="M17 6V5a3 3 0 00-3-3h-4a3 3 0 00-3 3v1H2v4a3 3 0 003 3h14a3 3 0 003-3V6zM9 5a1 1 0 011-1h4a1 1 0 011 1v1H9zm10 9a4 4 0 003-1.38V17a3 3 0 01-3 3H5a3 3 0 01-3-3v-4.38A4 4 0 005 14z"></path>
-            </svg>
-            <p className="text-navbar">Lavoro</p>
-          </div>
+          <Link to={"jobs/:id"} className="nav-link">
+            <div className="d-flex flex-column align-items-center mx-5 mt-2 icon-nav">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="#666666" className="mercado-match icon-nav" width="24" height="24" focusable="false">
+                <path d="M17 6V5a3 3 0 00-3-3h-4a3 3 0 00-3 3v1H2v4a3 3 0 003 3h14a3 3 0 003-3V6zM9 5a1 1 0 011-1h4a1 1 0 011 1v1H9zm10 9a4 4 0 003-1.38V17a3 3 0 01-3 3H5a3 3 0 01-3-3v-4.38A4 4 0 005 14z"></path>
+              </svg>
+              <p className="text-navbar">Lavoro</p>
+            </div>
+          </Link>
 
           <div className="d-flex flex-column align-items-center mx-5 mt-2 icon-nav">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="#666666" className="mercado-match icon-nav" width="24" height="24" focusable="false">
