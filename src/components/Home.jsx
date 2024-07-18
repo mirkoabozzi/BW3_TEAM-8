@@ -87,31 +87,33 @@ const Home = () => {
             <HomeLeftBar />
           </Col>
           <Col lg={6}>
-            <Container className="border rounded">
-              <Form className="mt-3" onSubmit={handleSubmit}>
-                <Form.Group className="mb-3" controlId="text">
-                  <Row>
-                    <Col xs="1">
-                      <Image src={user.image} roundedCircle className="mb-2" style={{ objectFit: "cover", objectPosition: "center", border: "3px solid white", width: "38px", height: "38px" }} />
-                    </Col>
-                    <Col>
-                      <Form.Control type="text" placeholder="Scrivi qualcosa" value={post} onChange={(e) => setpost(e.target.value)} />
-                    </Col>
-                  </Row>
-                </Form.Group>
-              </Form>
-              <div className="d-flex align-items-center">
-                <Image
-                  className="mb-2"
-                  src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgaWQ9ImltYWdlLW1lZGl1bSIgYXJpYS1oaWRkZW49InRydWUiIHJvbGU9Im5vbmUiIGRhdGEtc3VwcG9ydGVkLWRwcz0iMjR4MjQiIGZpbGw9ImN1cnJlbnRDb2xvciI+CiAgPHBhdGggZD0iTTE5IDRINWEzIDMgMCAwMC0zIDN2MTBhMyAzIDAgMDAzIDNoMTRhMyAzIDAgMDAzLTNWN2EzIDMgMCAwMC0zLTN6bTEgMTNhMSAxIDAgMDEtLjI5LjcxTDE2IDE0bC0yIDItNi02LTQgNFY3YTEgMSAwIDAxMS0xaDE0YTEgMSAwIDAxMSAxem0tMi03YTIgMiAwIDExLTItMiAyIDIgMCAwMTIgMnoiLz4KPC9zdmc+"
-                  style={{ width: 30 }}
-                  onClick={() => handleShowAddImagePostModal()}
-                />
-                <p className="ms-2 mb-2" onClick={() => handleShowAddImagePostModal()}>
-                  Contenuti Multimediali
-                </p>
-              </div>
-            </Container>
+            <Card>
+              <Container>
+                <Form className="mt-3" onSubmit={handleSubmit}>
+                  <Form.Group className="mb-3" controlId="text">
+                    <Row>
+                      <Col xs="1">
+                        <Image src={user.image} roundedCircle className="mb-2" style={{ objectFit: "cover", objectPosition: "center", border: "3px solid white", width: "38px", height: "38px" }} />
+                      </Col>
+                      <Col>
+                        <Form.Control type="text" placeholder="Scrivi qualcosa" value={post} onChange={(e) => setpost(e.target.value)} />
+                      </Col>
+                    </Row>
+                  </Form.Group>
+                </Form>
+                <div className="d-flex align-items-center">
+                  <Image
+                    className="mb-2"
+                    src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgaWQ9ImltYWdlLW1lZGl1bSIgYXJpYS1oaWRkZW49InRydWUiIHJvbGU9Im5vbmUiIGRhdGEtc3VwcG9ydGVkLWRwcz0iMjR4MjQiIGZpbGw9ImN1cnJlbnRDb2xvciI+CiAgPHBhdGggZD0iTTE5IDRINWEzIDMgMCAwMC0zIDN2MTBhMyAzIDAgMDAzIDNoMTRhMyAzIDAgMDAzLTNWN2EzIDMgMCAwMC0zLTN6bTEgMTNhMSAxIDAgMDEtLjI5LjcxTDE2IDE0bC0yIDItNi02LTQgNFY3YTEgMSAwIDAxMS0xaDE0YTEgMSAwIDAxMSAxem0tMi03YTIgMiAwIDExLTItMiAyIDIgMCAwMTIgMnoiLz4KPC9zdmc+"
+                    style={{ width: 30 }}
+                    onClick={() => handleShowAddImagePostModal()}
+                  />
+                  <p className="ms-2 mb-2" onClick={() => handleShowAddImagePostModal()}>
+                    Contenuti Multimediali
+                  </p>
+                </div>
+              </Container>
+            </Card>
             {isLoading ? (
               <Spinner animation="grow" />
             ) : (
