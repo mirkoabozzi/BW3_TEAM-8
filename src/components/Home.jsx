@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
-import { getPosts, newPost, updatePost } from "../redux/actions";
+import { deletePost, getPosts, newPost, updatePost } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
-import { Card, Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
+import { Card, Container, Row, Col, Form, Button, Modal, Spinner, Image } from "react-bootstrap";
 import HomeLeftBar from "./HomeLeftBar";
 import Notizie from "./Notizie";
 import HomeFooter from "./HomeFooter";
 import { Link } from "react-router-dom";
+import { Trash } from "react-bootstrap-icons";
 
 const Home = () => {
-  // const user = useSelector((state) => state.mainReducer.user);
+  const user = useSelector((state) => state.mainReducer.user);
   const posts = useSelector((state) => state.homeReducer.posts);
-  // const isLoading = useSelector((state) => state.homeReducer.isLoading);
+  const isLoading = useSelector((state) => state.homeReducer.isLoading);
   const dispatch = useDispatch();
 
   const [post, setpost] = useState("");
@@ -19,11 +20,12 @@ const Home = () => {
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  // const handleShow = (post) => {
-  //   setEditPost(post.text);
-  //   setEditPostId(post._id);
-  //   setShow(true);
-  // };
+
+  const handleShow = (post) => {
+    setEditPost(post.text);
+    setEditPostId(post._id);
+    setShow(true);
+  };
 
   useEffect(() => {
     dispatch(getPosts());
@@ -57,43 +59,87 @@ const Home = () => {
       setEditPostId(null);
     });
   };
-  // console.log(user._id);
-  // console.log("posts", posts);
+  console.log(user);
+  console.log("posts", posts);
 
   return (
-    <Container className="mt-4">
-      {/* Dispositivi Desktop */}
-      <Row className="d-none d-lg-flex">
-        <Col lg={3}>
-          <HomeLeftBar />
-        </Col>
-        <Col lg={6}>
-          <h1>Posts</h1>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3" controlId="text">
-              <Form.Label>Aggiungi nuovo post</Form.Label>
-              <Form.Control type="text" placeholder="Scrivi qualcosa" value={post} onChange={(e) => setpost(e.target.value)} />
-            </Form.Group>
-          </Form>
-          {[...posts].reverse().map((post) => {
-            return (
-              <Card key={post._id} className="my-2">
-                <Card.Body>
-                  <Link to={`/${post.user._id}`} className="nav-link">
-                    <Card.Title>{post.user.username}</Card.Title></Link>
-                  <Card.Text>{post.text}</Card.Text>
-                  <Card.Text>{dataConverter(post.createdAt)}</Card.Text>
-                </Card.Body>
-              </Card>
-            );
-          })}
-        </Col>
-        <Col lg={3} className="d-none d-md-block">
-          <Notizie />
-          <HomeFooter />
-        </Col>
-      </Row>
+    <>
+      <Container className="mt-4">
+        <Row>
+          <Col lg={3}>
+            <HomeLeftBar />
+          </Col>
+          <Col lg={6}>
+            <h1>Home</h1>
+            <Container className="border rounded">
+              <Form className="mt-3" onSubmit={handleSubmit}>
+                <Form.Group className="mb-3" controlId="text">
+                  <Row>
+                    <Col xs="1">
+                      <Image src={user.image} roundedCircle className="mb-2" style={{ objectFit: "cover", objectPosition: "center", border: "3px solid white", width: "38px", height: "38px" }} />
+                    </Col>
+                    <Col>
+                      <Form.Control type="text" placeholder="Scrivi qualcosa" value={post} onChange={(e) => setpost(e.target.value)} />
+                    </Col>
+                  </Row>
+                </Form.Group>
+              </Form>
+              <div className="d-flex align-items-center">
+                <Image
+                  className="mb-2"
+                  src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgaWQ9ImltYWdlLW1lZGl1bSIgYXJpYS1oaWRkZW49InRydWUiIHJvbGU9Im5vbmUiIGRhdGEtc3VwcG9ydGVkLWRwcz0iMjR4MjQiIGZpbGw9ImN1cnJlbnRDb2xvciI+CiAgPHBhdGggZD0iTTE5IDRINWEzIDMgMCAwMC0zIDN2MTBhMyAzIDAgMDAzIDNoMTRhMyAzIDAgMDAzLTNWN2EzIDMgMCAwMC0zLTN6bTEgMTNhMSAxIDAgMDEtLjI5LjcxTDE2IDE0bC0yIDItNi02LTQgNFY3YTEgMSAwIDAxMS0xaDE0YTEgMSAwIDAxMSAxem0tMi03YTIgMiAwIDExLTItMiAyIDIgMCAwMTIgMnoiLz4KPC9zdmc+"
+                  style={{ width: 30 }}
+                />
+                <p className="ms-2 mb-2">Contenuti Multimediali</p>
+              </div>
+            </Container>
+            {isLoading ? (
+              <Spinner animation="grow" />
+            ) : (
+              [...posts]
+                .reverse()
+                .slice(0, 30)
+                .map((post) => {
+                  return (
+                    <Card key={post._id} className="my-2">
+                      <Card.Body>
+                        <div className="d-flex justify-content-between">
+                          <Link to={`/${post.user._id}`} className="nav-link">
+                            <Image
+                              src={post.user?.image}
+                              roundedCircle
+                              height={40}
+                              width={40}
+                              className="mb-2"
+                              style={{ objectFit: "cover", objectPosition: "center", border: "3px solid white", width: "38px", height: "38px" }}
+                            />
+                            <Card.Title>{post.user.username}</Card.Title>
+                          </Link>
+                          {user._id === post.user._id && <Trash onClick={() => dispatch(deletePost(post._id))} />}
+                        </div>
+                        <Card.Text>{post.text}</Card.Text>
+                        <Card.Text className="mb-0">Data creazione {dataConverter(post.createdAt)}</Card.Text>
+                        <Card.Text>Ultima modifica {dataConverter(post.updatedAt)}</Card.Text>
+                        {user._id === post.user._id && (
+                          <Button className="d-block mx-auto" onClick={() => handleShow(post)}>
+                            Modifica
+                          </Button>
+                        )}
+                      </Card.Body>
+                    </Card>
+                  );
+                })
+            )}
+          </Col>
+          <Col lg={3} className="d-none d-lg-block">
+            <Notizie />
+            <HomeFooter />
+          </Col>
+        </Row>
+      </Container>
+      {/* Modale aggiungi immagine post */}
 
+      {/* Modale Modifica post */}
       <Modal centered show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Modifica Post</Modal.Title>
@@ -105,8 +151,7 @@ const Home = () => {
           </Form>
         </Modal.Body>
       </Modal>
-    </Container>
-
+    </>
   );
 };
 export default Home;
