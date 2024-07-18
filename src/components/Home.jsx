@@ -1,17 +1,16 @@
 import { useEffect, useState } from "react";
-import { deletePost, getPosts, newPost, updatePost } from "../redux/actions";
+import { getPosts, newPost, updatePost } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
-import { Card, Container, Row, Col, Form, Spinner, Button, Modal } from "react-bootstrap";
+import { Card, Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
 import HomeLeftBar from "./HomeLeftBar";
 import Notizie from "./Notizie";
-import { Trash } from "react-bootstrap-icons";
 import HomeFooter from "./HomeFooter";
 import { Link } from "react-router-dom";
 
 const Home = () => {
-  const user = useSelector((state) => state.mainReducer.user);
+  // const user = useSelector((state) => state.mainReducer.user);
   const posts = useSelector((state) => state.homeReducer.posts);
-  const isLoading = useSelector((state) => state.homeReducer.isLoading);
+  // const isLoading = useSelector((state) => state.homeReducer.isLoading);
   const dispatch = useDispatch();
 
   const [post, setpost] = useState("");
@@ -20,11 +19,11 @@ const Home = () => {
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const handleShow = (post) => {
-    setEditPost(post.text);
-    setEditPostId(post._id);
-    setShow(true);
-  };
+  // const handleShow = (post) => {
+  //   setEditPost(post.text);
+  //   setEditPostId(post._id);
+  //   setShow(true);
+  // };
 
   useEffect(() => {
     dispatch(getPosts());
@@ -106,7 +105,8 @@ const Home = () => {
           </Form>
         </Modal.Body>
       </Modal>
-    </>
+    </Container>
+
   );
 };
 export default Home;
