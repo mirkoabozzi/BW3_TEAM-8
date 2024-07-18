@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { deletePost, getPosts, newPost, updatePost, uploadPostPicture } from "../redux/actions";
+import { deletePost, getPosts, updatePost } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, Container, Row, Col, Form, Button, Modal, Spinner, Image } from "react-bootstrap";
 import HomeLeftBar from "./HomeLeftBar";
@@ -8,13 +8,15 @@ import HomeFooter from "./HomeFooter";
 import { Link } from "react-router-dom";
 import { Trash } from "react-bootstrap-icons";
 
+const token = import.meta.env.VITE_API_KEY;
+
 const Home = () => {
   const user = useSelector((state) => state.mainReducer.user);
   const posts = useSelector((state) => state.homeReducer.posts);
   const isLoading = useSelector((state) => state.homeReducer.isLoading);
   const dispatch = useDispatch();
 
-  const [post, setpost] = useState("");
+  const [post, setPost] = useState("");
   const [editPost, setEditPost] = useState("");
   const [editPostId, setEditPostId] = useState(null);
 
@@ -52,32 +54,78 @@ const Home = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await dispatch(newPost(post)).then(() => {
-      setpost("");
-    });
+    await newPost(post);
+    setPost("");
   };
 
   const handleSubmitEditPost = async (e) => {
     e.preventDefault();
-    await dispatch(updatePost(editPostId, editPost)).then(() => {
-      handleClose();
-      setEditPost("");
-      setEditPostId(null);
-    });
+    await dispatch(updatePost(editPostId, editPost));
+    handleClose();
+    setEditPost("");
+    setEditPostId(null);
   };
 
   const hendleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
 
-  const handleSubmitImage = (e) => {
-    e.preventDefault();
-    dispatch(uploadPostPicture(post._id, file));
-    handleCloseImgProfileModal();
+  const newPost = async (post) => {
+    try {
+      const resp = await fetch("https://striveschool-api.herokuapp.com/api/posts/", {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text: post }),
+      });
+      if (resp.ok) {
+        const post = await resp.json();
+        console.log("post", post);
+        if (file) {
+          await uploadPostPicture(post._id);
+          dispatch(getPosts());
+        }
+        handleCloseImgProfileModal();
+        dispatch(getPosts());
+
+        return post;
+      } else {
+        throw new Error("Errore nell creazione del post");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  console.log(user);
-  console.log("posts", posts);
+  const uploadPostPicture = async (postId) => {
+    const formData = new FormData();
+    formData.append("post", file);
+
+    try {
+      const resp = await fetch(`https://striveschool-api.herokuapp.com/api/posts/${postId}`, {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+        body: formData,
+      });
+
+      if (resp.ok) {
+        getPosts();
+      } else {
+        throw new Error("Errore nel caricamento dell'immagine del post");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // console.log(user);
+  // console.log("posts", posts);
+  // console.log("file", file);
+  // console.log("editPostId", editPostId);
 
   return (
     <>
@@ -95,7 +143,7 @@ const Home = () => {
                       <Image src={user.image} roundedCircle className="mb-2" style={{ objectFit: "cover", objectPosition: "center", border: "3px solid white", width: "38px", height: "38px" }} />
                     </Col>
                     <Col>
-                      <Form.Control type="text" placeholder="Scrivi qualcosa" value={post} onChange={(e) => setpost(e.target.value)} />
+                      <Form.Control type="text" placeholder="Scrivi qualcosa" value={post} onChange={(e) => setPost(e.target.value)} />
                     </Col>
                   </Row>
                 </Form.Group>
@@ -166,7 +214,8 @@ const Home = () => {
         </Modal.Header>
         <Modal.Body>
           <p className="mb-0">Aggiungi immagine</p>
-          <Form onSubmit={handleSubmitImage}>
+          <Form onSubmit={handleSubmit}>
+            <Form.Control type="text" placeholder="Scrivi qualcosa" value={post} onChange={(e) => setPost(e.target.value)} />
             <Form.Control type="file" accept="image/png, image/gif, image/jpeg" className="my-2" onChange={hendleFileChange} />
             <Button type="submit">Invia</Button>
           </Form>

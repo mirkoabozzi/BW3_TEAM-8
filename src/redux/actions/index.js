@@ -15,13 +15,10 @@ export const ADD_NEW_POST = "ADD_NEW_POST";
 export const FETCH_JOBS_REQUEST = "FETCH_JOBS_REQUEST";
 export const FETCH_JOBS_SUCCESS = "FETCH_JOBS_SUCCESS";
 export const FETCH_JOBS_FAILURE = "FETCH_JOBS_FAILURE";
-export const SEARCH_JOBS_REQUEST = 'SEARCH_JOBS_REQUEST';
-export const SEARCH_JOBS_SUCCESS = 'SEARCH_JOBS_SUCCESS';
-export const SEARCH_JOBS_FAILURE = 'SEARCH_JOBS_FAILURE';
+export const SEARCH_JOBS_REQUEST = "SEARCH_JOBS_REQUEST";
+export const SEARCH_JOBS_SUCCESS = "SEARCH_JOBS_SUCCESS";
+export const SEARCH_JOBS_FAILURE = "SEARCH_JOBS_FAILURE";
 export const SET_SELECTED_JOB = " SET_SELECTED_JOB";
-
-
-
 
 const token = import.meta.env.VITE_API_KEY;
 
@@ -271,31 +268,6 @@ export const getPosts = () => {
   };
 };
 
-export const newPost = (post) => {
-  return async (dispatch) => {
-    try {
-      const resp = await fetch("https://striveschool-api.herokuapp.com/api/posts/", {
-        method: "POST",
-        headers: {
-          Authorization: "Bearer " + token,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ text: post }),
-      });
-      if (resp.ok) {
-        const text = await resp.json();
-        dispatch(getPosts());
-        return text;
-      } else {
-        const text = await resp.text();
-        throw new Error("Errore nell creazione del post" + text);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-};
-
 // azione per profili aside
 export const fetchProfilesAside = () => {
   return async (dispatch) => {
@@ -360,8 +332,8 @@ export const updatePost = (postId, newText) => {
     } catch (error) {
       console.log(error);
     }
-  }
-}
+  };
+};
 
 // azione per jobs
 
@@ -382,7 +354,7 @@ export const fetchJobs = (company) => {
 
       if (response.ok) {
         const annunci = await response.json();
-        console.log("annunci", annunci.data)
+        console.log("annunci", annunci.data);
         dispatch({ type: FETCH_JOBS_SUCCESS, payload: { company, jobs: annunci.data } });
       } else {
         throw new Error("Error fetching company posts. Status: " + response.status);
@@ -416,30 +388,6 @@ export const updateProfile = (newInfoProfile) => {
   };
 };
 
-export const uploadPostPicture = (postId, file) => {
-  return async (dispatch) => {
-    const formData = new FormData();
-    formData.append("post", file);
-
-    try {
-      const resp = await fetch(`https://striveschool-api.herokuapp.com/api/posts/${postId}`, {
-        method: "POST",
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-        body: formData,
-      });
-
-      if (resp.ok) {
-        dispatch(getPosts());
-      } else {
-        throw new Error("Errore nel caricamento dell'immagine del post");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-};
 // azione per ricerca lavori
 
 export const searchJobs = (query) => async (dispatch) => {
@@ -447,13 +395,12 @@ export const searchJobs = (query) => async (dispatch) => {
   try {
     const response = await fetch(`https://strive-benchmark.herokuapp.com/api/jobs?search=${query}`);
     if (!response.ok) {
-      throw new Error("Network was not okay")
+      throw new Error("Network was not okay");
     }
     const data = await response.json();
-    console.log("jobs", data.data)
+    console.log("jobs", data.data);
     dispatch({ type: SEARCH_JOBS_SUCCESS, payload: data.data });
   } catch (error) {
     dispatch({ type: SEARCH_JOBS_FAILURE, payload: error.message });
   }
 };
-
