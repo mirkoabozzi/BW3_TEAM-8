@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Card, Image, Button, Container } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { getUser } from "../redux/actions";
 
 const HomeLeftBar = () => {
@@ -14,29 +15,35 @@ const HomeLeftBar = () => {
   return (
     <Container>
       <Card className="mb-3">
-        <Card.Img
-          variant="top"
-          src="https://media.istockphoto.com/id/1960952508/photo/dark-blue-gradient-soft-background.jpg?b=1&s=612x612&w=0&k=20&c=EBIpDSGaimw9Ci3v8nsNMC_A6kTZeiqF9EWWcf8TMkQ="
-          height={100}
-          style={{ objectFit: "cover" }}
-        />
-        <Card.Body className="text-center">
-          <Image
+        <Link to={"/"}>
+          <Card.Img
+            variant="top"
             src={user.image}
-            roundedCircle
-            height={80}
-            width={80}
-            className="mb-2"
-            style={{
-              objectFit: "cover",
-              objectPosition: "center",
-              border: "3px solid white",
-              marginTop: "-40px",
-            }}
+            height={100}
+            style={{ objectFit: "cover" }}
           />
+        </Link>
+
+        <Card.Body className="text-center">
+          <Link to={"/"}>
+            <Image
+              src={user.image}
+              roundedCircle
+              height={80}
+              width={80}
+              className="mb-2"
+              style={{
+                objectFit: "cover",
+                objectPosition: "center",
+                border: "3px solid white",
+                marginTop: "-40px",
+              }}
+            />
+          </Link>
           <Card.Title className="mt-2">
             {user.name} {user.surname}
           </Card.Title>
+
           <Card.Text>{user.title}</Card.Text>
           <Card.Text className="text-start">
             <small>

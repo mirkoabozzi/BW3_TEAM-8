@@ -6,6 +6,7 @@ import HomeLeftBar from "./HomeLeftBar";
 import Notizie from "./Notizie";
 import { Trash } from "react-bootstrap-icons";
 import HomeFooter from "./HomeFooter";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const user = useSelector((state) => state.mainReducer.user);
@@ -61,54 +62,38 @@ const Home = () => {
   // console.log("posts", posts);
 
   return (
-    <>
-      <Container className="mt-4">
-        <Row>
-          <Col lg={3}>
-            <HomeLeftBar />
-          </Col>
-          <Col lg={6}>
-            <h1>Home</h1>
-            <Form onSubmit={handleSubmit}>
-              <Form.Group className="mb-3" controlId="text">
-                <Form.Label>Aggiungi nuovo post</Form.Label>
-                <Form.Control type="text" placeholder="Scrivi qualcosa" value={post} onChange={(e) => setpost(e.target.value)} />
-              </Form.Group>
-            </Form>
-            {isLoading ? (
-              <Spinner animation="grow" />
-            ) : (
-              [...posts]
-                .reverse()
-                .slice(0, 30)
-                .map((post) => {
-                  return (
-                    <Card key={post._id} className="my-2">
-                      <Card.Body>
-                        <div className="d-flex justify-content-between">
-                          <Card.Title>{post.user.username}</Card.Title>
-                          {user._id === post.user._id && <Trash onClick={() => dispatch(deletePost(post._id))} />}
-                        </div>
-                        <Card.Text>{post.text}</Card.Text>
-                        <Card.Text className="mb-0">Data creazione {dataConverter(post.createdAt)}</Card.Text>
-                        <Card.Text>Ultima modifica {dataConverter(post.updatedAt)}</Card.Text>
-                        {user._id === post.user._id && (
-                          <Button className="d-block mx-auto" onClick={() => handleShow(post)}>
-                            Modifica
-                          </Button>
-                        )}
-                      </Card.Body>
-                    </Card>
-                  );
-                })
-            )}
-          </Col>
-          <Col lg={3} className="d-none d-lg-block">
-            <Notizie />
-            <HomeFooter />
-          </Col>
-        </Row>
-      </Container>
+    <Container className="mt-4">
+      {/* Dispositivi Desktop */}
+      <Row className="d-none d-lg-flex">
+        <Col lg={3}>
+          <HomeLeftBar />
+        </Col>
+        <Col lg={6}>
+          <h1>Posts</h1>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className="mb-3" controlId="text">
+              <Form.Label>Aggiungi nuovo post</Form.Label>
+              <Form.Control type="text" placeholder="Scrivi qualcosa" value={post} onChange={(e) => setpost(e.target.value)} />
+            </Form.Group>
+          </Form>
+          {[...posts].reverse().map((post) => {
+            return (
+              <Card key={post._id} className="my-2">
+                <Card.Body>
+                  <Link to={`/${post.user._id}`} className="nav-link">
+                    <Card.Title>{post.user.username}</Card.Title></Link>
+                  <Card.Text>{post.text}</Card.Text>
+                  <Card.Text>{dataConverter(post.createdAt)}</Card.Text>
+                </Card.Body>
+              </Card>
+            );
+          })}
+        </Col>
+        <Col lg={3} className="d-none d-md-block">
+          <Notizie />
+          <HomeFooter />
+        </Col>
+      </Row>
 
       <Modal centered show={show} onHide={handleClose}>
         <Modal.Header closeButton>
