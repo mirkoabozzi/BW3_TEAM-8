@@ -91,7 +91,7 @@ const Main = () => {
     handleCloseImgProfileModal();
   };
 
-  // console.log("file", file);
+  console.log("file", file);
   return (
     <>
       <Container className="d-flex justify-content-center">
