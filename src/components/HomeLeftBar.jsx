@@ -40,7 +40,7 @@ const HomeLeftBar = () => {
           </Card.Title>
 
           <Card.Text>{user.title}</Card.Text>
-          <Card.Text className="text-start">
+          <Card.Text className="text-start ms-2">
             <small>
               Visitatori del profilo: <strong>10</strong>
             </small>
@@ -62,7 +62,7 @@ const HomeLeftBar = () => {
             </Button>
           </Card.Text>
 
-          <Card.Text className="mb-0 text-start">
+          <Card.Text className="mb-0 text-start ms-2">
             <img
               src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiIgaWQ9ImJvb2ttYXJrLWZpbGwtc21hbGwiIGFyaWEtaGlkZGVuPSJ0cnVlIiByb2xlPSJub25lIiBkYXRhLXN1cHBvcnRlZC1kcHM9IjE2eDE2IiBmaWxsPSJjdXJyZW50Q29sb3IiPgogIDxwYXRoIGQ9Ik0xMyA0YTMgMyAwIDAwLTMtM0gzdjE0bDUtNC41IDUgNC41eiIvPgo8L3N2Zz4="
               alt=""

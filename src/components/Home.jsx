@@ -138,8 +138,8 @@ const Home = () => {
                           {user._id === post.user._id && <Trash onClick={() => dispatch(deletePost(post._id))} />}
                         </div>
                         <Card.Text>{post.text}</Card.Text>
-                        <Card.Text className="mb-0">Data creazione {dataConverter(post.createdAt)}</Card.Text>
-                        <Card.Text>Ultima modifica {dataConverter(post.updatedAt)}</Card.Text>
+                        <Card.Text className="mb-0" style={{ fontSize: "13px" }} >Data creazione: {dataConverter(post.createdAt)}</Card.Text>
+                        <Card.Text style={{ fontSize: "13px" }}>Ultima modifica {dataConverter(post.updatedAt)}</Card.Text>
                         {user._id === post.user._id && (
                           <Button className="d-block mx-auto" onClick={() => handleShow(post)}>
                             Modifica
