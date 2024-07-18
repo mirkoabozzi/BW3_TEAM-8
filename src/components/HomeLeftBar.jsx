@@ -44,13 +44,22 @@ const HomeLeftBar = () => {
             <small>
               Visitatori del profilo: <strong>10</strong>
             </small>
-            <Button variant="link" className="p-0">
+            <Button variant="link" className="p-0 text-decoration-none text-black">
               <small>Visualizza tutte le analisi</small>
             </Button>
           </Card.Text>
           <Card.Text className="mt-2 text-start">
-            <strong>Sblocca strumenti e informazioni Premium</strong>
-            <Button variant="outline-primary">Prova Premium per 0 EUR</Button>
+            <Button variant="outline-secondary" className="border-0 text-dark text-start">
+              {" "}
+              Sblocca strumenti e informazioni Premium
+              <br />
+              <img
+                src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgaWQ9InByZW1pdW0tY2hpcC1tZWRpdW0iIGFyaWEtaGlkZGVuPSJ0cnVlIiByb2xlPSJub25lIiBkYXRhLXN1cHBvcnRlZC1kcHM9IjI0eDI0Ij4KICA8cGF0aCBkPSJNMjAgMjBhMy4zNiAzLjM2IDAgMDAxLTIuMzlWNi4zOEEzLjM4IDMuMzggMCAwMDE3LjYyIDNINi4zOEEzLjM2IDMuMzYgMCAwMDQgNHoiIGZpbGw9IiNmOGM3N2UiLz4KICA8cGF0aCBkPSJNNCA0YTMuMzYgMy4zNiAwIDAwLTEgMi4zOHYxMS4yNEEzLjM4IDMuMzggMCAwMDYuMzggMjFoMTEuMjRBMy4zNiAzLjM2IDAgMDAyMCAyMHoiIGZpbGw9IiNlN2EzM2UiLz4KPC9zdmc+"
+                alt=""
+                width={15}
+              />{" "}
+              <strong>Prova Premium per 0 EUR</strong>
+            </Button>
           </Card.Text>
 
           <Card.Text className="mb-0 text-start">
