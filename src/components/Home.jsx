@@ -57,7 +57,7 @@ const Home = () => {
       setEditPostId(null);
     });
   };
-  console.log(user._id);
+  // console.log(user._id);
   // console.log("posts", posts);
 
   return (
