@@ -15,7 +15,6 @@ const Main = () => {
 
   const [show, setShow] = useState(false);
   const [showAddExperience, setShowAddExperience] = useState(false);
-  // const fileInputRef = useRef(null);
   const fileInputCover = useRef(null);
 
   const handleClose = () => setShow(false);
@@ -26,7 +25,6 @@ const Main = () => {
 
   const [showEditProfileModal, setShowEditProfileModal] = useState(false);
   const handleCloseEditProfileModal = () => setShowEditProfileModal(false);
-  // const handleShowEditProfileModal = () => setShowEditProfileModal(true);
 
   useEffect(() => {
     dispatch(getUser());
@@ -43,10 +41,6 @@ const Main = () => {
       dispatch(uploadProfilePicture(user._id, e.target.files[0]));
     }
   };
-
-  // const handlePencilClick = () => {
-  //   fileInputRef.current.click();
-  // };
 
   const handleCameraClick = () => {
     fileInputCover.current.click();
@@ -68,7 +62,6 @@ const Main = () => {
 
   const [file, setFile] = useState(null);
 
-  console.log("file", file);
   const hendleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
@@ -79,6 +72,7 @@ const Main = () => {
     handleCloseImgProfileModal();
   };
 
+  // console.log("file", file);
   return (
     <>
       <Container className="d-flex justify-content-center">
@@ -399,21 +393,20 @@ const Main = () => {
 
       {/* Modale modifica immagine profilo */}
       <Modal centered show={showImgProfileModal} onHide={handleCloseImgProfileModal}>
-        <Modal centered show={showImgProfileModal} onHide={handleCloseImgProfileModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>
-              {displayedUser.name} {displayedUser.surname}
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <p className="mb-0">Cambia immagine del profilo</p>
-            <Form onSubmit={handleSubmit}>
-              <Form.Control type="file" accept="image/png, image/gif, image/jpeg" className="my-2" onChange={hendleFileChange} />
-              <Button type="submit">Invia</Button>
-            </Form>
-          </Modal.Body>
-        </Modal>
+        <Modal.Header closeButton>
+          <Modal.Title>
+            {displayedUser.name} {displayedUser.surname}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p className="mb-0">Cambia immagine del profilo</p>
+          <Form onSubmit={handleSubmit}>
+            <Form.Control type="file" accept="image/png, image/gif, image/jpeg" className="my-2" onChange={hendleFileChange} />
+            <Button type="submit">Invia</Button>
+          </Form>
+        </Modal.Body>
       </Modal>
+
       {/* Modale aggiungi esperienza */}
       <AddExperienceForm show={showAddExperience} handleClose={() => setShowAddExperience(false)} userId={displayedUser._id} />
       {/* Modale modifica profilo */}
