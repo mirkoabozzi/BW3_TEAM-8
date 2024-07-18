@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { deletePost, getPosts, newPost, updatePost } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
-import { Card, Container, Row, Col, Form, Button, Modal, Spinner } from "react-bootstrap";
+import { Card, Container, Row, Col, Form, Button, Modal, Spinner, Image } from "react-bootstrap";
 import HomeLeftBar from "./HomeLeftBar";
 import Notizie from "./Notizie";
 import HomeFooter from "./HomeFooter";
@@ -59,8 +59,8 @@ const Home = () => {
       setEditPostId(null);
     });
   };
-  // console.log(user._id);
-  // console.log("posts", posts);
+  console.log(user);
+  console.log("posts", posts);
 
   return (
     <>
@@ -71,12 +71,28 @@ const Home = () => {
           </Col>
           <Col lg={6}>
             <h1>Home</h1>
-            <Form onSubmit={handleSubmit}>
-              <Form.Group className="mb-3" controlId="text">
-                <Form.Label>Aggiungi nuovo post</Form.Label>
-                <Form.Control type="text" placeholder="Scrivi qualcosa" value={post} onChange={(e) => setpost(e.target.value)} />
-              </Form.Group>
-            </Form>
+            <Container className="border rounded">
+              <Form className="mt-3" onSubmit={handleSubmit}>
+                <Form.Group className="mb-3" controlId="text">
+                  <Row>
+                    <Col xs="1">
+                      <Image src={user.image} roundedCircle className="mb-2" style={{ objectFit: "cover", objectPosition: "center", border: "3px solid white", width: "38px", height: "38px" }} />
+                    </Col>
+                    <Col>
+                      <Form.Control type="text" placeholder="Scrivi qualcosa" value={post} onChange={(e) => setpost(e.target.value)} />
+                    </Col>
+                  </Row>
+                </Form.Group>
+              </Form>
+              <div className="d-flex align-items-center">
+                <Image
+                  className="mb-2"
+                  src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgaWQ9ImltYWdlLW1lZGl1bSIgYXJpYS1oaWRkZW49InRydWUiIHJvbGU9Im5vbmUiIGRhdGEtc3VwcG9ydGVkLWRwcz0iMjR4MjQiIGZpbGw9ImN1cnJlbnRDb2xvciI+CiAgPHBhdGggZD0iTTE5IDRINWEzIDMgMCAwMC0zIDN2MTBhMyAzIDAgMDAzIDNoMTRhMyAzIDAgMDAzLTNWN2EzIDMgMCAwMC0zLTN6bTEgMTNhMSAxIDAgMDEtLjI5LjcxTDE2IDE0bC0yIDItNi02LTQgNFY3YTEgMSAwIDAxMS0xaDE0YTEgMSAwIDAxMSAxem0tMi03YTIgMiAwIDExLTItMiAyIDIgMCAwMTIgMnoiLz4KPC9zdmc+"
+                  style={{ width: 30 }}
+                />
+                <p className="ms-2 mb-2">Contenuti Multimediali</p>
+              </div>
+            </Container>
             {isLoading ? (
               <Spinner animation="grow" />
             ) : (
@@ -89,6 +105,14 @@ const Home = () => {
                       <Card.Body>
                         <div className="d-flex justify-content-between">
                           <Link to={`/${post.user._id}`} className="nav-link">
+                            <Image
+                              src={post.user?.image}
+                              roundedCircle
+                              height={40}
+                              width={40}
+                              className="mb-2"
+                              style={{ objectFit: "cover", objectPosition: "center", border: "3px solid white", width: "38px", height: "38px" }}
+                            />
                             <Card.Title>{post.user.username}</Card.Title>
                           </Link>
                           {user._id === post.user._id && <Trash onClick={() => dispatch(deletePost(post._id))} />}
@@ -113,7 +137,9 @@ const Home = () => {
           </Col>
         </Row>
       </Container>
+      {/* Modale aggiungi immagine post */}
 
+      {/* Modale Modifica post */}
       <Modal centered show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Modifica Post</Modal.Title>
