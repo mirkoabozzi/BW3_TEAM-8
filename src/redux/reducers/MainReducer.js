@@ -1,5 +1,6 @@
 import { SET_USER, SET_PROFILES, SET_SELECTED_USER, SET_EXPERIENCES } from "../actions";
 
+
 const initialState = {
   user: {
     _id: "6694d5f8196d7b0015d6b525",
@@ -17,7 +18,7 @@ const initialState = {
   profiles: [],
   selectedUser: null,
   experiences: [],
-  token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njk0ZDEwNjE5NmQ3YjAwMTVkNmI1MjQiLCJpYXQiOjE3MjEwMjg4NzAsImV4cCI6MTcyMjIzODQ3MH0.lxTMuD2HxVncxLT71LT_2gTwR02C2dbSQrtfInlKotk",
+  token: ""
 };
 
 const MainReducer = (state = initialState, action) => {

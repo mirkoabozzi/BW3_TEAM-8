@@ -163,29 +163,35 @@ export const deleteExperience = (userId, experienceId) => {
   };
 };
 
-export const updateExperience = (userId, experienceId, experience) => {
+export const updateExperience = (userId, experienceId, updatedExperience) => {
   return async (dispatch) => {
     try {
-      const resp = await fetch(`https://striveschool-api.herokuapp.com/api/profile/${userId}/experiences/${experienceId}`, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(experience),
-      });
+      const resp = await fetch(
+        `https://striveschool-api.herokuapp.com/api/profile/${userId}/experiences/${experienceId}`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedExperience),
+        }
+      );
 
       if (resp.ok) {
+        const updatedExperienceData = await resp.json();
         dispatch(fetchExperiences(userId));
+        return updatedExperienceData;
       } else {
         const errorText = await resp.text();
-        throw new Error(`Errore nella modifica dell'esperienza: ${errorText}`);
+        throw new Error(`Errore nell'aggiornamento dell'esperienza: ${errorText}`);
       }
     } catch (error) {
       console.log(error);
     }
   };
 };
+
 
 
 export const uploadProfilePicture = (userId, file) => {

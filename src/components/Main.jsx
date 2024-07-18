@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { Button, Card, Container, Row, Col, Image, Modal, Form, Dropdown, ListGroup } from "react-bootstrap";
 import { ArrowRight, CameraFill, Pencil, Plus, Trash } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { getUser, uploadProfilePicture, fetchExperiences, deleteExperience, updateProfilePicture, fetchProfilesAside } from "../redux/actions";
+import { getUser, uploadProfilePicture, fetchExperiences, deleteExperience, updateExperience, updateProfilePicture, fetchProfilesAside } from "../redux/actions";
 import AddExperienceForm from "./AddExperienceForm";
 import EditExperienceForm from "./EditExperienceForm";
 
@@ -16,7 +16,7 @@ const Main = () => {
   const [show, setShow] = useState(false);
   const [showAddExperience, setShowAddExperience] = useState(false);
   const [showEditExperience, setShowEditExperience] = useState(false);
-  const [currentExperience, setCurrentExperience] = useState(null);
+  const [selectedExperience, setSelectedExperience] = useState(null);
 
   const fileInputRef = useRef(null);
   const fileInputCover = useRef(null);
@@ -58,8 +58,15 @@ const Main = () => {
     }
   };
 
+  const handleEditExperience = (updatedExperience) => {
+    if (selectedExperience) {
+      dispatch(updateExperience(user._id, selectedExperience._id, updatedExperience));
+      setShowEditExperience(false);
+    }
+  };
+
   const handleShowEditExperience = (experience) => {
-    setCurrentExperience(experience);
+    setSelectedExperience(experience);
     setShowEditExperience(true);
   };
 
@@ -430,7 +437,6 @@ const Main = () => {
           <div className="ms-2 pt-3"> {displayedUser.area}</div>
         </Modal.Body>
       </Modal>
-
       {/* Modale modifica immagine profilo */}
       <Modal centered show={showImgProfileModal} onHide={handleCloseImgProfileModal}>
         <Modal centered show={showImgProfileModal} onHide={handleCloseImgProfileModal}>
@@ -449,7 +455,7 @@ const Main = () => {
         </Modal>
       </Modal>
       {/* Modale modifica esperienza */}
-      <EditExperienceForm show={showEditExperience} handleClose={handleCloseEditExperience} experience={currentExperience} userId={displayedUser._id} />
+      <EditExperienceForm show={showEditExperience} handleClose={() => setShowEditExperience(false)} experience={selectedExperience} onSave={handleEditExperience} />
       {/* Modale aggiungi esperienza */}
       <AddExperienceForm show={showAddExperience} handleClose={() => setShowAddExperience(false)} userId={displayedUser._id} />
     </>

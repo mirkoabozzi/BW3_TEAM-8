@@ -1,38 +1,37 @@
 import { useState, useEffect } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { updateExperience, uploadExperiencePicture } from "../redux/actions";
 
-const EditExperienceForm = ({ show, handleClose, experience, userId }) => {
-  const [role, setRole] = useState("");
-  const [company, setCompany] = useState("");
-  const [description, setDescription] = useState("");
-  const [area, setArea] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [selectedFile, setSelectedFile] = useState(null);
+const EditExperienceForm = ({ show, handleClose, experience, onSave }) => {
+  const [formValues, setFormValues] = useState({
+    role: "",
+    company: "",
+    startDate: "",
+    endDate: "",
+    description: "",
+    area: "",
+  });
 
   useEffect(() => {
     if (experience) {
-      setRole(experience.role);
-      setCompany(experience.company);
-      setDescription(experience.description);
-      setArea(experience.area);
-      setStartDate(experience.startDate);
-      setEndDate(experience.endDate);
+      setFormValues({
+        role: experience.role,
+        company: experience.company,
+        startDate: experience.startDate,
+        endDate: experience.endDate,
+        description: experience.description,
+        area: experience.area,
+      });
     }
   }, [experience]);
 
-  const dispatch = useDispatch();
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormValues({ ...formValues, [name]: value });
+  };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const updatedExperience = { role, company, description, area, startDate, endDate };
-    await dispatch(updateExperience(userId, experience._id, updatedExperience));
-    if (selectedFile) {
-      await dispatch(uploadExperiencePicture(userId, experience._id, selectedFile));
-    }
-    handleClose();
+    onSave(formValues);
   };
 
   return (
@@ -42,35 +41,33 @@ const EditExperienceForm = ({ show, handleClose, experience, userId }) => {
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
-          <Form.Group>
+          <Form.Group controlId="role">
             <Form.Label>Ruolo</Form.Label>
-            <Form.Control type="text" value={role} onChange={(e) => setRole(e.target.value)} />
+            <Form.Control type="text" name="role" value={formValues.role} onChange={handleChange} required />
           </Form.Group>
-          <Form.Group>
+          <Form.Group controlId="company">
             <Form.Label>Azienda</Form.Label>
-            <Form.Control type="text" value={company} onChange={(e) => setCompany(e.target.value)} />
+            <Form.Control type="text" name="company" value={formValues.company} onChange={handleChange} required />
           </Form.Group>
-          <Form.Group>
+          <Form.Group controlId="startDate">
+            <Form.Label>Data di Inizio</Form.Label>
+            <Form.Control type="date" name="startDate" value={formValues.startDate} onChange={handleChange} required />
+          </Form.Group>
+          <Form.Group controlId="endDate">
+            <Form.Label>Data di Fine</Form.Label>
+            <Form.Control type="date" name="endDate" value={formValues.endDate} onChange={handleChange} />
+          </Form.Group>
+          <Form.Group controlId="description">
             <Form.Label>Descrizione</Form.Label>
-            <Form.Control type="text" value={description} onChange={(e) => setDescription(e.target.value)} />
+            <Form.Control type="text" name="description" value={formValues.description} onChange={handleChange} />
           </Form.Group>
-          <Form.Group>
-            <Form.Label>Area</Form.Label>
-            <Form.Control type="text" value={area} onChange={(e) => setArea(e.target.value)} />
+          <Form.Group controlId="area">
+            <Form.Label>Luogo</Form.Label>
+            <Form.Control type="text" name="area" value={formValues.area} onChange={handleChange} />
           </Form.Group>
-          <Form.Group>
-            <Form.Label>Data Inizio</Form.Label>
-            <Form.Control type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>Data Fine</Form.Label>
-            <Form.Control type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>Immagine</Form.Label>
-            <Form.Control type="file" onChange={(e) => setSelectedFile(e.target.files[0])} />
-          </Form.Group>
-          <Button type="submit">Salva</Button>
+          <Button variant="primary" type="submit">
+            Salva
+          </Button>
         </Form>
       </Modal.Body>
     </Modal>
