@@ -140,6 +140,26 @@
     background-color: #FFFFFF;
 }
 
+/* jobs */
+
+.button-jobs {
+
+    color: #0A66C2;
+    border: 1px solid #0A66C2;
+    padding-block: 2px;
+    padding-inline: 45px;
+    font-size: 14px;
+    padding-block: 2px;
+    padding-inline: 15px;
+    font-weight: 500;
+}
+
+.button-jobs:hover {
+    color: #004182 !important;
+    border: 1px solid #004182 !important;
+    background-color: #EDF3F8 !important;
+}
+
 /* media query */
 
 
