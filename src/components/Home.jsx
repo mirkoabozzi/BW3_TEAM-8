@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
-import { getPosts, newPost, updatePost } from "../redux/actions";
+import { deletePost, getPosts, newPost, updatePost } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
-import { Card, Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
+import { Card, Container, Row, Col, Form, Button, Modal, Spinner } from "react-bootstrap";
 import HomeLeftBar from "./HomeLeftBar";
 import Notizie from "./Notizie";
 import HomeFooter from "./HomeFooter";
 import { Link } from "react-router-dom";
+import { Trash } from "react-bootstrap-icons";
 
 const Home = () => {
-  // const user = useSelector((state) => state.mainReducer.user);
+  const user = useSelector((state) => state.mainReducer.user);
   const posts = useSelector((state) => state.homeReducer.posts);
-  // const isLoading = useSelector((state) => state.homeReducer.isLoading);
+  const isLoading = useSelector((state) => state.homeReducer.isLoading);
   const dispatch = useDispatch();
 
   const [post, setpost] = useState("");
@@ -19,11 +20,12 @@ const Home = () => {
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  // const handleShow = (post) => {
-  //   setEditPost(post.text);
-  //   setEditPostId(post._id);
-  //   setShow(true);
-  // };
+
+  const handleShow = (post) => {
+    setEditPost(post.text);
+    setEditPostId(post._id);
+    setShow(true);
+  };
 
   useEffect(() => {
     dispatch(getPosts());
@@ -61,38 +63,56 @@ const Home = () => {
   // console.log("posts", posts);
 
   return (
-    <Container className="mt-4">
-      {/* Dispositivi Desktop */}
-      <Row className="d-none d-lg-flex">
-        <Col lg={3}>
-          <HomeLeftBar />
-        </Col>
-        <Col lg={6}>
-          <h1>Posts</h1>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3" controlId="text">
-              <Form.Label>Aggiungi nuovo post</Form.Label>
-              <Form.Control type="text" placeholder="Scrivi qualcosa" value={post} onChange={(e) => setpost(e.target.value)} />
-            </Form.Group>
-          </Form>
-          {[...posts].reverse().map((post) => {
-            return (
-              <Card key={post._id} className="my-2">
-                <Card.Body>
-                  <Link to={`/${post.user._id}`} className="nav-link">
-                    <Card.Title>{post.user.username}</Card.Title></Link>
-                  <Card.Text>{post.text}</Card.Text>
-                  <Card.Text>{dataConverter(post.createdAt)}</Card.Text>
-                </Card.Body>
-              </Card>
-            );
-          })}
-        </Col>
-        <Col lg={3} className="d-none d-md-block">
-          <Notizie />
-          <HomeFooter />
-        </Col>
-      </Row>
+    <>
+      <Container className="mt-4">
+        <Row>
+          <Col lg={3}>
+            <HomeLeftBar />
+          </Col>
+          <Col lg={6}>
+            <h1>Home</h1>
+            <Form onSubmit={handleSubmit}>
+              <Form.Group className="mb-3" controlId="text">
+                <Form.Label>Aggiungi nuovo post</Form.Label>
+                <Form.Control type="text" placeholder="Scrivi qualcosa" value={post} onChange={(e) => setpost(e.target.value)} />
+              </Form.Group>
+            </Form>
+            {isLoading ? (
+              <Spinner animation="grow" />
+            ) : (
+              [...posts]
+                .reverse()
+                .slice(0, 30)
+                .map((post) => {
+                  return (
+                    <Card key={post._id} className="my-2">
+                      <Card.Body>
+                        <div className="d-flex justify-content-between">
+                          <Link to={`/${post.user._id}`} className="nav-link">
+                            <Card.Title>{post.user.username}</Card.Title>
+                          </Link>
+                          {user._id === post.user._id && <Trash onClick={() => dispatch(deletePost(post._id))} />}
+                        </div>
+                        <Card.Text>{post.text}</Card.Text>
+                        <Card.Text className="mb-0">Data creazione {dataConverter(post.createdAt)}</Card.Text>
+                        <Card.Text>Ultima modifica {dataConverter(post.updatedAt)}</Card.Text>
+                        {user._id === post.user._id && (
+                          <Button className="d-block mx-auto" onClick={() => handleShow(post)}>
+                            Modifica
+                          </Button>
+                        )}
+                      </Card.Body>
+                    </Card>
+                  );
+                })
+            )}
+          </Col>
+          <Col lg={3} className="d-none d-lg-block">
+            <Notizie />
+            <HomeFooter />
+          </Col>
+        </Row>
+      </Container>
 
       <Modal centered show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -105,8 +125,7 @@ const Home = () => {
           </Form>
         </Modal.Body>
       </Modal>
-    </Container>
-
+    </>
   );
 };
 export default Home;
