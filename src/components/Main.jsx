@@ -268,7 +268,6 @@ const Main = () => {
                     <Card.Title>Esperienza</Card.Title>
                     <div>
                       <Plus width={35} height={35} className="me-2" onClick={() => setShowAddExperience(true)} />
-                      <Pencil width={20} height={20} />
                       <Trash width={20} height={20} className="ms-2 text-danger" onClick={handleDeleteLastExperience} />
                     </div>
                   </div>

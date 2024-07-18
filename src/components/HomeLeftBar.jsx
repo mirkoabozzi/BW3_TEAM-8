@@ -15,17 +15,12 @@ const HomeLeftBar = () => {
   return (
     <Container>
       <Card className="mb-3">
-        <Link to={"/"}>
-          <Card.Img
-            variant="top"
-            src={user.image}
-            height={100}
-            style={{ objectFit: "cover" }}
-          />
+        <Link to={"/profile"}>
+          <Card.Img variant="top" src={user.image} height={100} style={{ objectFit: "cover" }} />
         </Link>
 
         <Card.Body className="text-center">
-          <Link to={"/"}>
+          <Link to={"/profile"}>
             <Image
               src={user.image}
               roundedCircle
