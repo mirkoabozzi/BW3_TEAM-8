@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUser, uploadProfilePicture, fetchExperiences, deleteExperience, updateExperience, updateProfilePicture, fetchProfilesAside } from "../redux/actions";
 import AddExperienceForm from "./AddExperienceForm";
 import EditExperienceForm from "./EditExperienceForm";
+import EditProfileForm from "./EditProfileForm";
 
 const Main = () => {
   const user = useSelector((state) => state.mainReducer.user);
@@ -26,6 +27,9 @@ const Main = () => {
   const [showImgProfileModal, setShowImgProfileModal] = useState(false);
   const handleCloseImgProfileModal = () => setShowImgProfileModal(false);
   const handleShowImgProfileModal = () => setShowImgProfileModal(true);
+
+  const [showEditProfileModal, setShowEditProfileModal] = useState(false);
+  const handleCloseEditProfileModal = () => setShowEditProfileModal(false);
 
   useEffect(() => {
     dispatch(getUser());
@@ -84,7 +88,6 @@ const Main = () => {
 
   const [file, setFile] = useState(null);
 
-  console.log("file", file);
   const hendleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
@@ -95,6 +98,7 @@ const Main = () => {
     handleCloseImgProfileModal();
   };
 
+  // console.log("file", file);
   return (
     <>
       <Container className="d-flex justify-content-center">
@@ -128,13 +132,7 @@ const Main = () => {
                   onClick={handleShowImgProfileModal}
                 />
                 <Card.Body className="mt-5">
-                  <Dropdown className="position-absolute" style={{ top: 265, right: 50 }}>
-                    <Dropdown.Toggle as={Pencil} width={20} height={20} style={{ cursor: "pointer" }} />
-                    <Dropdown.Menu>
-                      <Dropdown.Item onClick={handlePencilClick}>Carica Immagine</Dropdown.Item>
-                      <Form.Control type="file" ref={fileInputRef} onChange={handleFileChange} style={{ display: "none" }} />
-                    </Dropdown.Menu>
-                  </Dropdown>
+                  <Pencil className="position-absolute" style={{ top: 265, right: 50, cursor: "pointer" }} width={20} height={20} onClick={() => setShowEditProfileModal(true)} />
                   <Card.Title>
                     {displayedUser.name} {displayedUser.surname}
                   </Card.Title>
@@ -439,25 +437,27 @@ const Main = () => {
       </Modal>
       {/* Modale modifica immagine profilo */}
       <Modal centered show={showImgProfileModal} onHide={handleCloseImgProfileModal}>
-        <Modal centered show={showImgProfileModal} onHide={handleCloseImgProfileModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>
-              {displayedUser.name} {displayedUser.surname}
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <p className="mb-0">Cambia immagine del profilo</p>
-            <Form onSubmit={handleSubmit}>
-              <Form.Control type="file" accept="image/png, image/gif, image/jpeg" className="my-2" onChange={hendleFileChange} />
-              <Button type="submit">Invia</Button>
-            </Form>
-          </Modal.Body>
-        </Modal>
+        <Modal.Header closeButton>
+          <Modal.Title>
+            {displayedUser.name} {displayedUser.surname}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p className="mb-0">Cambia immagine del profilo</p>
+          <Form onSubmit={handleSubmit}>
+            <Form.Control type="file" accept="image/png, image/gif, image/jpeg" className="my-2" onChange={hendleFileChange} />
+            <Button type="submit">Invia</Button>
+          </Form>
+        </Modal.Body>
       </Modal>
+
       {/* Modale modifica esperienza */}
-      <EditExperienceForm show={showEditExperience} handleClose={() => setShowEditExperience(false)} experience={selectedExperience} onSave={handleEditExperience} />
+      <EditExperienceForm show={showEditExperience} handleClose={handleCloseEditExperience} experience={currentExperience} userId={displayedUser._id} />
+
       {/* Modale aggiungi esperienza */}
       <AddExperienceForm show={showAddExperience} handleClose={() => setShowAddExperience(false)} userId={displayedUser._id} />
+      {/* Modale modifica profilo */}
+      <EditProfileForm show={showEditProfileModal} handleClose={handleCloseEditProfileModal} />
     </>
   );
 };
