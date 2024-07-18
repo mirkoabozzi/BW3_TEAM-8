@@ -66,7 +66,7 @@ const Home = () => {
     <>
       <Container className="mt-4">
         <Row>
-          <Col lg={3}>
+          <Col className="p-0" lg={3}>
             <HomeLeftBar />
           </Col>
           <Col lg={6}>
@@ -132,7 +132,7 @@ const Home = () => {
                 })
             )}
           </Col>
-          <Col lg={3} className="d-none d-lg-block">
+          <Col lg={3} className="d-none d-lg-block p-0">
             <Notizie />
             <HomeFooter />
           </Col>

@@ -2,8 +2,8 @@ import { Container, Card, Col } from "react-bootstrap";
 
 const Notizie = () => {
   return (
-    <Container>
-      <Card className="mb-3 text-start">
+    <Container className="p-0">
+      <Card className="mb-3 text-start p-0">
         <Card.Body>
           <Card.Title>LinkedIn Notizie</Card.Title>
 

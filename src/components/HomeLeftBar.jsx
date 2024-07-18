@@ -13,7 +13,7 @@ const HomeLeftBar = () => {
   }, [dispatch]);
 
   return (
-    <Container>
+    <Container className="p-0">
       <Card className="mb-3">
         <Link to={"/profile"}>
           <Card.Img variant="top" src={user.image} height={100} style={{ objectFit: "cover" }} />
