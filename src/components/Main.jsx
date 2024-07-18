@@ -4,17 +4,18 @@ import { ArrowRight, CameraFill, Pencil, Plus, Trash } from "react-bootstrap-ico
 import { useDispatch, useSelector } from "react-redux";
 import { getUser, uploadProfilePicture, fetchExperiences, deleteExperience, updateProfilePicture, fetchProfilesAside } from "../redux/actions";
 import AddExperienceForm from "./AddExperienceForm";
+import EditProfileForm from "./EditProfileForm";
 
 const Main = () => {
   const user = useSelector((state) => state.mainReducer.user);
   const selectedUser = useSelector((state) => state.mainReducer.selectedUser);
   const experiences = useSelector((state) => state.mainReducer.experiences);
-  const profilesAside = useSelector(state => state.asideProfiles.profiles)
+  const profilesAside = useSelector((state) => state.asideProfiles.profiles);
   const dispatch = useDispatch();
 
   const [show, setShow] = useState(false);
   const [showAddExperience, setShowAddExperience] = useState(false);
-  const fileInputRef = useRef(null);
+  // const fileInputRef = useRef(null);
   const fileInputCover = useRef(null);
 
   const handleClose = () => setShow(false);
@@ -22,6 +23,10 @@ const Main = () => {
   const [showImgProfileModal, setShowImgProfileModal] = useState(false);
   const handleCloseImgProfileModal = () => setShowImgProfileModal(false);
   const handleShowImgProfileModal = () => setShowImgProfileModal(true);
+
+  const [showEditProfileModal, setShowEditProfileModal] = useState(false);
+  const handleCloseEditProfileModal = () => setShowEditProfileModal(false);
+  // const handleShowEditProfileModal = () => setShowEditProfileModal(true);
 
   useEffect(() => {
     dispatch(getUser());
@@ -39,14 +44,13 @@ const Main = () => {
     }
   };
 
-  const handlePencilClick = () => {
-    fileInputRef.current.click();
-  };
-
+  // const handlePencilClick = () => {
+  //   fileInputRef.current.click();
+  // };
 
   const handleCameraClick = () => {
     fileInputCover.current.click();
-  }
+  };
 
   const handleDeleteLastExperience = () => {
     if (experiences.length > 0) {
@@ -75,8 +79,6 @@ const Main = () => {
     handleCloseImgProfileModal();
   };
 
-
-
   return (
     <>
       <Container className="d-flex justify-content-center">
@@ -84,16 +86,8 @@ const Main = () => {
           <Col sm={8} md={8}>
             <Container className="position-relative">
               <Card className="mt-3 cover-img">
-                <Card.Img
-                  variant="top"
-                  src={displayedUser.image}
-                  height={250}
-                  style={{ objectFit: "cover" }}
-                />
-                <div
-                  className="position-absolute bg-white p-1 container-camera"
-                  style={{ right: 50, top: 40 }}
-                >
+                <Card.Img variant="top" src={displayedUser.image} height={250} style={{ objectFit: "cover" }} />
+                <div className="position-absolute bg-white p-1 container-camera" style={{ right: 50, top: 40 }}>
                   <Dropdown className="position-absolute">
                     <Dropdown.Toggle as={CameraFill} width={25} height={25} fill="#0A66C2" className="camera-icon" />
                     <Dropdown.Menu>
@@ -118,34 +112,21 @@ const Main = () => {
                   onClick={handleShowImgProfileModal}
                 />
                 <Card.Body className="mt-5">
-                  <Dropdown className="position-absolute" style={{ top: 265, right: 50 }}>
-                    <Dropdown.Toggle as={Pencil} width={20} height={20} style={{ cursor: "pointer" }} />
-                    <Dropdown.Menu>
-                      <Dropdown.Item onClick={handlePencilClick}>Carica Immagine</Dropdown.Item>
-                      <Form.Control type="file" ref={fileInputRef} onChange={handleFileChange} style={{ display: "none" }} />
-                    </Dropdown.Menu>
-                  </Dropdown>
+                  <Pencil className="position-absolute" style={{ top: 265, right: 50, cursor: "pointer" }} width={20} height={20} onClick={() => setShowEditProfileModal(true)} />
                   <Card.Title>
                     {displayedUser.name} {displayedUser.surname}
                   </Card.Title>
                   <Card.Text>{displayedUser.title}</Card.Text>
                   <Card.Text className="main-area">
                     {displayedUser.area} &middot;
-                    <a
-                      onClick={handleShow}
-                      href="#"
-                      className="fw-bold text-decoration-none ms-1 text-contact-info"
-                    >
+                    <a onClick={handleShow} href="#" className="fw-bold text-decoration-none ms-1 text-contact-info">
                       Informazioni di contatto
                     </a>
                   </Card.Text>
                   <Button variant="primary" className="rounded-pill my-1 me-2 button-main">
                     Disponibile per
                   </Button>
-                  <Button
-                    variant="white"
-                    className="rounded-pill my-1 me-2 border-primary button-main"
-                  >
+                  <Button variant="white" className="rounded-pill my-1 me-2 border-primary button-main">
                     Aggiungi sezione del profilo
                   </Button>
 
@@ -160,7 +141,6 @@ const Main = () => {
                 <Card.Body>
                   <div className="d-flex justify-content-between me-4">
                     <Card.Title>Analisi</Card.Title>
-
                   </div>
                   <Card.Text style={{ color: "grey", fontSize: "13px" }}>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" data-supported-dps="16x16" fill="grey" className="mercado-match me-1" width="16" height="16" focusable="false">
@@ -203,12 +183,10 @@ const Main = () => {
                         </div>
                       </div>
                     </div>
-
                   </div>
                   <div className="border-top pt-3 text-center hover-card" style={{ fontWeight: 600 }}>
                     Mostra tutte le analisi <ArrowRight />
-                    <div>
-                    </div>
+                    <div></div>
                   </div>
                 </Card.Body>
               </Card>
@@ -218,7 +196,6 @@ const Main = () => {
                 <Card.Body>
                   <div className=" me-4">
                     <Card.Title>Risorse</Card.Title>
-
                   </div>
                   <Card.Text style={{ color: "grey", fontSize: "13px" }}>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" data-supported-dps="16x16" fill="grey" className="mercado-match me-1" width="16" height="16" focusable="false">
@@ -248,13 +225,10 @@ const Main = () => {
                         </div>
                       </div>
                     </div>
-
-
                   </div>
                   <div className="border-top pt-3 text-center hover-card" style={{ fontWeight: 600 }}>
                     Mostra tutte le risorse ({randomDays}) <ArrowRight />
-                    <div>
-                    </div>
+                    <div></div>
                   </div>
                 </Card.Body>
               </Card>
@@ -330,11 +304,11 @@ const Main = () => {
 
           {/* aside */}
           <Col sm={4} md={4}>
-
             <Container className="d-flex flex-column pt-3">
-
               <Card className="full-width-card mb-3">
-                <Container fluid className="p-0"> {/* Utilizza fluid e p-0 per rimuovere padding */}
+                <Container fluid className="p-0">
+                  {" "}
+                  {/* Utilizza fluid e p-0 per rimuovere padding */}
                   <Card.Text className="py-3 ms-4 border-bottom" as="div">
                     <div className="d-flex justify-content-between">
                       <div style={{ fontSize: "18px", fontWeight: "600" }}>Lingua del profilo </div>
@@ -342,24 +316,23 @@ const Main = () => {
                     </div>
                     <div style={{ fontSize: "14px", color: "grey" }}>Italiano</div>
                   </Card.Text>
-
                   <Card.Text className="py-3 ms-4" as="div">
                     <div className="d-flex justify-content-between">
                       <div style={{ fontSize: "18px", fontWeight: "600" }}>Profilo pubblico e URL</div>
                       <Pencil className="me-4" />
                     </div>
-                    <div style={{ fontSize: "14px", color: "grey" }}>www.linkedin.com/in/{displayedUser.name}-{displayedUser.surname}-5a44422a0</div>
+                    <div style={{ fontSize: "14px", color: "grey" }}>
+                      www.linkedin.com/in/{displayedUser.name}-{displayedUser.surname}-5a44422a0
+                    </div>
                   </Card.Text>
                 </Container>
               </Card>
 
               <Card className="full-width-card">
-                <Container fluid className="p-0"> {/* Utilizza fluid e p-0 per rimuovere padding */}
-                  <img
-                    src="https://media.licdn.com/media/AAYQAgTPAAgAAQAAAAAAADVuOvKzTF-3RD6j-qFPqhubBQ.png"
-                    alt="see who's hiring"
-                    className="hiring-image"
-                  />
+                <Container fluid className="p-0">
+                  {" "}
+                  {/* Utilizza fluid e p-0 per rimuovere padding */}
+                  <img src="https://media.licdn.com/media/AAYQAgTPAAgAAQAAAAAAADVuOvKzTF-3RD6j-qFPqhubBQ.png" alt="see who's hiring" className="hiring-image" />
                 </Container>
               </Card>
 
@@ -372,12 +345,16 @@ const Main = () => {
                   <Row>
                     <Col md={12}>
                       <ListGroup variant="flush">
-                        {profilesAside.map(profile => (
+                        {profilesAside.map((profile) => (
                           <ListGroup.Item key={profile._id}>
                             <img src={profile.image} alt="user profile" width={40} height={40} className="rounded-circle img-aside" />
-                            <strong className="ms-2 name-aside">{profile.name} {profile.surname}</strong>
-                            <p className="ms-5 job-aside" style={{ fontSize: 14, color: "grey" }}>{profile.title}</p>
-                            <div >
+                            <strong className="ms-2 name-aside">
+                              {profile.name} {profile.surname}
+                            </strong>
+                            <p className="ms-5 job-aside" style={{ fontSize: 14, color: "grey" }}>
+                              {profile.title}
+                            </p>
+                            <div>
                               <Button variant="white" className="rounded-pill ms-5 button-follow">
                                 <Plus width={20} height={20} className="icon-plus"></Plus> Segui
                               </Button>
@@ -394,7 +371,7 @@ const Main = () => {
         </Row>
       </Container>
       {/* Modale info contatto */}
-      < Modal centered show={show} onHide={handleClose} >
+      <Modal centered show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>
             {displayedUser.name} {displayedUser.surname}
@@ -420,12 +397,9 @@ const Main = () => {
         </Modal.Body>
       </Modal>
 
-
       {/* Modale modifica immagine profilo */}
       <Modal centered show={showImgProfileModal} onHide={handleCloseImgProfileModal}>
-
-        < Modal centered show={showImgProfileModal} onHide={handleCloseImgProfileModal} >
-
+        <Modal centered show={showImgProfileModal} onHide={handleCloseImgProfileModal}>
           <Modal.Header closeButton>
             <Modal.Title>
               {displayedUser.name} {displayedUser.surname}
@@ -439,11 +413,11 @@ const Main = () => {
             </Form>
           </Modal.Body>
         </Modal>
-
-
-      </Modal >
+      </Modal>
       {/* Modale aggiungi esperienza */}
-      < AddExperienceForm show={showAddExperience} handleClose={() => setShowAddExperience(false)} userId={displayedUser._id} />
+      <AddExperienceForm show={showAddExperience} handleClose={() => setShowAddExperience(false)} userId={displayedUser._id} />
+      {/* Modale modifica profilo */}
+      <EditProfileForm show={showEditProfileModal} handleClose={handleCloseEditProfileModal} />
     </>
   );
 };
