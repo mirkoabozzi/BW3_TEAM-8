@@ -10,6 +10,7 @@ import {
   ListGroup,
 } from "react-bootstrap";
 import { searchProfiles, setSelectedUser } from "../redux/actions";
+import { Link } from "react-router-dom";
 
 const MyNavbar = () => {
   const [query, setQuery] = useState("");
@@ -25,13 +26,13 @@ const MyNavbar = () => {
   const handleSearch = (e) => {
     setQuery(e.target.value);
     if (e.target.value.trim() !== "") {
-      dispatch(searchProfiles(e.target.value)); // Azione Redux per la ricerca
+      dispatch(searchProfiles(e.target.value)); // azione Redux per la ricerca
     }
   };
 
-  // Gestisce la selezione di un profilo
+  // gestisce la selezione di un profilo
   const handleProfileSelect = (profile) => {
-    dispatch(setSelectedUser(profile)); // Azione Redux per impostare il profilo selezionato
+    dispatch(setSelectedUser(profile)); // azione Redux per impostare il profilo selezionato
     setQuery("");
   };
 
@@ -84,12 +85,15 @@ const MyNavbar = () => {
           </Form>
 
           {/* Icone */}
-          <div className="d-flex flex-column align-items-center mx-5 mt-2">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="#666666" className="mercado-match icon-nav" width="24" height="24" focusable="false">
-              <path d="M23 9v2h-2v7a3 3 0 01-3 3h-4v-6h-4v6H6a3 3 0 01-3-3v-7H1V9l11-7z"></path>
-            </svg>
-            <p className="text-navbar">Home</p>
-          </div>
+          <Link to={"/home"} className="nav-link">
+            <div className="d-flex flex-column align-items-center mx-5 mt-2">
+
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="#666666" className="mercado-match icon-nav" width="24" height="24" focusable="false">
+                <path d="M23 9v2h-2v7a3 3 0 01-3 3h-4v-6h-4v6H6a3 3 0 01-3-3v-7H1V9l11-7z"></path>
+              </svg>
+              <p className="text-navbar">Home</p>
+            </div>
+          </Link>
 
           <div className="d-flex flex-column align-items-center mx-5 mt-2 icon-nav">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="#666666" className="mercado-match icon-nav" width="24" height="24" focusable="false">
@@ -155,15 +159,16 @@ const MyNavbar = () => {
                     <NavDropdown.Item href="#action3">{displayedUser.title}</NavDropdown.Item>
                   </div>
                 </div>
-                <div className="d-flex justify-content-center">
-                  <Button
-                    variant="white"
-                    className="rounded-pill my-1 button-nav"
-                  >
-                    Visualizza profilo
-                  </Button>
-                </div>
-
+                <Link to={"/"}>
+                  <div className="d-flex justify-content-center">
+                    <Button
+                      variant="white"
+                      className="rounded-pill my-1 button-nav"
+                    >
+                      Visualizza profilo
+                    </Button>
+                  </div>
+                </Link>
 
                 <NavDropdown.Item href="#action3" className="subtitle-text">
                   Account

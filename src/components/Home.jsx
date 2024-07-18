@@ -5,6 +5,7 @@ import { Card, Container, Row, Col, Form } from "react-bootstrap";
 import HomeLeftBar from "./HomeLeftBar";
 import Notizie from "./Notizie";
 import HomeFooter from "./HomeFooter";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const posts = useSelector((state) => state.homeReducer.posts);
@@ -57,7 +58,8 @@ const Home = () => {
             return (
               <Card key={post._id} className="my-2">
                 <Card.Body>
-                  <Card.Title>{post.user.username}</Card.Title>
+                  <Link to={`/${post.user._id}`} className="nav-link">
+                    <Card.Title>{post.user.username}</Card.Title></Link>
                   <Card.Text>{post.text}</Card.Text>
                   <Card.Text>{dataConverter(post.createdAt)}</Card.Text>
                 </Card.Body>
