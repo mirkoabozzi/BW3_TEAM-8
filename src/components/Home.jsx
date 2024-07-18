@@ -70,7 +70,6 @@ const Home = () => {
             <HomeLeftBar />
           </Col>
           <Col lg={6}>
-            <h1>Home</h1>
             <Container className="border rounded">
               <Form className="mt-3" onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="text">
