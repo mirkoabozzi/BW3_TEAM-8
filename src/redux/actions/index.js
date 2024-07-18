@@ -25,7 +25,7 @@ export const getUser = () => {
 
       if (resp.ok) {
         const user = await resp.json();
-        console.log("user", user);
+        // console.log("user", user);
         dispatch({ type: SET_USER, payload: user });
       } else {
         throw new Error("Errore nel recupero dell'utente");
@@ -47,7 +47,7 @@ export const searchProfiles = (query) => {
 
       if (resp.ok) {
         const profiles = await resp.json();
-        console.log("profiles", profiles);
+        // console.log("profiles", profiles);
         const filteredProfiles = profiles.filter((profile) => `${profile.name.toLowerCase()} ${profile.surname.toLowerCase()}`.includes(query.toLowerCase()));
         dispatch({ type: SET_PROFILES, payload: filteredProfiles });
       } else {
@@ -298,7 +298,6 @@ export const deletePost = (postId) => {
       if (resp.ok) {
         dispatch(getPosts());
       } else {
-        alert("Puoi eliminare solo i tuoi post");
         throw new Error("Errore nella rimozione del post");
       }
     } catch (error) {
@@ -321,8 +320,29 @@ export const updatePost = (postId, newText) => {
       if (resp.ok) {
         dispatch(getPosts());
       } else {
-        alert("Puoi modificare solo i tuoi post");
-        throw new Error("Errore nella rimozione del post");
+        throw new Error("Errore nell'aggiornamento del post");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const updateProfile = (newInfoProfile) => {
+  return async (dispatch) => {
+    try {
+      const resp = await fetch("https://striveschool-api.herokuapp.com/api/profile/", {
+        method: "PUT",
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newInfoProfile),
+      });
+      if (resp.ok) {
+        dispatch(getUser());
+      } else {
+        throw new Error("Errore nella modifica delle info profilo");
       }
     } catch (error) {
       console.log(error);
