@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { deletePost, getPosts, newPost, updatePost } from "../redux/actions";
+import { deletePost, getPosts, newPost, updatePost, uploadPostPicture } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, Container, Row, Col, Form, Button, Modal, Spinner, Image } from "react-bootstrap";
 import HomeLeftBar from "./HomeLeftBar";
@@ -18,8 +18,14 @@ const Home = () => {
   const [editPost, setEditPost] = useState("");
   const [editPostId, setEditPostId] = useState(null);
 
+  const [file, setFile] = useState(null);
+
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
+
+  const [showAddImagePostModal, setShowAddImagePostModal] = useState(false);
+  const handleCloseImgProfileModal = () => setShowAddImagePostModal(false);
+  const handleShowAddImagePostModal = () => setShowAddImagePostModal(true);
 
   const handleShow = (post) => {
     setEditPost(post.text);
@@ -59,6 +65,17 @@ const Home = () => {
       setEditPostId(null);
     });
   };
+
+  const hendleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const handleSubmitImage = (e) => {
+    e.preventDefault();
+    dispatch(uploadPostPicture(post._id, file));
+    handleCloseImgProfileModal();
+  };
+
   console.log(user);
   console.log("posts", posts);
 
@@ -88,8 +105,11 @@ const Home = () => {
                   className="mb-2"
                   src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgaWQ9ImltYWdlLW1lZGl1bSIgYXJpYS1oaWRkZW49InRydWUiIHJvbGU9Im5vbmUiIGRhdGEtc3VwcG9ydGVkLWRwcz0iMjR4MjQiIGZpbGw9ImN1cnJlbnRDb2xvciI+CiAgPHBhdGggZD0iTTE5IDRINWEzIDMgMCAwMC0zIDN2MTBhMyAzIDAgMDAzIDNoMTRhMyAzIDAgMDAzLTNWN2EzIDMgMCAwMC0zLTN6bTEgMTNhMSAxIDAgMDEtLjI5LjcxTDE2IDE0bC0yIDItNi02LTQgNFY3YTEgMSAwIDAxMS0xaDE0YTEgMSAwIDAxMSAxem0tMi03YTIgMiAwIDExLTItMiAyIDIgMCAwMTIgMnoiLz4KPC9zdmc+"
                   style={{ width: 30 }}
+                  onClick={() => handleShowAddImagePostModal()}
                 />
-                <p className="ms-2 mb-2">Contenuti Multimediali</p>
+                <p className="ms-2 mb-2" onClick={() => handleShowAddImagePostModal()}>
+                  Contenuti Multimediali
+                </p>
               </div>
             </Container>
             {isLoading ? (
@@ -101,6 +121,7 @@ const Home = () => {
                 .map((post) => {
                   return (
                     <Card key={post._id} className="my-2">
+                      <Card.Img variant="top" src={post.image} />
                       <Card.Body>
                         <div className="d-flex justify-content-between">
                           <Link to={`/${post.user._id}`} className="nav-link">
@@ -137,6 +158,20 @@ const Home = () => {
         </Row>
       </Container>
       {/* Modale aggiungi immagine post */}
+      <Modal centered show={showAddImagePostModal} onHide={handleCloseImgProfileModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>
+            {user.name} {user.surname}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p className="mb-0">Aggiungi immagine</p>
+          <Form onSubmit={handleSubmitImage}>
+            <Form.Control type="file" accept="image/png, image/gif, image/jpeg" className="my-2" onChange={hendleFileChange} />
+            <Button type="submit">Invia</Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
 
       {/* Modale Modifica post */}
       <Modal centered show={show} onHide={handleClose}>

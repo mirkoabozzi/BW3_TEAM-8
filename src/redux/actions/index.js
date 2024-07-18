@@ -187,7 +187,6 @@ export const updateExperience = (userId, experienceId, experience) => {
   };
 };
 
-
 export const uploadProfilePicture = (userId, file) => {
   return async (dispatch) => {
     const formData = new FormData();
@@ -368,6 +367,31 @@ export const updateProfile = (newInfoProfile) => {
         dispatch(getUser());
       } else {
         throw new Error("Errore nella modifica delle info profilo");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const uploadPostPicture = (postId, file) => {
+  return async (dispatch) => {
+    const formData = new FormData();
+    formData.append("post", file);
+
+    try {
+      const resp = await fetch(`https://striveschool-api.herokuapp.com/api/posts/${postId}`, {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+        body: formData,
+      });
+
+      if (resp.ok) {
+        dispatch(getPosts());
+      } else {
+        throw new Error("Errore nel caricamento dell'immagine del post");
       }
     } catch (error) {
       console.log(error);
