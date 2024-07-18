@@ -11,37 +11,43 @@ const Notizie = () => {
           <Col>
             <small>
               <a className="text-decoration-none text-black" href="">
-                Storie principali <br /> <small>3 ore fa • 190 lettori</small>
+                <strong>Storie principali</strong>
+                <br /> <small>3 ore fa • 190 lettori</small>
               </a>
             </small>
             <br />
             <small>
               <a className="text-decoration-none text-black" href="">
-                Storie principali <br /> <small>2 ore fa • 30 lettori</small>
+                <strong>Storie principali</strong>
+                <br /> <small>2 ore fa • 30 lettori</small>
               </a>
             </small>
             <br />
             <small>
               <a className="text-decoration-none text-black" href="">
-                Storie principali <br /> <small>1 ora fa • 200 lettori</small>
+                <strong>Storie principali</strong>
+                <br /> <small>1 ora fa • 200 lettori</small>
               </a>
             </small>
             <br />
             <small>
               <a className="text-decoration-none text-black" href="">
-                Storie principali <br /> <small> Ieri • 143 lettori </small>
+                <strong>Storie principali</strong>
+                <br /> <small> Ieri • 143 lettori </small>
               </a>
             </small>
             <br />
             <small>
               <a className="text-decoration-none text-black" href="">
-                Storie principali <br /> <small>8 ore fa • 400 lettori</small>
+                <strong>Storie principali</strong>
+                <br /> <small>8 ore fa • 400 lettori</small>
               </a>
             </small>
             <br />
             <small>
               <a className="text-decoration-none text-black" href="">
-                Storie principali <br /> <small>12/07 • 19 lettori </small>
+                <strong>Storie principali</strong>
+                <br /> <small>12/07 • 19 lettori </small>
               </a>
             </small>
           </Col>
