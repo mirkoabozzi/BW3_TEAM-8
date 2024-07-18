@@ -8,11 +8,15 @@ export const ADD_EXPERIENCE_FAILURE = "ADD_EXPERIENCE_FAILURE";
 export const UPDATE_EXPERIENCES_LIST = "UPDATE_EXPERIENCES_LIST";
 export const GET_POSTS = "GET_POSTS";
 export const ADD_NEW_POST = "ADD_NEW_POST";
-
-
 export const SET_PROFILES_ASIDE = "SET_PROFILES_ASIDE"
 export const SET_PROFILES_ASIDE_ERROR = "SET_PROFILES_ASIDE_ERROR"
-
+export const FETCH_JOBS_REQUEST = "FETCH_JOBS_REQUEST";
+export const FETCH_JOBS_SUCCESS = "FETCH_JOBS_SUCCESS";
+export const FETCH_JOBS_FAILURE = "FETCH_JOBS_FAILURE";
+export const SEARCH_JOBS_REQUEST = 'SEARCH_JOBS_REQUEST';
+export const SEARCH_JOBS_SUCCESS = 'SEARCH_JOBS_SUCCESS';
+export const SEARCH_JOBS_FAILURE = 'SEARCH_JOBS_FAILURE';
+export const SET_SELECTED_JOB = " SET_SELECTED_JOB";
 
 
 
@@ -293,4 +297,52 @@ export const fetchProfilesAside = () => {
     }
   };
 }
+
+// azione per jobs
+
+export const setSelectedJob = (job) => ({
+  type: SET_SELECTED_JOB,
+  payload: job,
+});
+
+export const fetchJobs = (company) => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch(`https://strive-benchmark.herokuapp.com/api/jobs?company=${company}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        const annunci = await response.json();
+        console.log("annunci", annunci.data)
+        dispatch({ type: FETCH_JOBS_SUCCESS, payload: { company, jobs: annunci.data } });
+      } else {
+        throw new Error("Error fetching company posts. Status: " + response.status);
+      }
+    } catch (error) {
+      console.error("Fetch company posts error:", error);
+      dispatch({ type: FETCH_JOBS_FAILURE, payload: { company, error: error.message } });
+    }
+  };
+};
+
+// azione per ricerca lavori
+
+export const searchJobs = (query) => async (dispatch) => {
+  dispatch({ type: SEARCH_JOBS_REQUEST });
+  try {
+    const response = await fetch(`https://strive-benchmark.herokuapp.com/api/jobs?search=${query}`);
+    if (!response.ok) {
+      throw new Error("Network was not okay")
+    }
+    const data = await response.json();
+    console.log("jobs", data.data)
+    dispatch({ type: SEARCH_JOBS_SUCCESS, payload: data.data });
+  } catch (error) {
+    dispatch({ type: SEARCH_JOBS_FAILURE, payload: error.message });
+  }
+};
 

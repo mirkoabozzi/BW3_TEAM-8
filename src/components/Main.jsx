@@ -420,28 +420,22 @@ const Main = () => {
         </Modal.Body>
       </Modal>
 
-
       {/* Modale modifica immagine profilo */}
       <Modal centered show={showImgProfileModal} onHide={handleCloseImgProfileModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>
+            {displayedUser.name} {displayedUser.surname}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p className="mb-0">Cambia immagine del profilo</p>
+          <Form onSubmit={handleSubmit}>
+            <Form.Control type="file" accept="image/png, image/gif, image/jpeg" className="my-2" onChange={hendleFileChange} />
+            <Button type="submit">Invia</Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
 
-        < Modal centered show={showImgProfileModal} onHide={handleCloseImgProfileModal} >
-
-          <Modal.Header closeButton>
-            <Modal.Title>
-              {displayedUser.name} {displayedUser.surname}
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <p className="mb-0">Cambia immagine del profilo</p>
-            <Form onSubmit={handleSubmit}>
-              <Form.Control type="file" accept="image/png, image/gif, image/jpeg" className="my-2" onChange={hendleFileChange} />
-              <Button type="submit">Invia</Button>
-            </Form>
-          </Modal.Body>
-        </Modal>
-
-
-      </Modal >
       {/* Modale aggiungi esperienza */}
       < AddExperienceForm show={showAddExperience} handleClose={() => setShowAddExperience(false)} userId={displayedUser._id} />
     </>
