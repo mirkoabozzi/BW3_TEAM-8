@@ -27,7 +27,7 @@ const MyNavbar = () => {
   };
 
   return (
-    <Navbar expand="lg" className="bg-body-white border-bottom">
+    <Navbar expand="lg" className="bg-body-white border-bottom" style={{ backgroundColor: "white" }}>
       <Container>
         {/* Logo */}
 
