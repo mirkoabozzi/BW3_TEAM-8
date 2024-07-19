@@ -7,6 +7,7 @@ import Notizie from "./Notizie";
 import HomeFooter from "./HomeFooter";
 import { Link, useNavigate } from "react-router-dom";
 import { Trash } from "react-bootstrap-icons";
+import Messages from "./Messages";
 
 const token = import.meta.env.VITE_API_KEY;
 
@@ -321,6 +322,7 @@ const Home = () => {
           <Col lg={3} className="d-none d-lg-block p-0">
             <Notizie />
             <HomeFooter />
+            <Messages />
           </Col>
         </Row>
       </Container>

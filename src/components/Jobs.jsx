@@ -6,6 +6,7 @@ import HomeLeftBar from "./HomeLeftBar";
 import Notizie from "./Notizie";
 import HomeFooter from "./HomeFooter";
 import JobsLeftBar from "./JobsLeftBar";
+import Messages from "./Messages";
 const jobs = [];
 
 
@@ -178,6 +179,7 @@ const Jobs = () => {
                     <Col lg={3} className="d-none d-md-block">
 
                         <HomeFooter />
+                        <Messages />
                     </Col>
                 </Row>
 

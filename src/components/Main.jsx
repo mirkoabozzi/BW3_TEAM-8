@@ -7,6 +7,7 @@ import { getUser, uploadProfilePicture, fetchExperiences, deleteExperience, upda
 import AddExperienceForm from "./AddExperienceForm";
 import EditExperienceForm from "./EditExperienceForm";
 import EditProfileForm from "./EditProfileForm";
+import Messages from "./Messages";
 
 const Main = () => {
   const { userId } = useParams();
@@ -376,6 +377,7 @@ const Main = () => {
             </Container>
           </Col>
         </Row>
+        <Messages />
       </Container>
       <Modal centered show={show} onHide={handleClose}>
         <Modal.Header closeButton>
