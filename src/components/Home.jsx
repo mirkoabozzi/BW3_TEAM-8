@@ -89,7 +89,7 @@ const Home = () => {
       });
       if (resp.ok) {
         const post = await resp.json();
-        console.log("post", post);
+        // console.log("post", post);
         if (file) {
           await uploadPostPicture(post._id);
           dispatch(getPosts());
@@ -141,9 +141,9 @@ const Home = () => {
     setComment("");
   };
 
-  const handleDeleteComment = async () => {
-    dispatch(deleteComment());
-  };
+  // const handleDeleteComment = async () => {
+  //   dispatch(deleteComment());
+  // };
 
   // console.log(user);
   // console.log("posts", posts);
@@ -215,12 +215,12 @@ const Home = () => {
                               return comment.elementId === post._id;
                             })
                             .map((comment) => {
-                              console.log("comment", comment);
+                              // console.log("comment", comment);
                               return (
                                 <ListGroup.Item key={comment.elementId}>
                                   <p>{comment.author}</p>
                                   {comment.comment}
-                                  <Trash style={{ cursor: "pointer" }} onClick={handleDeleteComment} />
+                                  {user.username === comment.author && <Trash style={{ cursor: "pointer" }} onClick={() => dispatch(deleteComment(comment._id))} />}
                                   <p style={{ fontSize: "13px" }}>{dataConverter(comment.createdAt)}</p>
                                 </ListGroup.Item>
                               );
@@ -276,7 +276,6 @@ const Home = () => {
             <HomeFooter />
             <Messages />
           </Col>
-
         </Row>
       </Container>
       {/* Modale aggiungi immagine post */}
