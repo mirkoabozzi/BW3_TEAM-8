@@ -3,7 +3,6 @@ import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import MyNavbar from "./components/MyNavbar";
 import Main from "./components/Main";
-import Footer from "./components/Footer";
 import Home from "./components/Home";
 import Jobs from "./components/Jobs";
 import NotFound from "./components/NotFound";
@@ -18,7 +17,7 @@ function App() {
         <Route path="/jobs/:id" element={<Jobs />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      <Footer />
+
     </BrowserRouter>
   );
 }

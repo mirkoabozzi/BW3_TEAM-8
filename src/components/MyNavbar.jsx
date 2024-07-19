@@ -20,8 +20,7 @@ const MyNavbar = () => {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.mainReducer.user);
-  const selectedUser = useSelector((state) => state.mainReducer.selectedUser);
-  const displayedUser = selectedUser || user;
+
 
 
 
@@ -140,20 +139,20 @@ const MyNavbar = () => {
           </div>
 
           {/* Immagine profilo e dropdown */}
-          <div className="d-flex flex-column align-items-center mx-5">
+          <div className="d-flex flex-column align-items-center mx-5 pe-5" style={{ borderRight: "1px solid lightgrey" }}>
             <div>
-              <Image src={displayedUser.image} alt="avatar user" width={45} height={45} className="rounded-circle user-avatar" />
+              <Image src={user.image} alt="avatar user" width={45} height={45} className="rounded-circle user-avatar" />
 
-              <NavDropdown title="Tu" id="navbarScrollingDropdown" drop="down" align="end" className="nav-dropdown">
+              <NavDropdown title="Tu" id="navbarScrollingDropdown" drop="down" align="end" className="nav-dropdown-profile">
                 <div className="d-flex">
                   <div>
-                    <Image src={displayedUser.image} alt="avatar user" width={55} height={55} className="rounded-circle mt-2 ms-1 mb-3" />
+                    <Image src={user.image} alt="avatar user" width={55} height={55} className="rounded-circle mt-2 ms-1 mb-3" />
                   </div>
                   <div>
                     <NavDropdown.Item href="#action3" className="fw-bold">
-                      {displayedUser.name} {displayedUser.surname}
+                      {user.name} {user.surname}
                     </NavDropdown.Item>
-                    <NavDropdown.Item href="#action3">{displayedUser.title}</NavDropdown.Item>
+                    <NavDropdown.Item href="#action3" style={{ fontSize: "14px" }}>{user.title}</NavDropdown.Item>
                   </div>
                 </div>
                 <Link to={"/profile"}>
@@ -189,7 +188,82 @@ const MyNavbar = () => {
                 </NavDropdown.Item>
               </NavDropdown>
             </div>
+
           </div>
+
+          {/* secondo dropdown */}
+
+          <div>
+            <div className="d-flex flex-column align-items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="currentColor" className="mercado-match" width="30" height="30" focusable="false">
+                <path d="M3 3h4v4H3zm7 4h4V3h-4zm7-4v4h4V3zM3 14h4v-4H3zm7 0h4v-4h-4zm7 0h4v-4h-4zM3 21h4v-4H3zm7 0h4v-4h-4zm7 0h4v-4h-4z"></path>
+              </svg>
+            </div>
+            <NavDropdown title="Per le aziende" id="navbarScrollingDropdown" drop="down" align="end" className="nav-dropdown">
+
+              <div className="d-flex">
+
+                <div>
+                  <NavDropdown.Item href="#action3" className="fw-bold mt-3">
+                    Scopri altro per il business
+                  </NavDropdown.Item>
+
+                </div>
+              </div>
+              <div className="my-3">
+                <NavDropdown.Item href="#action4" className="subtitle-text">
+                  Assumi su LinkedIn
+                </NavDropdown.Item>
+                <NavDropdown.Item href="#action4" className="small-text">
+                  Trova, attrai e assumi
+                </NavDropdown.Item>
+              </div>
+              <div className="mb-3">
+                <NavDropdown.Item href="#action4" className="subtitle-text">
+                  Vendi con LinkedIn
+                </NavDropdown.Item>
+                <NavDropdown.Item href="#action4" className="small-text">
+                  Sblocca nuove opportunità di vendita
+                </NavDropdown.Item>
+              </div>
+              <div className="mb-3">
+                <NavDropdown.Item href="#action4" className="subtitle-text">
+                  Offerta di lavoro gratuita
+                </NavDropdown.Item>
+                <NavDropdown.Item href="#action4" className="small-text">
+                  Ottieni rapidamente candidati qualificati
+                </NavDropdown.Item>
+              </div>
+              <div className="mb-3">
+                <NavDropdown.Item href="#action4" className="subtitle-text">
+                  Fai pubblicità su LinkedIn
+                </NavDropdown.Item>
+
+
+                <NavDropdown.Item href="#action4" className="small-text">
+                  Acquisisci clienti e fai crescer la tua azienda
+                </NavDropdown.Item>
+              </div>
+              <div className="mb-3">
+                <NavDropdown.Item href="#action5" className="subtitle-text">
+                  Impara con LinkedIn
+                </NavDropdown.Item>
+
+                <NavDropdown.Item href="#action4" className="small-text">
+                  Assumi su LinkedIn
+                </NavDropdown.Item>
+              </div>
+              <div className="mb-3">
+                <NavDropdown.Item href="#action5" className="subtitle-text">
+                  Admin center
+                </NavDropdown.Item>
+                <NavDropdown.Item href="#action4" className="small-text">
+                  Gestisci i dettagli di fatturazione e account
+                </NavDropdown.Item>
+              </div>
+            </NavDropdown>
+          </div>
+
         </div>
       </Container>
     </Navbar>

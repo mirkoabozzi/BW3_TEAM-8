@@ -6,6 +6,10 @@ import { getUser, uploadProfilePicture, fetchExperiences, deleteExperience, upda
 import AddExperienceForm from "./AddExperienceForm";
 import EditExperienceForm from "./EditExperienceForm";
 import EditProfileForm from "./EditProfileForm";
+import Messages from "./Messages";
+import MyFooter from "./MyFooter";
+
+
 
 const Main = () => {
   const user = useSelector((state) => state.mainReducer.user);
@@ -13,6 +17,33 @@ const Main = () => {
   const experiences = useSelector((state) => state.mainReducer.experiences);
   const profilesAside = useSelector((state) => state.asideProfiles.profiles);
   const dispatch = useDispatch();
+
+  // const [clicked, setClicked] = useState(false);
+
+  // const toggleClicked = (profile) => {
+  //   profile.clicked = !profile.clicked;
+  //   console.log(profile);
+  // };
+
+
+
+  const [profiles, setProfiles] = useState(
+    profilesAside.slice(393, 404).map(profile => ({ ...profile, clicked: false }))
+  );
+
+  //  il click sul bottone follow
+  const toggleClicked = (profileId) => {
+    setProfiles(profiles.map(profile => {
+      if (profile._id === profileId) {
+        profile.clicked = !profile.clicked;
+        console.log(profile);
+      }
+      return profile;
+    }));
+  };
+
+
+
 
   const [show, setShow] = useState(false);
   const [showAddExperience, setShowAddExperience] = useState(false);
@@ -53,6 +84,8 @@ const Main = () => {
   //   fileInputRef.current.click();
   // };
 
+
+
   const handleCameraClick = () => {
     fileInputCover.current.click();
   };
@@ -92,6 +125,8 @@ const Main = () => {
     dispatch(updateProfilePicture(user._id, file));
     handleCloseImgProfileModal();
   };
+
+
 
   console.log("file", file);
   return (
@@ -349,7 +384,7 @@ const Main = () => {
                     </div>
                     <div style={{ fontSize: "14px", color: "grey" }}>Italiano</div>
                   </Card.Text>
-                  <Card.Text className="py-3 ms-4" as="div">
+                  <Card.Text className="py-3 mx-3 me-4" as="div">
                     <div className="d-flex justify-content-between">
                       <div style={{ fontSize: "18px", fontWeight: "600" }}>Profilo pubblico e URL</div>
                       <Pencil className="me-4" />
@@ -362,10 +397,9 @@ const Main = () => {
               </Card>
 
               <Card className="full-width-card">
-                <Container fluid className="p-0">
-                  {" "}
-                  {/* Utilizza fluid e p-0 per rimuovere padding */}
-                  <img src="https://media.licdn.com/media/AAYQAgTPAAgAAQAAAAAAADVuOvKzTF-3RD6j-qFPqhubBQ.png" alt="see who's hiring" className="hiring-image" />
+                <Container fluid className="p-0 me-3">
+
+                  <img src="https://media.licdn.com/media/AAYQAgTPAAgAAQAAAAAAADVuOvKzTF-3RD6j-qFPqhubBQ.png" alt="see who's hiring" className="hiring-image me-3" />
                 </Container>
               </Card>
 
@@ -380,30 +414,45 @@ const Main = () => {
                       <ListGroup variant="flush">
 
 
-                        {[...profilesAside].slice(0, 11)
-                          .map((profile) => (
-                            <ListGroup.Item key={profile._id}>
-                              <img src={profile.image} alt="user profile" width={40} height={40} className="rounded-circle img-aside" />
-                              <strong className="ms-2 name-aside">
-                                {profile.name} {profile.surname}
-                              </strong>
-                              <p className="ms-5 job-aside" style={{ fontSize: 14, color: "grey" }}>
-                                {profile.title}
-                              </p>
-                              <div>
-                                <Button variant="white" className="rounded-pill ms-5 button-follow">
-                                  <Plus width={20} height={20} className="icon-plus"></Plus> Segui
-                                </Button>
+
+                        {profiles.map((profile) => (
+                          <ListGroup.Item key={profile._id}>
+                            <div className="d-flex">
+                              <Image src={profile.image} alt="user profile" width={40} height={40} className="rounded-circle img-aside" />
+                              <div className="d-flex flex-column">
+                                <strong className="ms-3 name-aside">
+                                  {profile.name} {profile.surname}
+                                </strong>
+                                <p className="ms-3 job-aside" style={{ fontSize: 14, color: "grey" }}>
+                                  {profile.title}
+                                </p>
+                                <div>
+                                  {profile.clicked ? (
+                                    <Button variant="primary" className="rounded-pill ms-3 button-followed" onClick={() => toggleClicked(profile._id)}>
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-check-lg" viewBox="0 0 16 16">
+                                        <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z" />
+                                      </svg> Seguito
+                                    </Button>
+                                  ) : (
+                                    <Button variant="white" className="rounded-pill ms-3 button-follow" onClick={() => toggleClicked(profile._id)}>
+                                      <Plus width={20} height={20} className="icon-plus"></Plus> Segui
+                                    </Button>
+                                  )}
+                                </div>
+
                               </div>
-                            </ListGroup.Item>
-                          ))}
+                            </div>
+                          </ListGroup.Item>
+                        ))}
                       </ListGroup>
                     </Col>
                   </Row>
                 </Container>
               </Card>
             </Container>
+            <Messages />
           </Col>
+          <MyFooter />
         </Row>
       </Container>
       {/* Modale info contatto */}

@@ -8,6 +8,8 @@ const HomeLeftBar = () => {
   const user = useSelector((state) => state.mainReducer.user);
   const dispatch = useDispatch();
 
+
+
   useEffect(() => {
     dispatch(getUser());
   }, [dispatch]);

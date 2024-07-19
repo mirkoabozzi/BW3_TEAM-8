@@ -1,6 +1,6 @@
 import { Container, Row, Col, NavDropdown } from "react-bootstrap";
 
-const Footer = () => {
+const MyFooter = () => {
   return (
     <footer>
       <Container className="mt-5">
@@ -143,4 +143,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default MyFooter;
