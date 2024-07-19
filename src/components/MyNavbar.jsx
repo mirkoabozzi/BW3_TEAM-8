@@ -2,14 +2,14 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Container, Form, Image, Navbar, NavDropdown, ListGroup } from "react-bootstrap";
 import { searchJobs, searchProfiles, setSelectedJob, setSelectedUser } from "../redux/actions";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const MyNavbar = () => {
   const [query, setQuery] = useState("");
-
   const profiles = useSelector((state) => state.mainReducer.profiles);
   const jobs = useSelector((state) => state.mainReducer.jobs);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const user = useSelector((state) => state.mainReducer.user);
 
@@ -21,11 +21,12 @@ const MyNavbar = () => {
     }
   };
 
-  // gestisce la selezione di un profilo o di un lavoro
+  // Gestisce la selezione di un profilo o di un lavoro
   const handleProfileSelect = (result) => {
     if (result.type === "profile") {
-      dispatch(setSelectedUser(result));
+      dispatch(setSelectedUser(result._id));
       setQuery("");
+      navigate(`/profile/${result._id}`);
     } else if (result.type === "job") {
       dispatch(setSelectedJob(result));
       setQuery("");
