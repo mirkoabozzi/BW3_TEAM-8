@@ -1,322 +1,316 @@
 /* CSS navbar */
 .icon-nav:hover {
-    cursor: pointer;
-    fill: black;
-    color: black !important;
+  cursor: pointer;
+  fill: black;
+  color: black !important;
 }
 
 .input-search {
-    background-color: #EDF3F8;
-    border: none;
+  background-color: #edf3f8;
+  border: none;
 }
 
 .icon-logo {
-    margin-left: 35px;
+  margin-left: 35px;
 }
 
 /* CSS main */
 
 .container-camera {
-    border-radius: 50%;
-    cursor: pointer;
-    width: 34px;
-    height: 34px;
+  border-radius: 50%;
+  cursor: pointer;
+  width: 34px;
+  height: 34px;
 }
 
 .main-area {
-    color: grey;
-    font-size: 0.9rem;
-
+  color: grey;
+  font-size: 0.9rem;
 }
 
 .button-main,
 .button-follow {
-    padding-block: 2px;
-    padding-inline: 15px;
-    font-weight: 500;
+  padding-block: 2px;
+  padding-inline: 15px;
+  font-weight: 500;
 }
 
 .button-main:first-of-type {
-    background-color: #0A66C2;
+  background-color: #0a66c2;
 }
 
 .button-main:first-of-type:hover {
-    background-color: #004182;
+  background-color: #004182;
 }
 
 .button-main:nth-of-type(2) {
-    color: #0A66C2;
-    border: 1px solid #0A66C2;
+  color: #0a66c2;
+  border: 1px solid #0a66c2;
 }
 
 .button-main:nth-of-type(3) {
-    color: black;
+  color: black;
 }
 
 .button-main:nth-of-type(2):hover {
-    background-color: #EBF4FD;
-    border: 1px solid #004182;
-    color: #004182;
+  background-color: #ebf4fd;
+  border: 1px solid #004182;
+  color: #004182;
 }
 
 .camera-icon:hover {
-    fill: #004182;
+  fill: #004182;
 }
 
-
 .pen-icon:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .text-contact-info {
-    color: #0A66C2;
+  color: #0a66c2;
 }
 
 /* aside */
 .button-follow {
-    padding-inline: 25px;
-    border: 1px solid black;
-    margin-bottom: 10px;
+  padding-inline: 25px;
+  border: 1px solid black;
+  margin-bottom: 10px;
 }
 
 .button-follow:hover {
-    border: 2px solid black;
+  border: 2px solid black;
 }
 
 .hiring-image {
-    object-fit: cover;
-    width: 100%;
-    height: auto;
+  object-fit: cover;
+  width: 100%;
+  height: auto;
 }
 
 /* navbar */
 
 .nav-dropdown .dropdown-menu {
-    width: 250px;
+  width: 250px;
 }
 
 .button-nav {
-    color: #0A66C2;
-    border: 1px solid #0A66C2;
-    padding-block: 2px;
-    padding-inline: 45px;
-    font-size: 14px;
+  color: #0a66c2;
+  border: 1px solid #0a66c2;
+  padding-block: 2px;
+  padding-inline: 45px;
+  font-size: 14px;
 }
 
 .button-nav:hover {
-    background-color: #EBF4FD;
-    color: #0A66C2;
-    border: 2px solid #004182;
-    padding-block: 2px;
-    padding-inline: 35px;
-    font-size: 14px;
+  background-color: #ebf4fd;
+  color: #0a66c2;
+  border: 2px solid #004182;
+  padding-block: 2px;
+  padding-inline: 35px;
+  font-size: 14px;
 }
 
 .small-text {
-    font-size: 13px;
-    color: grey;
+  font-size: 13px;
+  color: grey;
 }
 
 .subtitle-text {
-    font-size: 15px;
-    font-weight: 600;
+  font-size: 15px;
+  font-weight: 600;
 }
 
 .analytics-title {
-    font-weight: 600;
+  font-weight: 600;
 }
 
 .analytics-text {
-    font-size: 14px;
+  font-size: 14px;
 }
 
 .analytics-days {
-    font-size: 12px;
-    color: grey;
+  font-size: 12px;
+  color: grey;
 }
 
 .hover-card:hover {
-    cursor: pointer;
-    background-color: #FFFFFF;
+  cursor: pointer;
+  background-color: #ffffff;
 }
 
 /* jobs */
 
 .button-jobs {
-    color: #0A66C2;
-    border: 1px solid #0A66C2;
-    padding-block: 2px;
-    padding-inline: 45px;
-    font-size: 14px;
-    padding-block: 2px;
-    padding-inline: 15px;
-    font-weight: 500;
+  color: #0a66c2;
+  border: 1px solid #0a66c2;
+  padding-block: 2px;
+  padding-inline: 45px;
+  font-size: 14px;
+  padding-block: 2px;
+  padding-inline: 15px;
+  font-weight: 500;
 }
 
 .button-jobs:hover,
 .button-offer:hover {
-    color: #004182 !important;
-    border: 1px solid #004182 !important;
-    background-color: #EDF3F8 !important;
+  color: #004182 !important;
+  border: 1px solid #004182 !important;
+  background-color: #edf3f8 !important;
 }
 
 .button-offer {
-    color: #0A66C2;
-    border: 1px solid #0A66C2;
-    padding-block: 6px;
-    padding-inline: 45px;
-    font-size: 14px;
-    font-weight: 500;
-    border-radius: 25px;
+  color: #0a66c2;
+  border: 1px solid #0a66c2;
+  padding-block: 6px;
+  padding-inline: 45px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 25px;
 }
 
 .jobs-text {
-    font-size: 14px;
-    font-weight: 500;
-    color: #404040;
+  font-size: 14px;
+  font-weight: 500;
+  color: #404040;
 }
 
 .search-jobs {
-    background-color: #EDF3F8;
-    border: none;
-    width: 14rem;
+  background-color: #edf3f8;
+  border: none;
+  width: 14rem;
 }
 
 /* media query */
 
-
 @media (max-width: 1400px) {
+  .icon-nav svg {
+    width: 25px;
+    height: 25px;
+    flex-wrap: nowrap;
+  }
 
-    .icon-nav svg {
-        width: 25px;
-        height: 25px;
-        flex-wrap: nowrap;
-    }
+  .icon-logo {
+    width: 30px !important;
+    height: 30px !important;
+  }
 
-    .icon-logo {
-        width: 30px !important;
-        height: 30px !important;
-    }
+  .user-avatar {
+    width: 25px;
+    height: 25px;
+  }
 
-    .user-avatar {
-        width: 25px;
-        height: 25px;
-    }
+  .icon-nav p {
+    font-size: 12px;
+    margin-top: 5px;
+  }
 
-    .icon-nav p {
-        font-size: 12px;
-        margin-top: 5px;
-    }
-
-    .input-search,
-    .search-jobs {
-        width: 8rem;
-    }
-
+  .input-search,
+  .search-jobs {
+    width: 8rem;
+  }
 }
 
 @media (max-width: 945px) {
+  .icon-nav svg {
+    width: 25px;
+    height: 25px;
+    flex-wrap: nowrap;
+  }
 
-    .icon-nav svg {
-        width: 25px;
-        height: 25px;
-        flex-wrap: nowrap;
-    }
+  .icon-logo {
+    width: 35px !important;
+    height: 35px !important;
+  }
 
-    .icon-logo {
-        width: 35px !important;
-        height: 35px !important;
-    }
+  .user-avatar {
+    width: 35px;
+    height: 35px;
+  }
 
-    .user-avatar {
-        width: 35px;
-        height: 35px;
-    }
+  .text-navbar,
+  .input-search,
+  .search-jobs {
+    display: none;
+  }
 
-
-    .text-navbar,
-    .input-search,
-    .search-jobs {
-        display: none;
-    }
-
-    .text-dropdown .dropdown-toggle::after {
-        content: "";
-    }
-
-
-
-
+  .text-dropdown .dropdown-toggle::after {
+    content: "";
+  }
 }
 
 @media (max-width: 992px) {
-    .button-follow {
-        margin-left: 0;
-        height: 30px;
-        font-size: 14px;
-    }
+  .button-follow {
+    margin-left: 0;
+    height: 30px;
+    font-size: 14px;
+  }
 
-    .icon-plus {
-        height: 15px;
-        width: 15px;
-    }
+  .icon-plus {
+    height: 15px;
+    width: 15px;
+  }
 
-    .name-aside {
-        font-size: 13px;
-    }
+  .name-aside {
+    font-size: 13px;
+  }
 
-    .job-aside {
-        font-size: 11px;
-    }
+  .job-aside {
+    font-size: 11px;
+  }
 
-    .img-aside {
-        width: 30px;
-        height: 30px;
-    }
+  .img-aside {
+    width: 30px;
+    height: 30px;
+  }
 
-    .button-follow {
-        display: none;
-    }
+  .button-follow {
+    display: none;
+  }
 }
 
 @media (max-width: 945px) {
+  .icon-nav svg {
+    width: 25px;
+    height: 25px;
+    flex-wrap: nowrap;
+    margin-inline: -30px;
+  }
 
-    .icon-nav svg {
-        width: 25px;
-        height: 25px;
-        flex-wrap: nowrap;
-        margin-inline: -30px;
-    }
+  .icon-logo {
+    margin-right: 10px;
+  }
 
-    .icon-logo {
-        margin-right: 10px
-    }
+  .flex-analytics {
+    flex-direction: column;
+  }
 
-    .flex-analytics {
-        flex-direction: column;
-
-    }
-
-    .analisi-dati {
-        margin-block: 10px;
-    }
+  .analisi-dati {
+    margin-block: 10px;
+  }
 }
 
 @media (max-width: 699px) {
+  .icon-nav svg {
+    width: 20px;
+    height: 20px;
+    flex-wrap: nowrap;
+  }
 
-    .icon-nav svg {
-        width: 20px;
-        height: 20px;
-        flex-wrap: nowrap;
-    }
+  .user-avatar {
+    width: 30px;
+    height: 30px;
+  }
 
-    .user-avatar {
-        width: 30px;
-        height: 30px;
-    }
+  .button-follow {
+    display: none;
+  }
+}
 
-    .button-follow {
-        display: none;
-    }
-
+.hoverEffect {
+  transition: 300ms;
+}
+.hoverEffect:hover {
+  border-radius: 6px;
+  background-color: #f3f3f3;
+  transition: 300ms;
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { deletePost, getPosts, newPost, updatePost, uploadPostPicture } from "../redux/actions";
+import { deletePost, getPosts, updatePost } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, Container, Row, Col, Form, Button, Modal, Spinner, Image } from "react-bootstrap";
 import HomeLeftBar from "./HomeLeftBar";
@@ -8,13 +8,15 @@ import HomeFooter from "./HomeFooter";
 import { Link } from "react-router-dom";
 import { Trash } from "react-bootstrap-icons";
 
+const token = import.meta.env.VITE_API_KEY;
+
 const Home = () => {
   const user = useSelector((state) => state.mainReducer.user);
   const posts = useSelector((state) => state.homeReducer.posts);
   const isLoading = useSelector((state) => state.homeReducer.isLoading);
   const dispatch = useDispatch();
 
-  const [post, setpost] = useState("");
+  const [post, setPost] = useState("");
   const [editPost, setEditPost] = useState("");
   const [editPostId, setEditPostId] = useState(null);
 
@@ -52,32 +54,78 @@ const Home = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await dispatch(newPost(post)).then(() => {
-      setpost("");
-    });
+    await newPost(post);
+    setPost("");
   };
 
   const handleSubmitEditPost = async (e) => {
     e.preventDefault();
-    await dispatch(updatePost(editPostId, editPost)).then(() => {
-      handleClose();
-      setEditPost("");
-      setEditPostId(null);
-    });
+    await dispatch(updatePost(editPostId, editPost));
+    handleClose();
+    setEditPost("");
+    setEditPostId(null);
   };
 
   const hendleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
 
-  const handleSubmitImage = (e) => {
-    e.preventDefault();
-    dispatch(uploadPostPicture(post._id, file));
-    handleCloseImgProfileModal();
+  const newPost = async (post) => {
+    try {
+      const resp = await fetch("https://striveschool-api.herokuapp.com/api/posts/", {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text: post }),
+      });
+      if (resp.ok) {
+        const post = await resp.json();
+        console.log("post", post);
+        if (file) {
+          await uploadPostPicture(post._id);
+          dispatch(getPosts());
+        }
+        handleCloseImgProfileModal();
+        dispatch(getPosts());
+
+        return post;
+      } else {
+        throw new Error("Errore nell creazione del post");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  console.log(user);
-  console.log("posts", posts);
+  const uploadPostPicture = async (postId) => {
+    const formData = new FormData();
+    formData.append("post", file);
+
+    try {
+      const resp = await fetch(`https://striveschool-api.herokuapp.com/api/posts/${postId}`, {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+        body: formData,
+      });
+
+      if (resp.ok) {
+        getPosts();
+      } else {
+        throw new Error("Errore nel caricamento dell'immagine del post");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // console.log(user);
+  // console.log("posts", posts);
+  // console.log("file", file);
+  // console.log("editPostId", editPostId);
 
   return (
     <>
@@ -87,33 +135,28 @@ const Home = () => {
             <HomeLeftBar />
           </Col>
           <Col lg={6}>
-            <Card>
-              <Container>
-                <Form className="mt-3" onSubmit={handleSubmit}>
-                  <Form.Group className="mb-3" controlId="text">
-                    <Row>
-                      <Col xs="1">
-                        <Image src={user.image} roundedCircle className="mb-2" style={{ objectFit: "cover", objectPosition: "center", border: "3px solid white", width: "38px", height: "38px" }} />
-                      </Col>
-                      <Col>
-                        <Form.Control type="text" placeholder="Scrivi qualcosa" value={post} onChange={(e) => setpost(e.target.value)} />
-                      </Col>
-                    </Row>
-                  </Form.Group>
-                </Form>
-                <div className="d-flex align-items-center">
-                  <Image
-                    className="mb-2"
-                    src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgaWQ9ImltYWdlLW1lZGl1bSIgYXJpYS1oaWRkZW49InRydWUiIHJvbGU9Im5vbmUiIGRhdGEtc3VwcG9ydGVkLWRwcz0iMjR4MjQiIGZpbGw9ImN1cnJlbnRDb2xvciI+CiAgPHBhdGggZD0iTTE5IDRINWEzIDMgMCAwMC0zIDN2MTBhMyAzIDAgMDAzIDNoMTRhMyAzIDAgMDAzLTNWN2EzIDMgMCAwMC0zLTN6bTEgMTNhMSAxIDAgMDEtLjI5LjcxTDE2IDE0bC0yIDItNi02LTQgNFY3YTEgMSAwIDAxMS0xaDE0YTEgMSAwIDAxMSAxem0tMi03YTIgMiAwIDExLTItMiAyIDIgMCAwMTIgMnoiLz4KPC9zdmc+"
-                    style={{ width: 30 }}
-                    onClick={() => handleShowAddImagePostModal()}
-                  />
-                  <p className="ms-2 mb-2" onClick={() => handleShowAddImagePostModal()}>
-                    Contenuti Multimediali
-                  </p>
+            <Container className="border rounded bg-white" style={{ cursor: "pointer" }} onClick={() => handleShowAddImagePostModal()}>
+              <Form className="mt-3" onSubmit={handleSubmit}>
+                <Form.Group className="mb-3" controlId="text">
+                  <Row>
+                    <Col xs="1">
+                      <Image src={user.image} roundedCircle className="mb-2" style={{ objectFit: "cover", objectPosition: "center", border: "3px solid white", width: "38px", height: "38px" }} />
+                    </Col>
+                    <Col>
+                      <Form.Control type="text" placeholder="Crea un post" value={post} onChange={(e) => setPost(e.target.value)} />
+                    </Col>
+                  </Row>
+                </Form.Group>
+              </Form>
+              <div className=" hoverEffect d-inline-block mb-2">
+                <div className="d-flex align-items-center p-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" id="image-medium" aria-hidden="true" role="none" data-supported-dps="24x24" fill="#0A66C2">
+                    <path d="M19 4H5a3 3 0 00-3 3v10a3 3 0 003 3h14a3 3 0 003-3V7a3 3 0 00-3-3zm1 13a1 1 0 01-.29.71L16 14l-2 2-6-6-4 4V7a1 1 0 011-1h14a1 1 0 011 1zm-2-7a2 2 0 11-2-2 2 2 0 012 2z" />
+                  </svg>
+                  <p className="ms-2 mb-0">Contenuti Multimediali</p>
                 </div>
-              </Container>
-            </Card>
+              </div>
+            </Container>
             {isLoading ? (
               <Spinner animation="grow" />
             ) : (
@@ -137,7 +180,7 @@ const Home = () => {
                             />
                             <Card.Title>{post.user.username}</Card.Title>
                           </Link>
-                          {user._id === post.user._id && <Trash onClick={() => dispatch(deletePost(post._id))} />}
+                          {user._id === post.user._id && <Trash style={{ cursor: "pointer" }} onClick={() => dispatch(deletePost(post._id))} />}
                         </div>
                         <Card.Text>{post.text}</Card.Text>
                         <Card.Text className="mb-0">Data creazione {dataConverter(post.createdAt)}</Card.Text>
@@ -160,15 +203,16 @@ const Home = () => {
         </Row>
       </Container>
       {/* Modale aggiungi immagine post */}
-      <Modal centered show={showAddImagePostModal} onHide={handleCloseImgProfileModal}>
+      <Modal show={showAddImagePostModal} onHide={handleCloseImgProfileModal}>
         <Modal.Header closeButton>
           <Modal.Title>
+            <Image src={user.image} roundedCircle className="me-2" style={{ objectFit: "cover", objectPosition: "center", border: "3px solid white", width: "38px", height: "38px" }} />
             {user.name} {user.surname}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p className="mb-0">Aggiungi immagine</p>
-          <Form onSubmit={handleSubmitImage}>
+          <Form onSubmit={handleSubmit}>
+            <Form.Control as="textarea" placeholder="Di cosa vorresti parlare?" value={post} onChange={(e) => setPost(e.target.value)} />
             <Form.Control type="file" accept="image/png, image/gif, image/jpeg" className="my-2" onChange={hendleFileChange} />
             <Button type="submit">Invia</Button>
           </Form>
