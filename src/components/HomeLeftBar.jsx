@@ -8,8 +8,6 @@ const HomeLeftBar = () => {
   const user = useSelector((state) => state.mainReducer.user);
   const dispatch = useDispatch();
 
-
-
   useEffect(() => {
     dispatch(getUser());
   }, [dispatch]);
@@ -17,12 +15,13 @@ const HomeLeftBar = () => {
   return (
     <Container className="p-0">
       <Card className="mb-3">
-        <Link to={"/profile"}>
+        <Link to={`/profile/${user._id}`}>
           <Card.Img variant="top" src={user.image} height={100} style={{ objectFit: "cover" }} />
         </Link>
 
         <Card.Body className="text-center">
-          <Link to={"/profile"}>
+          <Link to={`/profile/${user._id}`}>
+            {" "}
             <Image
               src={user.image}
               roundedCircle
