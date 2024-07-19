@@ -135,7 +135,7 @@ const Home = () => {
             <HomeLeftBar />
           </Col>
           <Col lg={6}>
-            <Container className="border rounded">
+            <Container className="border rounded bg-white" style={{ cursor: "pointer" }} onClick={() => handleShowAddImagePostModal()}>
               <Form className="mt-3" onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="text">
                   <Row>
@@ -148,25 +148,13 @@ const Home = () => {
                   </Row>
                 </Form.Group>
               </Form>
-              <div className="d-flex align-items-center mb-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="30"
-                  height="30"
-                  viewBox="0 0 24 24"
-                  id="image-medium"
-                  aria-hidden="true"
-                  role="none"
-                  data-supported-dps="24x24"
-                  fill="#0A66C2"
-                  onClick={() => handleShowAddImagePostModal()}
-                  cursor="pointer"
-                >
-                  <path d="M19 4H5a3 3 0 00-3 3v10a3 3 0 003 3h14a3 3 0 003-3V7a3 3 0 00-3-3zm1 13a1 1 0 01-.29.71L16 14l-2 2-6-6-4 4V7a1 1 0 011-1h14a1 1 0 011 1zm-2-7a2 2 0 11-2-2 2 2 0 012 2z" />
-                </svg>
-                <p className="ms-2 mb-0" style={{ cursor: "pointer" }} onClick={() => handleShowAddImagePostModal()}>
-                  Contenuti Multimediali
-                </p>
+              <div className=" hoverEffect d-inline-block mb-2">
+                <div className="d-flex align-items-center p-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" id="image-medium" aria-hidden="true" role="none" data-supported-dps="24x24" fill="#0A66C2">
+                    <path d="M19 4H5a3 3 0 00-3 3v10a3 3 0 003 3h14a3 3 0 003-3V7a3 3 0 00-3-3zm1 13a1 1 0 01-.29.71L16 14l-2 2-6-6-4 4V7a1 1 0 011-1h14a1 1 0 011 1zm-2-7a2 2 0 11-2-2 2 2 0 012 2z" />
+                  </svg>
+                  <p className="ms-2 mb-0">Contenuti Multimediali</p>
+                </div>
               </div>
             </Container>
             {isLoading ? (
@@ -215,15 +203,16 @@ const Home = () => {
         </Row>
       </Container>
       {/* Modale aggiungi immagine post */}
-      <Modal centered show={showAddImagePostModal} onHide={handleCloseImgProfileModal}>
+      <Modal show={showAddImagePostModal} onHide={handleCloseImgProfileModal}>
         <Modal.Header closeButton>
           <Modal.Title>
+            <Image src={user.image} roundedCircle className="me-2" style={{ objectFit: "cover", objectPosition: "center", border: "3px solid white", width: "38px", height: "38px" }} />
             {user.name} {user.surname}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
-            <Form.Control type="text" placeholder="Scrivi qualcosa" value={post} onChange={(e) => setPost(e.target.value)} />
+            <Form.Control as="textarea" placeholder="Di cosa vorresti parlare?" value={post} onChange={(e) => setPost(e.target.value)} />
             <Form.Control type="file" accept="image/png, image/gif, image/jpeg" className="my-2" onChange={hendleFileChange} />
             <Button type="submit">Invia</Button>
           </Form>
