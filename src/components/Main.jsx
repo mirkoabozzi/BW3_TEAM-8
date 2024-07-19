@@ -46,6 +46,8 @@ const Main = () => {
       dispatch(uploadProfilePicture(user._id, e.target.files[0]));
     }
   };
+  const shuffledProfiles = profilesAside.sort(() => 0.5 - Math.random());
+  const limitedProfilesAside = shuffledProfiles.slice(0, 10);
 
   // const handlePencilClick = () => {
   //   fileInputRef.current.click();
@@ -376,7 +378,7 @@ const Main = () => {
                   <Row>
                     <Col md={12}>
                       <ListGroup variant="flush">
-                        {profilesAside.map((profile) => (
+                        {limitedProfilesAside.map((profile) => (
                           <ListGroup.Item key={profile._id}>
                             <img src={profile.image} alt="user profile" width={40} height={40} className="rounded-circle img-aside" />
                             <strong className="ms-2 name-aside">
