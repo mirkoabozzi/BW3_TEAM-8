@@ -7,6 +7,7 @@ import Notizie from "./Notizie";
 import HomeFooter from "./HomeFooter";
 import { Link, useNavigate } from "react-router-dom";
 import { Trash } from "react-bootstrap-icons";
+import Messages from "./Messages";
 
 const token = import.meta.env.VITE_API_KEY;
 
@@ -323,6 +324,7 @@ const Home = () => {
             <HomeFooter />
           </Col>
         </Row>
+        <Messages />
       </Container>
       <Modal show={showAddImagePostModal} onHide={handleCloseImgProfileModal}>
         <Modal.Header closeButton>
