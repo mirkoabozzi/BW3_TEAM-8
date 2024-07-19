@@ -105,6 +105,12 @@
     background-color: #EBEBEB;
 }
 
+/* comments */
+
+.modify-comment:hover {
+    background-color: #004182;
+}
+
 /* navbar */
 
 .nav-dropdown .dropdown-menu {

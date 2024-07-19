@@ -38,7 +38,7 @@ const Messages = () => {
                             <Image variant="top" src={user.image} height={35} width={35} className="rounded-circle position-relative my-2 ms-2" style={{ objectFit: "cover" }} />
 
                             <div className="position-absolute" >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="green" className="bi bi-dot" viewBox="0 0 16 16" style={{ marginTop: "23", marginLeft: "13" }}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="green" className="bi bi-dot" viewBox="0 0 16 16" style={{ marginTop: "23", marginRight: "90px" }}>
                                     <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3" />
                                 </svg>
                             </div>
@@ -75,7 +75,7 @@ const Messages = () => {
                             {[...profilesAside].slice(379, 385)
                                 .map((profile) => (
                                     <div key={profile._id} className="profile-item">
-                                        <div className="d-flex my-4 aliggn-items-center">
+                                        <div className="d-flex my-4 align-items-center">
                                             <Image src={profile.image} roundedCircle height={35} width={35} className="me-2" style={{ objectFit: 'cover' }} />
                                             <div className="d-flex flex-column">
 

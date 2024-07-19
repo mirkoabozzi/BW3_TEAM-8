@@ -2,9 +2,10 @@ import { useEffect, useMemo } from "react";
 import { fetchJobs } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, Container, Row, Col, Button } from "react-bootstrap";
+import HomeLeftBar from "./HomeLeftBar";
+import Notizie from "./Notizie";
 import HomeFooter from "./HomeFooter";
 import JobsLeftBar from "./JobsLeftBar";
-import Messages from "./Messages";
 const jobs = [];
 
 
@@ -179,8 +180,32 @@ const Jobs = () => {
                         <HomeFooter />
                     </Col>
                 </Row>
-                <Messages />
 
+                {/* Dispositivi Medie dimensioni */}
+                <Row className="d-none d-md-flex d-lg-none">
+                    <Col md={4}>
+                        <JobsLeftBar />
+
+                        <HomeFooter />
+                    </Col>
+                    <Col md={8}>
+
+                    </Col>
+                </Row>
+
+                {/* Dispositivi Mobile */}
+                <Row className="d-flex d-md-none">
+                    <Col xs={12}>
+                        <HomeLeftBar />
+                    </Col>
+                    <Col xs={12}>
+
+                    </Col>
+                    <Col xs={12}>
+                        <Notizie />
+                        <HomeFooter />
+                    </Col>
+                </Row>
             </Container >
         </>
     );
