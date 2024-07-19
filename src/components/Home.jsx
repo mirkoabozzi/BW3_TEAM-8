@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { deletePost, getCommentsHome, getPosts, updatePost } from "../redux/actions";
+import { deletePost, getCommentsHome, getPosts, postComment, updatePost } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, Container, Row, Col, Form, Button, Modal, Spinner, Image, ListGroup } from "react-bootstrap";
 import HomeLeftBar from "./HomeLeftBar";
@@ -20,6 +20,16 @@ const Home = () => {
   const [post, setPost] = useState("");
   const [editPost, setEditPost] = useState("");
   const [editPostId, setEditPostId] = useState(null);
+
+  const [comment, setComment] = useState("");
+  const [rate, setRate] = useState("");
+  const [postId, setPostId] = useState("");
+
+  const newComment = {
+    comment: comment,
+    rate: rate,
+    postId: postId,
+  };
 
   const [file, setFile] = useState(null);
 
@@ -124,6 +134,11 @@ const Home = () => {
     }
   };
 
+  const handlePostComment = async (e) => {
+    e.preventDefault();
+    dispatch(postComment(newComment));
+  };
+
   // console.log(user);
   // console.log("posts", posts);
   // console.log("file", file);
@@ -193,6 +208,26 @@ const Home = () => {
                               return <ListGroup.Item key={comment._id}>{comment.comment}</ListGroup.Item>;
                             })}
                         </ListGroup>
+
+                        {/* Form aggiungi commenti */}
+                        <Form className="mt-3" onSubmit={handlePostComment}>
+                          <Form.Group className="mb-3" controlId="text">
+                            <Row>
+                              <Col xs="1">
+                                <Image
+                                  src={user.image}
+                                  roundedCircle
+                                  className="mb-2"
+                                  style={{ objectFit: "cover", objectPosition: "center", border: "3px solid white", width: "38px", height: "38px" }}
+                                />
+                              </Col>
+                              <Col>
+                                <Form.Control type="text" placeholder="Aggiungi commento" value={comment} onChange={(e) => setComment(e.target.value)} onClick={() => setPostId(post._id)} />
+                              </Col>
+                            </Row>
+                          </Form.Group>
+                        </Form>
+
                         <Card.Text className="mb-0" style={{ fontSize: "13px" }}>
                           Data creazione: {dataConverter(post.createdAt)}
                         </Card.Text>
