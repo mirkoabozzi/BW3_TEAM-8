@@ -149,7 +149,7 @@ const Home = () => {
                 </Form.Group>
               </Form>
               <div className=" hoverEffect d-inline-block mb-2">
-                <div className="d-flex align-items-center p-1">
+                <div className="d-flex align-items-center p-2">
                   <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" id="image-medium" aria-hidden="true" role="none" data-supported-dps="24x24" fill="#0A66C2">
                     <path d="M19 4H5a3 3 0 00-3 3v10a3 3 0 003 3h14a3 3 0 003-3V7a3 3 0 00-3-3zm1 13a1 1 0 01-.29.71L16 14l-2 2-6-6-4 4V7a1 1 0 011-1h14a1 1 0 011 1zm-2-7a2 2 0 11-2-2 2 2 0 012 2z" />
                   </svg>
@@ -180,7 +180,7 @@ const Home = () => {
                             />
                             <Card.Title>{post.user.username}</Card.Title>
                           </Link>
-                          {user._id === post.user._id && <Trash onClick={() => dispatch(deletePost(post._id))} />}
+                          {user._id === post.user._id && <Trash style={{ cursor: "pointer" }} onClick={() => dispatch(deletePost(post._id))} />}
                         </div>
                         <Card.Text>{post.text}</Card.Text>
                         <Card.Text className="mb-0">Data creazione {dataConverter(post.createdAt)}</Card.Text>

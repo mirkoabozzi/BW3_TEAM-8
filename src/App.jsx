@@ -6,6 +6,7 @@ import Main from "./components/Main";
 import Footer from "./components/Footer";
 import Home from "./components/Home";
 import Jobs from "./components/Jobs";
+import NotFound from "./components/NotFound";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/profile" element={<Main />} />
         <Route path="/home" element={<Home />} />
         <Route path="/jobs/:id" element={<Jobs />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
     </BrowserRouter>
