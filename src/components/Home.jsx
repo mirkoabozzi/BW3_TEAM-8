@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { deletePost, getPosts, updatePost } from "../redux/actions";
+import { deletePost, getCommentsHome, getPosts, updatePost } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
-import { Card, Container, Row, Col, Form, Button, Modal, Spinner, Image } from "react-bootstrap";
+import { Card, Container, Row, Col, Form, Button, Modal, Spinner, Image, ListGroup } from "react-bootstrap";
 import HomeLeftBar from "./HomeLeftBar";
 import Notizie from "./Notizie";
 import HomeFooter from "./HomeFooter";
@@ -13,6 +13,7 @@ const token = import.meta.env.VITE_API_KEY;
 const Home = () => {
   const user = useSelector((state) => state.mainReducer.user);
   const posts = useSelector((state) => state.homeReducer.posts);
+  const comments = useSelector((state) => state.homeReducer.comments);
   const isLoading = useSelector((state) => state.homeReducer.isLoading);
   const dispatch = useDispatch();
 
@@ -37,6 +38,7 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(getPosts());
+    dispatch(getCommentsHome());
   }, [dispatch]);
 
   const dataConverter = (timeStamp) => {
@@ -183,7 +185,17 @@ const Home = () => {
                           {user._id === post.user._id && <Trash style={{ cursor: "pointer" }} onClick={() => dispatch(deletePost(post._id))} />}
                         </div>
                         <Card.Text>{post.text}</Card.Text>
-                        <Card.Text className="mb-0" style={{ fontSize: "13px" }} >Data creazione: {dataConverter(post.createdAt)}</Card.Text>
+                        {/* commenti utenti */}
+                        <ListGroup>
+                          {comments
+                            .filter((comment) => comment._id === post._id)
+                            .map((comment) => {
+                              return <ListGroup.Item key={comment._id}>{comment.comment}</ListGroup.Item>;
+                            })}
+                        </ListGroup>
+                        <Card.Text className="mb-0" style={{ fontSize: "13px" }}>
+                          Data creazione: {dataConverter(post.createdAt)}
+                        </Card.Text>
                         <Card.Text style={{ fontSize: "13px" }}>Ultima modifica {dataConverter(post.updatedAt)}</Card.Text>
                         {user._id === post.user._id && (
                           <Button className="d-block mx-auto" onClick={() => handleShow(post)}>
