@@ -46,8 +46,8 @@ const Main = () => {
       dispatch(uploadProfilePicture(user._id, e.target.files[0]));
     }
   };
-  const shuffledProfiles = profilesAside.sort(() => 0.5 - Math.random());
-  const limitedProfilesAside = shuffledProfiles.slice(0, 10);
+  // const shuffledProfiles = profilesAside.sort(() => 0.5 - Math.random());
+  // const limitedProfilesAside = shuffledProfiles.slice(0, 10);
 
   // const handlePencilClick = () => {
   //   fileInputRef.current.click();
@@ -378,22 +378,25 @@ const Main = () => {
                   <Row>
                     <Col md={12}>
                       <ListGroup variant="flush">
-                        {limitedProfilesAside.map((profile) => (
-                          <ListGroup.Item key={profile._id}>
-                            <img src={profile.image} alt="user profile" width={40} height={40} className="rounded-circle img-aside" />
-                            <strong className="ms-2 name-aside">
-                              {profile.name} {profile.surname}
-                            </strong>
-                            <p className="ms-5 job-aside" style={{ fontSize: 14, color: "grey" }}>
-                              {profile.title}
-                            </p>
-                            <div>
-                              <Button variant="white" className="rounded-pill ms-5 button-follow">
-                                <Plus width={20} height={20} className="icon-plus"></Plus> Segui
-                              </Button>
-                            </div>
-                          </ListGroup.Item>
-                        ))}
+
+
+                        {[...profilesAside].slice(0, 11)
+                          .map((profile) => (
+                            <ListGroup.Item key={profile._id}>
+                              <img src={profile.image} alt="user profile" width={40} height={40} className="rounded-circle img-aside" />
+                              <strong className="ms-2 name-aside">
+                                {profile.name} {profile.surname}
+                              </strong>
+                              <p className="ms-5 job-aside" style={{ fontSize: 14, color: "grey" }}>
+                                {profile.title}
+                              </p>
+                              <div>
+                                <Button variant="white" className="rounded-pill ms-5 button-follow">
+                                  <Plus width={20} height={20} className="icon-plus"></Plus> Segui
+                                </Button>
+                              </div>
+                            </ListGroup.Item>
+                          ))}
                       </ListGroup>
                     </Col>
                   </Row>
