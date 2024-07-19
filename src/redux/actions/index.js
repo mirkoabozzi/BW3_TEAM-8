@@ -68,16 +68,28 @@ export const searchProfiles = (query) => {
   };
 };
 
-export const setSelectedUser = (user) => {
+export const setSelectedUser = (userId) => {
   return async (dispatch) => {
     try {
-      dispatch({ type: SET_SELECTED_USER, payload: user });
-      dispatch(fetchExperiences(user._id));
+      const response = await fetch(`https://striveschool-api.herokuapp.com/api/profile/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.ok) {
+        const user = await response.json();
+        dispatch({ type: SET_SELECTED_USER, payload: user });
+        dispatch(fetchExperiences(userId));
+      } else {
+        throw new Error("Errore nel recupero dell'utente selezionato");
+      }
     } catch (error) {
       console.log(error);
     }
   };
 };
+
+
 
 export const fetchExperiences = (userId) => {
   return async (dispatch) => {
