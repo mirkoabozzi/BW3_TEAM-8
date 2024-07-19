@@ -432,6 +432,7 @@ export const getCommentsHome = () => {
 };
 
 export const postComment = (newComment) => {
+  console.log("handlepost", newComment);
   return async (dispatch) => {
     try {
       const resp = await fetch("https://striveschool-api.herokuapp.com/api/comments/", {

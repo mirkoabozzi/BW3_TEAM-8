@@ -17,19 +17,13 @@ const Home = () => {
   const isLoading = useSelector((state) => state.homeReducer.isLoading);
   const dispatch = useDispatch();
 
-  const [post, setPost] = useState("");
+  const [postText, setPostText] = useState("");
   const [editPost, setEditPost] = useState("");
   const [editPostId, setEditPostId] = useState(null);
 
   const [comment, setComment] = useState("");
-  const [rate, setRate] = useState("");
+  const [rate, setRate] = useState("1");
   const [postId, setPostId] = useState("");
-
-  const newComment = {
-    comment: comment,
-    rate: rate,
-    postId: postId,
-  };
 
   const [file, setFile] = useState(null);
 
@@ -66,8 +60,8 @@ const Home = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await newPost(post);
-    setPost("");
+    await newPost(postText);
+    setPostText("");
   };
 
   const handleSubmitEditPost = async (e) => {
@@ -82,7 +76,7 @@ const Home = () => {
     setFile(e.target.files[0]);
   };
 
-  const newPost = async (post) => {
+  const newPost = async (postText) => {
     try {
       const resp = await fetch("https://striveschool-api.herokuapp.com/api/posts/", {
         method: "POST",
@@ -90,7 +84,7 @@ const Home = () => {
           Authorization: "Bearer " + token,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ text: post }),
+        body: JSON.stringify({ text: postText }),
       });
       if (resp.ok) {
         const post = await resp.json();
@@ -136,6 +130,12 @@ const Home = () => {
 
   const handlePostComment = async (e) => {
     e.preventDefault();
+    const newComment = {
+      comment: comment,
+      rate: rate,
+      elementId: postId,
+    };
+    // console.log("handlepost", newComment);
     dispatch(postComment(newComment));
   };
 
@@ -160,7 +160,7 @@ const Home = () => {
                       <Image src={user.image} roundedCircle className="mb-2" style={{ objectFit: "cover", objectPosition: "center", border: "3px solid white", width: "38px", height: "38px" }} />
                     </Col>
                     <Col>
-                      <Form.Control type="text" placeholder="Crea un post" value={post} onChange={(e) => setPost(e.target.value)} />
+                      <Form.Control type="text" placeholder="Crea un post" value={postText} onChange={(e) => setPostText(e.target.value)} />
                     </Col>
                   </Row>
                 </Form.Group>
@@ -181,6 +181,7 @@ const Home = () => {
                 .reverse()
                 .slice(0, 30)
                 .map((post) => {
+                  console.log("psot", post.text, post._id);
                   return (
                     <Card key={post._id} className="my-2">
                       <Card.Img variant="top" src={post.image} />
@@ -203,9 +204,11 @@ const Home = () => {
                         {/* commenti utenti */}
                         <ListGroup>
                           {comments
-                            .filter((comment) => comment._id === post._id)
+                            .filter((comment) => {
+                              return comment.elementId === post._id;
+                            })
                             .map((comment) => {
-                              return <ListGroup.Item key={comment._id}>{comment.comment}</ListGroup.Item>;
+                              return <ListGroup.Item key={comment.elementId}>{comment.comment}</ListGroup.Item>;
                             })}
                         </ListGroup>
 
@@ -222,7 +225,15 @@ const Home = () => {
                                 />
                               </Col>
                               <Col>
-                                <Form.Control type="text" placeholder="Aggiungi commento" value={comment} onChange={(e) => setComment(e.target.value)} onClick={() => setPostId(post._id)} />
+                                <Form.Control
+                                  type="text"
+                                  placeholder="Aggiungi commento"
+                                  value={comment}
+                                  onChange={(e) => {
+                                    setComment(e.target.value);
+                                    setPostId(post._id);
+                                  }}
+                                />
                               </Col>
                             </Row>
                           </Form.Group>
@@ -259,7 +270,7 @@ const Home = () => {
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
-            <Form.Control as="textarea" placeholder="Di cosa vorresti parlare?" value={post} onChange={(e) => setPost(e.target.value)} />
+            <Form.Control as="textarea" placeholder="Di cosa vorresti parlare?" value={postText} onChange={(e) => setPostText(e.target.value)} />
             <Form.Control type="file" accept="image/png, image/gif, image/jpeg" className="my-2" onChange={hendleFileChange} />
             <Button type="submit">Invia</Button>
           </Form>
