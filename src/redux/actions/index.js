@@ -432,7 +432,7 @@ export const getCommentsHome = () => {
 };
 
 export const postComment = (newComment) => {
-  console.log("handlepost", newComment);
+  // console.log("handlepost", newComment);
   return async (dispatch) => {
     try {
       const resp = await fetch("https://striveschool-api.herokuapp.com/api/comments/", {
@@ -444,7 +444,7 @@ export const postComment = (newComment) => {
         body: JSON.stringify(newComment),
       });
       if (resp.ok) {
-        dispatch(getCommentsHome);
+        dispatch(getCommentsHome());
       } else {
         throw new Error("Errore nell'invio del commento");
       }
@@ -453,3 +453,23 @@ export const postComment = (newComment) => {
     }
   };
 };
+
+// export const deleteComment = (comment) => {
+//   return async () => {
+//     try {
+//       const resp = await fetch("https://striveschool-api.herokuapp.com/api/comments/", {
+//         method: "POST",
+//         headers: {
+//           Authorization: "Bearer " + token,
+//         },
+//         if (resp.ok) {
+
+//         } else {
+
+//         }
+//       });
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   };
+// };

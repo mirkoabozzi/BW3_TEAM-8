@@ -137,6 +137,7 @@ const Home = () => {
     };
     // console.log("handlepost", newComment);
     dispatch(postComment(newComment));
+    setComment("");
   };
 
   // console.log(user);
@@ -181,7 +182,7 @@ const Home = () => {
                 .reverse()
                 .slice(0, 30)
                 .map((post) => {
-                  console.log("psot", post.text, post._id);
+                  // console.log("psot", post.text, post._id);
                   return (
                     <Card key={post._id} className="my-2">
                       <Card.Img variant="top" src={post.image} />
@@ -202,6 +203,7 @@ const Home = () => {
                         </div>
                         <Card.Text>{post.text}</Card.Text>
                         {/* commenti utenti */}
+
                         <ListGroup>
                           {comments
                             .filter((comment) => {
