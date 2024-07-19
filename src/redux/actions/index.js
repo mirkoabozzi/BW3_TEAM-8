@@ -454,22 +454,22 @@ export const postComment = (newComment) => {
   };
 };
 
-// export const deleteComment = (comment) => {
-//   return async () => {
-//     try {
-//       const resp = await fetch("https://striveschool-api.herokuapp.com/api/comments/", {
-//         method: "POST",
-//         headers: {
-//           Authorization: "Bearer " + token,
-//         },
-//         if (resp.ok) {
-
-//         } else {
-
-//         }
-//       });
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   };
-// };
+export const deleteComment = () => {
+  return async (dispatch) => {
+    try {
+      const resp = await fetch("https://striveschool-api.herokuapp.com/api/comments/", {
+        method: "DELETE",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+      if (resp.ok) {
+        dispatch(getCommentsHome());
+      } else {
+        throw new Error("errore nella rimozione del commento");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};

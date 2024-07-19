@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { deletePost, getCommentsHome, getPosts, postComment, updatePost } from "../redux/actions";
+import { deleteComment, deletePost, getCommentsHome, getPosts, postComment, updatePost } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, Container, Row, Col, Form, Button, Modal, Spinner, Image, ListGroup } from "react-bootstrap";
 import HomeLeftBar from "./HomeLeftBar";
@@ -140,6 +140,10 @@ const Home = () => {
     setComment("");
   };
 
+  const handleDeleteComment = async () => {
+    dispatch(deleteComment());
+  };
+
   // console.log(user);
   // console.log("posts", posts);
   // console.log("file", file);
@@ -210,7 +214,15 @@ const Home = () => {
                               return comment.elementId === post._id;
                             })
                             .map((comment) => {
-                              return <ListGroup.Item key={comment.elementId}>{comment.comment}</ListGroup.Item>;
+                              console.log("comment", comment);
+                              return (
+                                <ListGroup.Item key={comment.elementId}>
+                                  <p>{comment.author}</p>
+                                  {comment.comment}
+                                  <Trash style={{ cursor: "pointer" }} onClick={handleDeleteComment} />
+                                  <p style={{ fontSize: "13px" }}>{dataConverter(comment.createdAt)}</p>
+                                </ListGroup.Item>
+                              );
                             })}
                         </ListGroup>
 
