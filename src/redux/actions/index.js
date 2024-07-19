@@ -113,7 +113,7 @@ export const updateProfilePicture = (userId, file) => {
         body: formData,
       });
       if (resp.ok) {
-        console.log(resp);
+        // console.log(resp);
         dispatch(getUser());
       } else {
         throw new Error("Errore nel caricamendo dei dati");
@@ -282,7 +282,7 @@ export const fetchProfilesAside = () => {
 
       if (response.ok) {
         const profiles = await response.json();
-        console.log("profiles aside", profiles);
+        // console.log("profiles aside", profiles);
         dispatch({ type: SET_PROFILES_ASIDE, payload: profiles });
       } else {
         throw new Error("Error fetching profiles. Status: " + response.status);
@@ -355,7 +355,7 @@ export const fetchJobs = (company) => {
 
       if (response.ok) {
         const annunci = await response.json();
-        console.log("annunci", annunci.data);
+        // console.log("annunci", annunci.data);
         dispatch({ type: FETCH_JOBS_SUCCESS, payload: { company, jobs: annunci.data } });
       } else {
         throw new Error("Error fetching company posts. Status: " + response.status);
@@ -399,7 +399,7 @@ export const searchJobs = (query) => async (dispatch) => {
       throw new Error("Network was not okay");
     }
     const data = await response.json();
-    console.log("jobs", data.data);
+    // console.log("jobs", data.data);
     dispatch({ type: SEARCH_JOBS_SUCCESS, payload: data.data });
   } catch (error) {
     dispatch({ type: SEARCH_JOBS_FAILURE, payload: error.message });
@@ -419,7 +419,7 @@ export const getCommentsHome = () => {
       });
       if (resp.ok) {
         const comments = await resp.json();
-        console.log("comments", comments);
+        // console.log("comments", comments);
         dispatch({ type: GET_COMMENTS_HOME, payload: comments });
         // dispatch({ type: GET_POSTS_LOADING_OFF });
       } else {
@@ -454,10 +454,10 @@ export const postComment = (newComment) => {
   };
 };
 
-export const deleteComment = () => {
+export const deleteComment = (commentId) => {
   return async (dispatch) => {
     try {
-      const resp = await fetch("https://striveschool-api.herokuapp.com/api/comments/", {
+      const resp = await fetch("https://striveschool-api.herokuapp.com/api/comments/" + commentId, {
         method: "DELETE",
         headers: {
           Authorization: "Bearer " + token,
