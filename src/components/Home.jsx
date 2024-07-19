@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
-import { deleteComment, deletePost, getCommentsHome, getPosts, postComment, updatePost } from "../redux/actions";
+import { deletePost, getCommentsHome, getPosts, postComment, updatePost, setSelectedUser } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, Container, Row, Col, Form, Button, Modal, Spinner, Image, ListGroup } from "react-bootstrap";
 import HomeLeftBar from "./HomeLeftBar";
 import Notizie from "./Notizie";
 import HomeFooter from "./HomeFooter";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Trash } from "react-bootstrap-icons";
-import Messages from "./Messages";
 
 const token = import.meta.env.VITE_API_KEY;
 
@@ -17,6 +16,7 @@ const Home = () => {
   const comments = useSelector((state) => state.homeReducer.comments);
   const isLoading = useSelector((state) => state.homeReducer.isLoading);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [postText, setPostText] = useState("");
   const [editPost, setEditPost] = useState("");
@@ -136,7 +136,6 @@ const Home = () => {
       rate: rate,
       elementId: postId,
     };
-    // console.log("handlepost", newComment);
     dispatch(postComment(newComment));
     setComment("");
   };
@@ -144,11 +143,10 @@ const Home = () => {
   // const handleDeleteComment = async () => {
   //   dispatch(deleteComment());
   // };
-
-  // console.log(user);
-  // console.log("posts", posts);
-  // console.log("file", file);
-  // console.log("editPostId", editPostId);
+  const handleUserClick = (postUser) => {
+    dispatch(setSelectedUser(postUser));
+    navigate(`/user/${postUser._id}`);
+  };
 
   return (
     <>
@@ -187,13 +185,12 @@ const Home = () => {
                 .reverse()
                 .slice(0, 30)
                 .map((post) => {
-                  // console.log("psot", post.text, post._id);
                   return (
                     <Card key={post._id} className="my-2">
                       <Card.Img variant="top" src={post.image} />
                       <Card.Body>
                         <div className="d-flex justify-content-between">
-                          <Link to={`/${post.user._id}`} className="nav-link">
+                          <Link to={`/profile/${post.user._id}`} className="nav-link">
                             <Image
                               src={post.user?.image}
                               roundedCircle
@@ -204,6 +201,7 @@ const Home = () => {
                             />
                             <Card.Title>{post.user.username}</Card.Title>
                           </Link>
+
                           {user._id === post.user._id && <Trash style={{ cursor: "pointer" }} onClick={() => dispatch(deletePost(post._id))} />}
                         </div>
                         <Card.Text className=" pb-2">{post.text}</Card.Text>
@@ -320,16 +318,12 @@ const Home = () => {
                 })
             )}
           </Col>
-
-          <Col lg={3} className="d-none d-lg-block p-0 position-relative">
+          <Col lg={3} className="d-none d-lg-block p-0">
             <Notizie />
-
             <HomeFooter />
-            <Messages />
           </Col>
         </Row>
       </Container>
-      {/* Modale aggiungi immagine post */}
       <Modal show={showAddImagePostModal} onHide={handleCloseImgProfileModal}>
         <Modal.Header closeButton>
           <Modal.Title>
@@ -345,8 +339,6 @@ const Home = () => {
           </Form>
         </Modal.Body>
       </Modal>
-
-      {/* Modale Modifica post */}
       <Modal centered show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Modifica Post</Modal.Title>
@@ -363,4 +355,5 @@ const Home = () => {
     </>
   );
 };
+
 export default Home;

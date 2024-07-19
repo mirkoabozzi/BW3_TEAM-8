@@ -1,56 +1,26 @@
 import { useEffect, useState, useRef } from "react";
+import { useParams } from "react-router-dom";
 import { Button, Card, Container, Row, Col, Image, Modal, Form, Dropdown, ListGroup } from "react-bootstrap";
 import { ArrowRight, CameraFill, Pencil, Plus, Trash } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { getUser, uploadProfilePicture, fetchExperiences, deleteExperience, updateProfilePicture, fetchProfilesAside } from "../redux/actions";
+import { getUser, uploadProfilePicture, fetchExperiences, deleteExperience, updateProfilePicture, fetchProfilesAside, setSelectedUser } from "../redux/actions";
 import AddExperienceForm from "./AddExperienceForm";
 import EditExperienceForm from "./EditExperienceForm";
 import EditProfileForm from "./EditProfileForm";
-import Messages from "./Messages";
-import MyFooter from "./MyFooter";
-
-
 
 const Main = () => {
+  const { userId } = useParams();
   const user = useSelector((state) => state.mainReducer.user);
   const selectedUser = useSelector((state) => state.mainReducer.selectedUser);
   const experiences = useSelector((state) => state.mainReducer.experiences);
   const profilesAside = useSelector((state) => state.asideProfiles.profiles);
   const dispatch = useDispatch();
 
-  // const [clicked, setClicked] = useState(false);
-
-  // const toggleClicked = (profile) => {
-  //   profile.clicked = !profile.clicked;
-  //   console.log(profile);
-  // };
-
-
-
-  const [profiles, setProfiles] = useState(
-    profilesAside.slice(393, 404).map(profile => ({ ...profile, clicked: false }))
-  );
-
-  //  il click sul bottone follow
-  const toggleClicked = (profileId) => {
-    setProfiles(profiles.map(profile => {
-      if (profile._id === profileId) {
-        profile.clicked = !profile.clicked;
-        console.log(profile);
-      }
-      return profile;
-    }));
-  };
-
-
-
-
   const [show, setShow] = useState(false);
   const [showAddExperience, setShowAddExperience] = useState(false);
   const [showEditExperience, setShowEditExperience] = useState(false);
   const [currentExperience, setCurrentExperience] = useState(null);
 
-  // const fileInputRef = useRef(null);
   const fileInputCover = useRef(null);
 
   const handleClose = () => setShow(false);
@@ -63,28 +33,22 @@ const Main = () => {
   const handleCloseEditProfileModal = () => setShowEditProfileModal(false);
 
   useEffect(() => {
-    dispatch(getUser());
-    if (selectedUser) {
-      dispatch(fetchExperiences(selectedUser._id));
+    if (userId) {
+      dispatch(setSelectedUser(userId));
+      dispatch(fetchExperiences(userId));
     } else {
+      dispatch(getUser());
       dispatch(fetchExperiences(user._id));
     }
     dispatch(fetchProfilesAside());
-  }, [dispatch, selectedUser, user._id]);
+    window.scrollTo(0, 0); // Scroll to top when component mounts or userId changes
+  }, [dispatch, userId, user._id]);
 
   const handleFileChange = (e) => {
     if (e.target.files[0]) {
       dispatch(uploadProfilePicture(user._id, e.target.files[0]));
     }
   };
-  // const shuffledProfiles = profilesAside.sort(() => 0.5 - Math.random());
-  // const limitedProfilesAside = shuffledProfiles.slice(0, 10);
-
-  // const handlePencilClick = () => {
-  //   fileInputRef.current.click();
-  // };
-
-
 
   const handleCameraClick = () => {
     fileInputCover.current.click();
@@ -126,9 +90,8 @@ const Main = () => {
     handleCloseImgProfileModal();
   };
 
-
-
   console.log("file", file);
+
   return (
     <>
       <Container className="d-flex justify-content-center">
@@ -145,7 +108,6 @@ const Main = () => {
                       <Form.Control type="file" ref={fileInputCover} onChange={handleFileChange} style={{ display: "none" }} />
                     </Dropdown.Menu>
                   </Dropdown>
-                  {/* <CameraFill width={25} height={25} fill="#0A66C2" className="camera-icon" /> */}
                 </div>
                 <Image
                   src={displayedUser.image}
@@ -179,14 +141,12 @@ const Main = () => {
                   <Button variant="white" className="rounded-pill my-1 me-2 border-primary button-main">
                     Aggiungi sezione del profilo
                   </Button>
-
                   <Button variant="white" className="border-black rounded-pill my-1 me-2 button-main">
                     Altro
                   </Button>
                 </Card.Body>
               </Card>
 
-              {/* analytics */}
               <Card className="mt-3">
                 <Card.Body>
                   <div className="d-flex justify-content-between me-4">
@@ -194,7 +154,7 @@ const Main = () => {
                   </div>
                   <Card.Text style={{ color: "grey", fontSize: "13px" }}>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" data-supported-dps="16x16" fill="grey" className="mercado-match me-1" width="16" height="16" focusable="false">
-                      <path d="M8 3a8.59 8.59 0 00-8 5 8.54 8.54 0 008 5 8.55 8.55 0 008-5 8.55 8.55 0 00-8-5zm0 8a3 3 0 113-3 3 3 0 01-3 3zm2-3a2 2 0 11-2-2 2 2 0 012 2z"></path>
+                      <path d="M8 3a8.59 8.59 0 00-8 5 8.54 8.54 0 008 5 8.55 8.55 0 008-5 8.55 8.55 0 00-8-5zm0 8a3 3 0 113-3 3 3 0 01-3-3zm2-3a2 2 0 11-2-2 2 2 0 012 2z"></path>
                     </svg>
                     Solo per te
                   </Card.Text>
@@ -208,7 +168,6 @@ const Main = () => {
                         <div className="analytics-text">Scopri chi ha visitato il tuo profilo.</div>
                       </div>
                     </div>
-
                     <div>
                       <div className="d-flex me-4 analisi-dati">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="currentColor" className="mercado-match" width="24" height="24" focusable="false">
@@ -221,7 +180,6 @@ const Main = () => {
                         </div>
                       </div>
                     </div>
-
                     <div>
                       <div className="d-flex analisi-dati">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="currentColor" className="mercado-match" width="24" height="24" focusable="false">
@@ -240,8 +198,6 @@ const Main = () => {
                   </div>
                 </Card.Body>
               </Card>
-
-              {/* risorse */}
               <Card className="mt-3">
                 <Card.Body>
                   <div className=" me-4">
@@ -249,7 +205,7 @@ const Main = () => {
                   </div>
                   <Card.Text style={{ color: "grey", fontSize: "13px" }}>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" data-supported-dps="16x16" fill="grey" className="mercado-match me-1" width="16" height="16" focusable="false">
-                      <path d="M8 3a8.59 8.59 0 00-8 5 8.54 8.54 0 008 5 8.55 8.55 0 008-5 8.55 8.55 0 00-8-5zm0 8a3 3 0 113-3 3 3 0 01-3 3zm2-3a2 2 0 11-2-2 2 2 0 012 2z"></path>
+                      <path d="M8 3a8.59 8.59 0 00-8 5 8.54 8.54 0 008 5 8.55 8.55 0 008-5 8.55 8.55 0 00-8-5zm0 8a3 3 0 113-3 3 3 0 01-3-3zm2-3a2 2 0 11-2-2 2 2 0 012 2z"></path>
                     </svg>
                     Solo per te
                   </Card.Text>
@@ -263,7 +219,6 @@ const Main = () => {
                         <div className="analytics-text">Salva e gestisce i tuoi collegamenti e interessi.</div>
                       </div>
                     </div>
-
                     <div>
                       <div className="d-flex ms-4 mt-4 pt-4 border-top me-4">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="currentColor" className="mercado-match" width="24" height="24" focusable="false">
@@ -282,8 +237,6 @@ const Main = () => {
                   </div>
                 </Card.Body>
               </Card>
-
-              {/* competenze */}
               <Card className="mt-3">
                 <Card.Body>
                   <div className="d-flex justify-content-between me-4">
@@ -297,8 +250,6 @@ const Main = () => {
                   <Card.Text>Descrizione competenza</Card.Text>
                 </Card.Body>
               </Card>
-
-              {/* esperienze */}
               <Card className="mt-3">
                 <Card.Body>
                   <div className="d-flex justify-content-between me-4">
@@ -308,7 +259,6 @@ const Main = () => {
                       <Trash width={20} height={20} className="ms-2 text-danger" onClick={handleDeleteLastExperience} />
                     </div>
                   </div>
-
                   {experiences.map((exp) => (
                     <Row key={exp._id} className="mt-2 ">
                       <Col xs="2">
@@ -316,7 +266,6 @@ const Main = () => {
                       </Col>
                       <Col>
                         <p className="fw-bold mb-0">{exp.role}</p>
-
                         <div>
                           <small>{exp.company}</small>
                         </div>
@@ -340,7 +289,6 @@ const Main = () => {
                   ))}
                 </Card.Body>
               </Card>
-
               <Card className="mt-3">
                 <Card.Body>
                   <div className="d-flex justify-content-between me-4">
@@ -369,14 +317,10 @@ const Main = () => {
               </Card>
             </Container>
           </Col>
-
-          {/* aside */}
           <Col sm={4} md={4}>
             <Container className="d-flex flex-column pt-3">
               <Card className="full-width-card mb-3">
                 <Container fluid className="p-0">
-                  {" "}
-                  {/* Utilizza fluid e p-0 per rimuovere padding */}
                   <Card.Text className="py-3 ms-4 border-bottom" as="div">
                     <div className="d-flex justify-content-between">
                       <div style={{ fontSize: "18px", fontWeight: "600" }}>Lingua del profilo </div>
@@ -384,7 +328,7 @@ const Main = () => {
                     </div>
                     <div style={{ fontSize: "14px", color: "grey" }}>Italiano</div>
                   </Card.Text>
-                  <Card.Text className="py-3 mx-3 me-4" as="div">
+                  <Card.Text className="py-3 ms-4" as="div">
                     <div className="d-flex justify-content-between">
                       <div style={{ fontSize: "18px", fontWeight: "600" }}>Profilo pubblico e URL</div>
                       <Pencil className="me-4" />
@@ -395,52 +339,32 @@ const Main = () => {
                   </Card.Text>
                 </Container>
               </Card>
-
               <Card className="full-width-card">
-                <Container fluid className="p-0 me-3">
-
-                  <img src="https://media.licdn.com/media/AAYQAgTPAAgAAQAAAAAAADVuOvKzTF-3RD6j-qFPqhubBQ.png" alt="see who's hiring" className="hiring-image me-3" />
+                <Container fluid className="p-0">
+                  <img src="https://media.licdn.com/media/AAYQAgTPAAgAAQAAAAAAADVuOvKzTF-3RD6j-qFPqhubBQ.png" alt="see who's hiring" className="hiring-image" />
                 </Container>
               </Card>
-
               <Card className="mt-3">
                 <Card.Text className="py-3 ms-4" as="div">
                   <h5>Altri profili simili</h5>
                 </Card.Text>
-
                 <Container>
                   <Row>
                     <Col md={12}>
                       <ListGroup variant="flush">
-
-
-
-                        {profiles.map((profile) => (
+                        {[...profilesAside].slice(0, 11).map((profile) => (
                           <ListGroup.Item key={profile._id}>
-                            <div className="d-flex">
-                              <Image src={profile.image} alt="user profile" width={40} height={40} className="rounded-circle img-aside" />
-                              <div className="d-flex flex-column">
-                                <strong className="ms-3 name-aside">
-                                  {profile.name} {profile.surname}
-                                </strong>
-                                <p className="ms-3 job-aside" style={{ fontSize: 14, color: "grey" }}>
-                                  {profile.title}
-                                </p>
-                                <div>
-                                  {profile.clicked ? (
-                                    <Button variant="primary" className="rounded-pill ms-3 button-followed" onClick={() => toggleClicked(profile._id)}>
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-check-lg" viewBox="0 0 16 16">
-                                        <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z" />
-                                      </svg> Seguito
-                                    </Button>
-                                  ) : (
-                                    <Button variant="white" className="rounded-pill ms-3 button-follow" onClick={() => toggleClicked(profile._id)}>
-                                      <Plus width={20} height={20} className="icon-plus"></Plus> Segui
-                                    </Button>
-                                  )}
-                                </div>
-
-                              </div>
+                            <img src={profile.image} alt="user profile" width={40} height={40} className="rounded-circle img-aside" />
+                            <strong className="ms-2 name-aside">
+                              {profile.name} {profile.surname}
+                            </strong>
+                            <p className="ms-5 job-aside" style={{ fontSize: 14, color: "grey" }}>
+                              {profile.title}
+                            </p>
+                            <div>
+                              <Button variant="white" className="rounded-pill ms-5 button-follow">
+                                <Plus width={20} height={20} className="icon-plus"></Plus> Segui
+                              </Button>
                             </div>
                           </ListGroup.Item>
                         ))}
@@ -450,12 +374,9 @@ const Main = () => {
                 </Container>
               </Card>
             </Container>
-            <Messages />
           </Col>
-          <MyFooter />
         </Row>
       </Container>
-      {/* Modale info contatto */}
       <Modal centered show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>
@@ -481,8 +402,6 @@ const Main = () => {
           <div className="ms-2 pt-3"> {displayedUser.area}</div>
         </Modal.Body>
       </Modal>
-
-      {/* Modale modifica immagine profilo */}
       <Modal centered show={showImgProfileModal} onHide={handleCloseImgProfileModal}>
         <Modal.Header closeButton>
           <Modal.Title>
@@ -497,13 +416,8 @@ const Main = () => {
           </Form>
         </Modal.Body>
       </Modal>
-
-      {/* Modale modifica esperienza */}
       <EditExperienceForm show={showEditExperience} handleClose={handleCloseEditExperience} experience={currentExperience} userId={displayedUser._id} />
-
-      {/* Modale aggiungi esperienza */}
       <AddExperienceForm show={showAddExperience} handleClose={() => setShowAddExperience(false)} userId={displayedUser._id} />
-      {/* Modale modifica profilo */}
       <EditProfileForm show={showEditProfileModal} handleClose={handleCloseEditProfileModal} />
     </>
   );

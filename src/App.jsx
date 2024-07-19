@@ -12,12 +12,12 @@ function App() {
     <BrowserRouter>
       <MyNavbar />
       <Routes>
+        <Route path="/profile/:userId" element={<Main />} />
         <Route path="/profile" element={<Main />} />
         <Route path="/home" element={<Home />} />
         <Route path="/jobs/:id" element={<Jobs />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-
     </BrowserRouter>
   );
 }
