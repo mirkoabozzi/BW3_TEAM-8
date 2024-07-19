@@ -7,6 +7,7 @@ import Notizie from "./Notizie";
 import HomeFooter from "./HomeFooter";
 import { Link } from "react-router-dom";
 import { Trash } from "react-bootstrap-icons";
+import Comments from "./Comments"; // Importa il componente Comments
 
 const token = import.meta.env.VITE_API_KEY;
 
@@ -122,11 +123,6 @@ const Home = () => {
     }
   };
 
-  // console.log(user);
-  // console.log("posts", posts);
-  // console.log("file", file);
-  // console.log("editPostId", editPostId);
-
   return (
     <>
       <Container className="mt-4">
@@ -148,7 +144,7 @@ const Home = () => {
                   </Row>
                 </Form.Group>
               </Form>
-              <div className=" hoverEffect d-inline-block mb-2" style={{ cursor: "pointer" }} onClick={() => handleShowAddImagePostModal()}>
+              <div className="hoverEffect d-inline-block mb-2" style={{ cursor: "pointer" }} onClick={() => handleShowAddImagePostModal()}>
                 <div className="d-flex align-items-center p-2">
                   <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" id="image-medium" aria-hidden="true" role="none" data-supported-dps="24x24" fill="#0A66C2">
                     <path d="M19 4H5a3 3 0 00-3 3v10a3 3 0 003 3h14a3 3 0 003-3V7a3 3 0 00-3-3zm1 13a1 1 0 01-.29.71L16 14l-2 2-6-6-4 4V7a1 1 0 011-1h14a1 1 0 011 1zm-2-7a2 2 0 11-2-2 2 2 0 012 2z" />
@@ -183,13 +179,17 @@ const Home = () => {
                           {user._id === post.user._id && <Trash style={{ cursor: "pointer" }} onClick={() => dispatch(deletePost(post._id))} />}
                         </div>
                         <Card.Text>{post.text}</Card.Text>
-                        <Card.Text className="mb-0" style={{ fontSize: "13px" }} >Data creazione: {dataConverter(post.createdAt)}</Card.Text>
+                        <Card.Text className="mb-0" style={{ fontSize: "13px" }}>
+                          Data creazione: {dataConverter(post.createdAt)}
+                        </Card.Text>
                         <Card.Text style={{ fontSize: "13px" }}>Ultima modifica {dataConverter(post.updatedAt)}</Card.Text>
                         {user._id === post.user._id && (
                           <Button className="d-block mx-auto" onClick={() => handleShow(post)}>
                             Modifica
                           </Button>
                         )}
+                        {/* Aggiungere il componente Comments qui */}
+                        <Comments postId={post._id} />
                       </Card.Body>
                     </Card>
                   );
@@ -234,4 +234,5 @@ const Home = () => {
     </>
   );
 };
+
 export default Home;

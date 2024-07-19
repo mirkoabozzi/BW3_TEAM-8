@@ -4,6 +4,8 @@ import HomeReducer from "../reducers/HomeReducer";
 import ExperienceFormReducer from "../reducers/ExperienceFormReducer";
 import asideProfilesReducer from "../reducers/AsideProfilesReducer";
 import jobsReducer from "../reducers/JobsReducer";
+import commentsReducer from "../reducers/CommentsReducer"; // Importa il commentsReducer
+
 
 
 const rootReducer = combineReducers({
@@ -12,6 +14,8 @@ const rootReducer = combineReducers({
   experienceForm: ExperienceFormReducer,
   asideProfiles: asideProfilesReducer,
   jobsReducer: jobsReducer,
+  commentsReducer: commentsReducer, // Aggiungi il commentsReducer
+
 
 });
 

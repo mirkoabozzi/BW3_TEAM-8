@@ -20,6 +20,22 @@ export const SEARCH_JOBS_SUCCESS = "SEARCH_JOBS_SUCCESS";
 export const SEARCH_JOBS_FAILURE = "SEARCH_JOBS_FAILURE";
 export const SET_SELECTED_JOB = " SET_SELECTED_JOB";
 
+// Task commenti
+
+export const ADD_COMMENT_REQUEST = "ADD_COMMENT_REQUEST";
+export const ADD_COMMENT_SUCCESS = "ADD_COMMENT_SUCCESS";
+export const ADD_COMMENT_FAILURE = "ADD_COMMENT_FAILURE";
+export const GET_COMMENTS_REQUEST = "GET_COMMENTS_REQUEST";
+export const GET_COMMENTS_SUCCESS = "GET_COMMENTS_SUCCESS";
+export const GET_COMMENTS_FAILURE = "GET_COMMENTS_FAILURE";
+export const DELETE_COMMENT_REQUEST = "DELETE_COMMENT_REQUEST";
+export const DELETE_COMMENT_SUCCESS = "DELETE_COMMENT_SUCCESS";
+export const DELETE_COMMENT_FAILURE = "DELETE_COMMENT_FAILURE";
+export const UPDATE_COMMENT_REQUEST = "UPDATE_COMMENT_REQUEST";
+export const UPDATE_COMMENT_SUCCESS = "UPDATE_COMMENT_SUCCESS";
+export const UPDATE_COMMENT_FAILURE = "UPDATE_COMMENT_FAILURE";
+
+
 const token = import.meta.env.VITE_API_KEY;
 
 export const getUser = () => {
@@ -404,3 +420,120 @@ export const searchJobs = (query) => async (dispatch) => {
     dispatch({ type: SEARCH_JOBS_FAILURE, payload: error.message });
   }
 };
+
+
+// commenti
+
+export const addComment = (comment, rate, elementId) => {
+  return async (dispatch) => {
+    dispatch({ type: ADD_COMMENT_REQUEST });
+    try {
+      const response = await fetch("https://striveschool-api.herokuapp.com/api/comments/", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjdkNjcxYzNhMzhjYjAwMTVmNjNkMDUiLCJpYXQiOjE3MjEzNzg1MzcsImV4cCI6MTcyMjU4ODEzN30.pknelgxN6gePahOIWEzQ4xRjtEPNkHe2C7BJcdD7gCc
+`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ comment, rate, elementId }),
+      });
+
+      if (response.ok) {
+        const newComment = await response.json();
+        dispatch({ type: ADD_COMMENT_SUCCESS, payload: newComment });
+      } else {
+        const errorText = await response.text();
+        throw new Error(errorText);
+      }
+    } catch (error) {
+      dispatch({ type: ADD_COMMENT_FAILURE, payload: error.message });
+    }
+  };
+};
+
+export const getComments = (postId) => {
+  return async (dispatch) => {
+    dispatch({ type: GET_COMMENTS_REQUEST });
+    try {
+      const response = await fetch(`https://striveschool-api.herokuapp.com/api/comments/${postId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const comments = await response.json();
+        dispatch({ type: GET_COMMENTS_SUCCESS, payload: comments, postId });
+      } else {
+        const errorText = await response.text();
+        throw new Error(errorText);
+      }
+    } catch (error) {
+      dispatch({ type: GET_COMMENTS_FAILURE, payload: error.message });
+    }
+  };
+};
+
+export const deleteComment = (commentId) => {
+  return async (dispatch) => {
+    dispatch({ type: DELETE_COMMENT_REQUEST });
+    try {
+      const response = await fetch(`https://striveschool-api.herokuapp.com/api/comments/${commentId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        dispatch({ type: DELETE_COMMENT_SUCCESS, payload: commentId });
+      } else {
+        const errorText = await response.text();
+        throw new Error(errorText);
+      }
+    } catch (error) {
+      dispatch({ type: DELETE_COMMENT_FAILURE, payload: error.message });
+    }
+  };
+};
+
+export const updateComment = (commentId, newComment) => {
+  return async (dispatch) => {
+    dispatch({ type: UPDATE_COMMENT_REQUEST });
+    try {
+      const response = await fetch(`https://striveschool-api.herokuapp.com/api/comments/${commentId}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newComment),
+      });
+
+      if (response.ok) {
+        const updatedComment = await response.json();
+        dispatch({ type: UPDATE_COMMENT_SUCCESS, payload: updatedComment });
+      } else {
+        const errorText = await response.text();
+        throw new Error(errorText);
+      }
+    } catch (error) {
+      dispatch({ type: UPDATE_COMMENT_FAILURE, payload: error.message });
+    }
+  };
+};
+
+export const fetchCommentsRequest = () => ({
+  type: 'FETCH_COMMENTS_REQUEST',
+});
+
+export const fetchCommentsSuccess = (comments) => ({
+  type: 'FETCH_COMMENTS_SUCCESS',
+  payload: comments,
+});
+
+export const fetchCommentsFailure = (error) => ({
+  type: 'FETCH_COMMENTS_FAILURE',
+  payload: error,
+});
+
