@@ -71,7 +71,7 @@ export const searchProfiles = (query) => {
 export const setSelectedUser = (userId) => {
   return async (dispatch) => {
     try {
-      const response = await fetch(`https://striveschool-api.herokuapp.com/api/profile/${userId}`, {
+      const response = await fetch(`https://striveschool-api.herokuapp.com/api/profile/${userId._id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -130,7 +130,7 @@ const MyNavbar = () => {
                     </NavDropdown.Item>
                   </div>
                 </div>
-                <Link to={`/profile/${user._id}`}>
+                <Link to={`/profile`}>
                   <div className="d-flex justify-content-center">
                     <Button variant="white" className="rounded-pill my-1 button-nav">
                       Visualizza profilo
