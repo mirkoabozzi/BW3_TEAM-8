@@ -143,19 +143,28 @@ const Home = () => {
                       <Image src={user.image} roundedCircle className="mb-2" style={{ objectFit: "cover", objectPosition: "center", border: "3px solid white", width: "38px", height: "38px" }} />
                     </Col>
                     <Col>
-                      <Form.Control type="text" placeholder="Scrivi qualcosa" value={post} onChange={(e) => setPost(e.target.value)} />
+                      <Form.Control type="text" placeholder="Crea un post" value={post} onChange={(e) => setPost(e.target.value)} />
                     </Col>
                   </Row>
                 </Form.Group>
               </Form>
-              <div className="d-flex align-items-center">
-                <Image
-                  className="mb-2"
-                  src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgaWQ9ImltYWdlLW1lZGl1bSIgYXJpYS1oaWRkZW49InRydWUiIHJvbGU9Im5vbmUiIGRhdGEtc3VwcG9ydGVkLWRwcz0iMjR4MjQiIGZpbGw9ImN1cnJlbnRDb2xvciI+CiAgPHBhdGggZD0iTTE5IDRINWEzIDMgMCAwMC0zIDN2MTBhMyAzIDAgMDAzIDNoMTRhMyAzIDAgMDAzLTNWN2EzIDMgMCAwMC0zLTN6bTEgMTNhMSAxIDAgMDEtLjI5LjcxTDE2IDE0bC0yIDItNi02LTQgNFY3YTEgMSAwIDAxMS0xaDE0YTEgMSAwIDAxMSAxem0tMi03YTIgMiAwIDExLTItMiAyIDIgMCAwMTIgMnoiLz4KPC9zdmc+"
-                  style={{ width: 30 }}
+              <div className="d-flex align-items-center mb-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="30"
+                  height="30"
+                  viewBox="0 0 24 24"
+                  id="image-medium"
+                  aria-hidden="true"
+                  role="none"
+                  data-supported-dps="24x24"
+                  fill="#0A66C2"
                   onClick={() => handleShowAddImagePostModal()}
-                />
-                <p className="ms-2 mb-2" onClick={() => handleShowAddImagePostModal()}>
+                  cursor="pointer"
+                >
+                  <path d="M19 4H5a3 3 0 00-3 3v10a3 3 0 003 3h14a3 3 0 003-3V7a3 3 0 00-3-3zm1 13a1 1 0 01-.29.71L16 14l-2 2-6-6-4 4V7a1 1 0 011-1h14a1 1 0 011 1zm-2-7a2 2 0 11-2-2 2 2 0 012 2z" />
+                </svg>
+                <p className="ms-2 mb-0" style={{ cursor: "pointer" }} onClick={() => handleShowAddImagePostModal()}>
                   Contenuti Multimediali
                 </p>
               </div>
@@ -213,7 +222,6 @@ const Home = () => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p className="mb-0">Aggiungi immagine</p>
           <Form onSubmit={handleSubmit}>
             <Form.Control type="text" placeholder="Scrivi qualcosa" value={post} onChange={(e) => setPost(e.target.value)} />
             <Form.Control type="file" accept="image/png, image/gif, image/jpeg" className="my-2" onChange={hendleFileChange} />
