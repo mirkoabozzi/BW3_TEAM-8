@@ -302,7 +302,7 @@ const Home = () => {
                                   </div>
                                   <div className="d-flex justify-content-between" style={{ fontSize: "13px" }}>
                                     {comment.comment}
-                                    <Trash style={{ cursor: "pointer" }} onClick={() => dispatch(deleteComment(comment._id))} />
+                                    {user.username === comment.author && <Trash style={{ cursor: "pointer" }} onClick={() => dispatch(deleteComment(comment._id))} />}
                                   </div>
                                 </ListGroup.Item>
                               );
