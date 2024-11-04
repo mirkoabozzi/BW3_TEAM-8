@@ -31,10 +31,8 @@ export const getUser = () => {
           Authorization: "Bearer " + token,
         },
       });
-
       if (resp.ok) {
         const user = await resp.json();
-        // console.log("user", user);
         dispatch({ type: SET_USER, payload: user });
       } else {
         throw new Error("Errore nel recupero dell'utente");
@@ -89,8 +87,6 @@ export const setSelectedUser = (userId) => {
   };
 };
 
-
-
 export const fetchExperiences = (userId) => {
   return async (dispatch) => {
     try {
@@ -128,7 +124,7 @@ export const updateProfilePicture = (userId, file) => {
         // console.log(resp);
         dispatch(getUser());
       } else {
-        throw new Error("Errore nel caricamendo dei dati");
+        throw new Error("Errore nel caricamento dei dati");
       }
     } catch (error) {
       console.log(error);
@@ -444,7 +440,7 @@ export const getCommentsHome = () => {
 };
 
 export const postComment = (newComment) => {
-  // console.log("handlepost", newComment);
+  // console.log("handlePost", newComment);
   return async (dispatch) => {
     try {
       const resp = await fetch("https://striveschool-api.herokuapp.com/api/comments/", {

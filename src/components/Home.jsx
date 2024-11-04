@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { deletePost, getCommentsHome, getPosts, postComment, updatePost, setSelectedUser } from "../redux/actions";
+import { deletePost, getCommentsHome, getPosts, postComment, updatePost, setSelectedUser, deleteComment } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, Container, Row, Col, Form, Button, Modal, Spinner, Image, ListGroup } from "react-bootstrap";
 import HomeLeftBar from "./HomeLeftBar";
@@ -74,7 +74,7 @@ const Home = () => {
     setEditPostId(null);
   };
 
-  const hendleFileChange = (e) => {
+  const handleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
 
@@ -141,13 +141,12 @@ const Home = () => {
     setComment("");
   };
 
-  // const handleDeleteComment = async () => {
-  //   dispatch(deleteComment());
-  // };
   const handleUserClick = (postUser) => {
     dispatch(setSelectedUser(postUser));
     navigate(`/user/${postUser._id}`);
   };
+
+  // console.log("user", user);
 
   return (
     <>
@@ -287,7 +286,7 @@ const Home = () => {
                               return comment.elementId === post._id;
                             })
                             .map((comment) => {
-                              console.log("comment", comment);
+                              // console.log("comment", comment);
                               return (
                                 <ListGroup.Item className="my-2" style={{ backgroundColor: "#F2F2F2", border: "none" }} key={comment.elementId}>
                                   <div className="d-flex justify-content-between">
@@ -297,6 +296,7 @@ const Home = () => {
                                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-three-dots ms-3" viewBox="0 0 16 16">
                                         <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3" />
                                       </svg>
+                                      )
                                     </div>
                                   </div>
                                   <div className="d-flex justify-content-between" style={{ fontSize: "13px" }}>
@@ -336,7 +336,7 @@ const Home = () => {
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
             <Form.Control as="textarea" placeholder="Di cosa vorresti parlare?" value={postText} onChange={(e) => setPostText(e.target.value)} />
-            <Form.Control type="file" accept="image/png, image/gif, image/jpeg" className="my-2" onChange={hendleFileChange} />
+            <Form.Control type="file" accept="image/png, image/gif, image/jpeg" className="my-2" onChange={handleFileChange} />
             <Button type="submit">Invia</Button>
           </Form>
         </Modal.Body>
